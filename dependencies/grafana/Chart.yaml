@@ -1,0 +1,6 @@
+apiVersion: v2
+name: Grafana
+version: 0.9.1
+description: Grafana deployment for Lokahi
+type: application
+appVersion: "v0.9.1"

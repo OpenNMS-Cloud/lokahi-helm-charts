@@ -1,0 +1,65 @@
+{{- if .Values.ingress.defaultEndpointsEnabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: opennms-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- range $Annotation, $Value := .Values.OpenNMS.ui.ingressAnnotations }}
+    {{ $Annotation | quote }}: {{ $Value | quote }}
+    {{- end }}
+spec:
+  ingressClassName: nginx
+  defaultBackend:
+    service:
+      name: {{ .Values.OpenNMS.ui.serviceName }}
+      port:
+        number: {{ .Values.OpenNMS.ui.port }}
+  rules:
+    - host: {{ .Values.hostname }}
+      http:
+        paths:
+          - path: {{ .Values.OpenNMS.ui.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.OpenNMS.ui.serviceName }}
+                port:
+                  number: {{ .Values.OpenNMS.ui.port }}
+          - path: {{ .Values.keycloak.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.keycloak.serviceName }}
+                port:
+                  number: {{ .Values.keycloak.port }}
+          - path: {{ .Values.OpenNMS.api.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.OpenNMS.api.serviceName }}
+                port:
+                  number: 9090
+          - path: {{ .Values.grafana.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.grafana.serviceName }}
+                port:
+                  number: {{ .Values.grafana.port }}
+          {{- if .Values.prometheus.enabled }}
+          - path: {{ .Values.prometheus.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.prometheus.serviceName }}
+                port:
+                  number: {{ .Values.prometheus.port }}
+          {{- end }}
+  {{- if .Values.tls.enabled }}
+  tls:
+    - hosts:
+        -  {{.Values.hostname }}
+      secretName: {{ .Values.OpenNMS.ui.tlsSecretName }}
+  {{- end }}
+{{- end }}

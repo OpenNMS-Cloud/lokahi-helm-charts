@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.OpenNMS.ui.serviceName }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.OpenNMS.ui.serviceName }}
+    app.kubernetes.io/name: {{ .Values.OpenNMS.ui.serviceName }}
+  annotations:
+    autoupdate: "true"
+spec:
+  replicas: {{ .Values.OpenNMS.ui.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.OpenNMS.ui.serviceName }}
+  template:
+    metadata:
+      labels:
+        appdomain: opennms
+        app: {{ .Values.OpenNMS.ui.serviceName }}
+      annotations:
+        kubectl.kubernetes.io/default-container: "{{ .Values.OpenNMS.ui.serviceName }}"
+    spec:
+      {{- if .Values.nodeRestrictions.enabled }}
+      nodeSelector:                                                                                    
+        {{ .Values.nodeRestrictions.key }}: {{ .Values.nodeRestrictions.value }}                       
+      tolerations:
+        - effect: "NoSchedule"                                                                         
+          key: "{{ .Values.nodeRestrictions.key }}"                                                    
+          operator: "Equal"
+          value: {{ .Values.nodeRestrictions.value }} 
+      affinity: 
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:                                             
+          - weight: 1                                                                                  
+            preference:                                                                                
+              matchExpressions:                                                                        
+              - key: "{{ .Values.nodeRestrictions.key }}"                                              
+                operator: In
+                values:                                                                                
+                - {{ .Values.nodeRestrictions.value }}                                                 
+      {{- end }}
+      terminationGracePeriodSeconds: 120
+      {{- if .Values.OpenNMS.ui.privateRepoEnabled }}
+      imagePullSecrets:
+        - name: image-credentials
+      {{- end }}
+      volumes:
+        - name: nginx-cache-volume
+          emptyDir: {}
+      containers:
+        - name: {{ .Values.OpenNMS.ui.serviceName }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.ui) | quote }}
+          imagePullPolicy: {{ .Values.OpenNMS.ui.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.OpenNMS.ui.port }}
+          resources:
+            limits:
+              cpu: "{{ .Values.OpenNMS.ui.resources.limits.cpu }}"
+              memory: "{{ .Values.OpenNMS.ui.resources.limits.memory }}"
+            requests:
+              cpu: "{{ .Values.OpenNMS.ui.resources.requests.cpu }}"
+              memory: "{{ .Values.OpenNMS.ui.resources.requests.memory }}"
+          {{/*  TODO    livenessProbe:*/}}
+          {{/*          readinessProbe:*/}}
+          {{/*          startupProbe:*/}}
+          volumeMounts:
+            - name: nginx-cache-volume
+              mountPath: /var/cache/nginx
+          livenessProbe:
+            httpGet:
+              path: "/healthz"
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 20
+            timeoutSeconds: 1
+            periodSeconds: 2
+            successThreshold: 1
+            failureThreshold: 150
+          readinessProbe:
+            httpGet:
+              path: "/healthz"
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 20
+            timeoutSeconds: 1
+            periodSeconds: 2
+            successThreshold: 1
+            failureThreshold: 250

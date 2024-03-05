@@ -1,0 +1,142 @@
+hostname: onmshs
+port: 443
+protocol: https
+tls:
+  enabled: True
+  certificateGeneration: false
+  cert:
+    Name: opennms-ui-certificate
+keycloak:
+  adminPassword: admin
+  hostnamePort: 443
+  hostnameAdminUrl: https://onmshs:443/auth
+
+citus:
+  enabled: true
+
+OpenNMS:
+  global:
+    openTelemetry:
+      otlpTracesEndpoint: "http://tempo:4317"
+  alert:
+    resources:
+      limits:
+        cpu: '0'
+        memory: 1Gi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+  api:
+    resources:
+      limits:
+        cpu: '0'
+        memory: 1Gi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+    corsAllowed: true
+    playgroundGuiEnabled: false
+    introspectionEnabled: false 
+  ui:
+    resources:
+      limits:
+        cpu: '0'
+        memory: 512Mi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+    ingressAnnotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: ~
+  metricsProcessor:
+    resources:
+      limits:
+        cpu: '0'
+        memory: 512Mi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+  minionGateway:
+    resources:
+      limits:
+        cpu: '0'
+        memory: '0'
+      requests:
+        cpu: '0'
+        memory: '0'
+    ingressAnnotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        add_header X-Content-Type-Options "nosniff";
+        add_header X-Frame-Options "sameorigin";
+        add_header server_tokens "off";
+        set $dummy_val "$opentelemetry_context_traceparent"; # workaround for https://github.com/kubernetes/ingress-nginx/issues/9811
+        grpc_set_header 'traceparent' $opentelemetry_context_traceparent; # This doesn't get sent downstream normally. :(
+  minionCertificateManager:
+    enabled: true
+    caSecretName: root-ca-certificate
+    mtlsSecretName: client-root-ca-certificate
+    resources:
+      limits:
+        cpu: '0'
+        memory: 512Mi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+  minionCertificateVerifier:
+    resources:
+      limits:
+        cpu: '0'
+        memory: 512Mi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+  inventory:
+    resources:
+      limits:
+        cpu: '0'
+        memory: 1Gi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+  notification:
+    resources:
+      limits:
+        cpu: '0'
+        memory: 1Gi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+  events:
+    resources:
+      limits:
+        cpu: '0'
+        memory: '0'
+      requests:
+        cpu: '0'
+        memory: '0'
+  dataChoices:
+    resources:
+      limits:
+        cpu: '0'
+        memory: 1Gi
+      requests:
+        cpu: '0'
+        memory: 512Mi
+grafana:
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  autoAssignOrgRole: Admin  # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#auto_assign_org_role
+prometheus:
+  resources:
+    limits:
+      cpu: "1"
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+kafka:
+  localPort: 24092
