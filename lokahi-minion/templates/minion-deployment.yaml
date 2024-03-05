@@ -19,6 +19,10 @@ spec:
         linkerd.io/inject: enabled
         kubectl.kubernetes.io/default-container: "{{ .Values.OpenNMS.minion.serviceName }}"
     spec:
+      {{- with .Values.OpenNMS.minion.customHostAliases }}
+      hostAliases:
+{{ toYaml . | indent 7 }}
+    {{- end }}
       serviceAccountName: {{ .Values.OpenNMS.minion.serviceName }}-sa
       {{- if .Values.nodeRestrictions.enabled }}
       nodeSelector:                                                                                    

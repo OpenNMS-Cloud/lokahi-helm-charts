@@ -25,7 +25,10 @@ OpenNMS: # we might be able to remove this
     netflow5ListenerPort: 8877
     netflow9ListenerPort: 4729
     netflowListenerPort: 9999
-    # If we are running inside the cluster, we need to set this value to the internal nginx controller service name
+    # If we are running inside the cluster, we need to set mapping of the ip address to hostname
+    customHostAliases: []
+    # Override, the default gatewayHost
+    #  If we are running inside the cluster, we can set this value to the internal nginx controller service name
     gatewayHost: ""
     resources:
       limits:
