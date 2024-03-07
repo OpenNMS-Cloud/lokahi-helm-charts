@@ -23,7 +23,7 @@ jobs:
 
       - name: Check README.md is up-to-date
         run: |
-          scripts/update-readme.sh
+          ci/scripts/update-readme.sh
           git diff --exit-code */README.md
 
       - name: Set up chart-testing
