@@ -1,0 +1,54 @@
+apiVersion: v1
+entries:
+  lokahi:
+  - apiVersion: v2
+    appVersion: v1.0.0
+    created: "2024-03-07T22:16:19.755320366Z"
+    dependencies:
+    - name: citus
+      repository: file://../dependencies/citus
+      version: 12.1-alpine
+    - name: cortex
+      repository: file://../dependencies/cortex
+      version: 1.14.0
+    - name: Grafana
+      repository: file://../dependencies/grafana
+      version: 0.9.1
+    - name: Kafka
+      repository: file://../dependencies/kafka
+      version: 0.9.1
+    - name: Keycloak
+      repository: file://../dependencies/keycloak
+      version: 0.9.1
+    - name: Prometheus
+      repository: file://../dependencies/prometheus
+      version: 2.39.1
+    description: A Helm chart for running OpenNMS Lokahi in Kubernetes
+    digest: 59cab333eae5e726669296959a9401be1f47d58e02bb768c3f111675c965e7a6
+    home: https://github.com/OpenNMS-Cloud/lokahi
+    icon: https://www.opennms.com/wp-content/uploads/2021/04/OpenNMS_Favicon_36px.png
+    maintainers:
+    - name: The OpenNMS Group Inc.
+      url: https://www.opennms.com
+    name: lokahi
+    type: application
+    urls:
+    - https://github.com/OpenNMS-Cloud/lokahi-helm-charts/releases/download/lokahi-1.0.0-alpha/lokahi-1.0.0-alpha.tgz
+    version: 1.0.0-alpha
+  lokahi-minion:
+  - apiVersion: v2
+    appVersion: v1.0.0
+    created: "2024-03-07T22:16:19.86383812Z"
+    description: A Helm chart for running OpenNMS Lokahi minion in Kubernetes
+    digest: f4fb034f86b30626a37bfd251827e5990f5a9238dbd4babe6492e60c06ecc6af
+    home: https://github.com/OpenNMS-Cloud/lokahi
+    icon: https://www.opennms.com/wp-content/uploads/2021/04/OpenNMS_Favicon_36px.png
+    maintainers:
+    - name: The OpenNMS Group Inc.
+      url: https://www.opennms.com
+    name: lokahi-minion
+    type: application
+    urls:
+    - https://github.com/OpenNMS-Cloud/lokahi-helm-charts/releases/download/lokahi-minion-1.0.0-alpha/lokahi-minion-1.0.0-alpha.tgz
+    version: 1.0.0-alpha
+generated: "2024-03-07T22:16:19.863851545Z"
