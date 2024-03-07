@@ -28,11 +28,11 @@ jobs:
           charts_dir: .
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Run chart-releaser - Dependencies
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: dependencies
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      # Disable for now -- we need to figureout a better way to handle this
+      #- name: Run chart-releaser - Dependencies
+      #  uses: helm/chart-releaser-action@v1.5.0
+      #  with:
+      #    charts_dir: dependencies
+      #  env:
+      #    CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
