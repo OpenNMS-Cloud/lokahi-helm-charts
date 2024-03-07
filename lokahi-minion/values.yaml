@@ -10,8 +10,9 @@ OpenNMS: # we might be able to remove this
       otlpTracesEndpoint: null
       env:
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+    developmentMode: false
   minion:
-    # Manually set an ID for Minion
+    # Set an ID for Minion
     id: ""
     customCertificateAuthority: false
     grpcClientKeystorePassword: ""

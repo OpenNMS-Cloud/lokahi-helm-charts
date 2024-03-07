@@ -1,6 +1,6 @@
 apiVersion: v2
 name: Prometheus
 version: 2.39.1
-description: Prometheus deployment for Lokahi
+description: Prometheus for Lokahi
 type: application
 appVersion: "v2.39.1"

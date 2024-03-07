@@ -30,7 +30,7 @@ RESPONSE=$(curl \
 			-d 'grant_type=password' \
 			-d "client_id=${CLIENT_ID}" \
 			-d 'scope=openid' \
-            --cacert ${CLIENT_TRUSTSTORE} \
+            --cacert "${CLIENT_TRUSTSTORE}" \
 			"${AUTHURL}")
 
 ACCESS_TOKEN="$(echo "$RESPONSE" | jq -r '.access_token')"
