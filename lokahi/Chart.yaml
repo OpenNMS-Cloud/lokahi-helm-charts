@@ -7,6 +7,26 @@ type: application
 description: A Helm chart for running OpenNMS Lokahi in Kubernetes
 appVersion: "v1.0.0"
 
+dependencies:
+  - name: "citus"
+    version: "12.1-alpine"
+    repository: "file://../dependencies/citus"
+  - name: "cortex"
+    version: "1.14.0"
+    repository: "file://../dependencies/cortex"
+  - name: "Grafana"
+    version: "0.9.1"
+    repository: "file://../dependencies/grafana"
+  - name: "kafka"
+    version: "0.9.1"
+    repository: "file://../dependencies/kafka"
+  - name: "Keycloak"
+    version: "0.9.1"
+    repository: "file://../dependencies/keycloak"
+  - name: "Prometheus"
+    version: "2.39.1"
+    repository: "file://../dependencies/prometheus"
+
 maintainers:
   - name: The OpenNMS Group Inc.
     url: https://www.opennms.com
