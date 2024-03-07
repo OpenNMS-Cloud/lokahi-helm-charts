@@ -1,6 +1,0 @@
-apiVersion: v2
-name: Keycloak
-version: 0.9.1
-description: Keycloak deployment for Lokahi
-type: application
-appVersion: "v0.9.1"
