@@ -1,5 +1,5 @@
 apiVersion: v2
-name: Grafana
+name: Kafka
 version: 0.9.1
 description: Grafana deployment for Lokahi
 type: application
