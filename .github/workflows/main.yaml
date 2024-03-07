@@ -1,0 +1,80 @@
+name: Release Helm Charts
+
+on:
+ push:
+  branches:
+     - master
+
+# Make sure only one copy of this workflow can run at a time.
+concurrency: ${{ github.workflow }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Run chart-releaser - Lokahi
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: lokahi
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run chart-releaser - Lokahi-minion
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: lokahi-minion
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      # Dependencies
+      - name: Run chart-releaser - Citus
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: dependencies/citus
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run chart-releaser - Cortex
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: dependencies/cortex
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run chart-releaser - Grafana
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: dependencies/grafana
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run chart-releaser - Kafka
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: dependencies/kafka
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run chart-releaser - Keycloak
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: dependencies/keycloak
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run chart-releaser - Prometheus
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: dependencies/prometheus
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
