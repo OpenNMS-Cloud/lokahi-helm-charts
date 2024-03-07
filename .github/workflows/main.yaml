@@ -22,9 +22,17 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Run chart-releaser - Lokahi
+      - name: Run chart-releaser - Lokahi and Minion
         uses: helm/chart-releaser-action@v1.5.0
         with:
           charts_dir: .
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Run chart-releaser - Dependencies
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: dependencies
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
