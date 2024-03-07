@@ -12,7 +12,7 @@ OpenNMS: # we might be able to remove this
       env:
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 citus:
-  enabled: false
+  enabled: true
   adminUser: desenv
   adminPassword: notset
 keycloak:

@@ -1,0 +1,47 @@
+{{- if not .Values.customCert.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: tls-secret
+  namespace: {{ .Release.Namespace }}
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 5
+  template:
+    metadata:
+      name: tls-secret
+    spec:
+      containers:
+      - name: kubectl-container
+        image: bitnami/kubectl
+        command:
+          - "/bin/sh"
+          - "-c"
+          - |
+            apk add --no-cache openssl
+            mkdir -p /tmp/secrets
+            cd /tmp/secrets
+            time=$(({{ .Values.caCert.duration }}/24))
+            openssl genrsa -out ca.key 2048
+            openssl req -new -x509 -days $time -key ca.key -subj "/CN={{ .Values.caCert.commonName }}/O=Test/C=US" -out ca.crt
+            chmod 644 ca.key ca.crt
+            res=$(kubectl get secret root-ca-certificate -n {{ .Release.Namespace }} | grep -c "root-ca-certificate")
+            {{- if  .Values.caCert.generate }}
+            if [ $res==1 ]; then
+             kubectl delete secret  root-ca-certificate -n {{ .Release.Namespace }}
+             kubectl delete secret  opennms-ui-certificate -n {{ .Release.Namespace }}
+             kubectl delete secret  opennms-minion-gateway-certificate -n {{ .Release.Namespace }}
+            fi
+            kubectl create secret tls root-ca-certificate --cert /tmp/secrets/ca.crt --key /tmp/secrets/ca.key
+            {{- end }}
+            {{- if not .Values.caCert.generate }}
+            if [ $res==1 ]; then
+              echo "root-ca-certificate already exists" 
+            else
+             kubectl create secret tls root-ca-certificate --cert /tmp/secrets/ca.crt --key /tmp/secrets/ca.key
+            fi
+            {{- end }}
+      restartPolicy: OnFailure
+{{- end }}
+
+
