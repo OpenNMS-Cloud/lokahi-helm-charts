@@ -25,56 +25,6 @@ jobs:
       - name: Run chart-releaser - Lokahi
         uses: helm/chart-releaser-action@v1.5.0
         with:
-          charts_dir: lokahi
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Run chart-releaser - Lokahi-minion
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: lokahi-minion
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      # Dependencies
-      - name: Run chart-releaser - Citus
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: dependencies/citus
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Run chart-releaser - Cortex
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: dependencies/cortex
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Run chart-releaser - Grafana
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: dependencies/grafana
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Run chart-releaser - Kafka
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: dependencies/kafka
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Run chart-releaser - Keycloak
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: dependencies/keycloak
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Run chart-releaser - Prometheus
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: dependencies/prometheus
+          charts_dir: .
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
