@@ -1,0 +1,83 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "OpenNMS": {
+            "type": "object",
+            "properties": {
+                "global": {
+                    "type": "object",
+                    "properties": {
+                        "image": {
+                            "type": "object",
+                            "properties": {
+                                "repository": {
+                                    "type": "string"
+                                },
+                                "tag": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "citus": {
+            "type": "object",
+            "properties": {
+                "adminPassword": {
+                    "type": "string"
+                },
+                "adminUser": {
+                    "type": "string"
+                },
+                "alertPassword": {
+                    "type": "string"
+                },
+                "coordinatorvolumeSize": {
+                    "type": "string"
+                },
+                "dataChoicesPassword": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "eventsPassword": {
+                    "type": "string"
+                },
+                "grafanaPassword": {
+                    "type": "string"
+                },
+                "inventoryPassword": {
+                    "type": "string"
+                },
+                "keycloakPassword": {
+                    "type": "string"
+                },
+                "minionGatewayPassword": {
+                    "type": "string"
+                },
+                "notificationPassword": {
+                    "type": "string"
+                },
+                "openNMSPassword": {
+                    "type": "string"
+                },
+                "pgBouncerPort": {
+                    "type": "integer"
+                },
+                "serviceName": {
+                    "type": "string"
+                },
+                "workerVolumeSize": {
+                    "type": "string"
+                },
+                "workersEnabled": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

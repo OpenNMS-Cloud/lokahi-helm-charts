@@ -4,7 +4,7 @@ LOCATION_NAME="e2e-test"
 
 
 USERNAME="admin"
-PASSWORD="admin"
+PASSWORD="notset"
 CLIENT_ID="lokahi"
 KUBERNETES_NAMESPACE="-n default"
 

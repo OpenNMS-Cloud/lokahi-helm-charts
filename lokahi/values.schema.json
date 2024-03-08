@@ -1,0 +1,980 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "OpenNMS": {
+            "type": "object",
+            "properties": {
+                "alert": {
+                    "type": "object",
+                    "properties": {
+                        "databaseHost": {
+                            "type": "string"
+                        },
+                        "databaseName": {
+                            "type": "string"
+                        },
+                        "databaseSchemaName": {
+                            "type": "string"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "kafkaSecretName": {
+                            "type": "null"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "api": {
+                    "type": "object",
+                    "properties": {
+                        "certificateManagerUrl": {
+                            "type": "string"
+                        },
+                        "flowsTlsEnabled": {
+                            "type": "boolean"
+                        },
+                        "flowsUrl": {
+                            "type": "string"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "introspectionEnabled": {
+                            "type": "boolean"
+                        },
+                        "maxAliasOccurrence": {
+                            "type": "integer"
+                        },
+                        "maxComplexity": {
+                            "type": "integer"
+                        },
+                        "maxDirectiveOccurrence": {
+                            "type": "integer"
+                        },
+                        "maxFieldOccurrence": {
+                            "type": "integer"
+                        },
+                        "maxQueryDepth": {
+                            "type": "integer"
+                        },
+                        "minionEndpoint": {
+                            "type": "string"
+                        },
+                        "packagedminionFile": {
+                            "type": "string"
+                        },
+                        "path": {
+                            "type": "string"
+                        },
+                        "playgroundGuiEnabled": {
+                            "type": "boolean"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "dataChoices": {
+                    "type": "object",
+                    "properties": {
+                        "databaseHost": {
+                            "type": "string"
+                        },
+                        "databaseName": {
+                            "type": "string"
+                        },
+                        "databaseSchemaName": {
+                            "type": "string"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "events": {
+                    "type": "object",
+                    "properties": {
+                        "databaseHost": {
+                            "type": "string"
+                        },
+                        "databaseName": {
+                            "type": "string"
+                        },
+                        "databaseSchemaName": {
+                            "type": "string"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "global": {
+                    "type": "object",
+                    "properties": {
+                        "developmentMode": {
+                            "type": "boolean"
+                        },
+                        "enableJsonLogging": {
+                            "type": "boolean"
+                        },
+                        "image": {
+                            "type": "object",
+                            "properties": {
+                                "repository": {
+                                    "type": "string"
+                                },
+                                "tag": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "kafkaClient": {
+                            "type": "object",
+                            "properties": {
+                                "bootstrapServers": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "openTelemetry": {
+                            "type": "object",
+                            "properties": {
+                                "env": {
+                                    "type": "object",
+                                    "properties": {
+                                        "OTEL_PROPAGATORS": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "otlpTracesEndpoint": {
+                                    "type": "null"
+                                }
+                            }
+                        },
+                        "springBoot": {
+                            "type": "object",
+                            "properties": {
+                                "env": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "inventory": {
+                    "type": "object",
+                    "properties": {
+                        "databaseHost": {
+                            "type": "string"
+                        },
+                        "databaseName": {
+                            "type": "string"
+                        },
+                        "databaseSchemaName": {
+                            "type": "string"
+                        },
+                        "encryptionKey": {
+                            "type": "null"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "kafkaSecretName": {
+                            "type": "null"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "metricsProcessor": {
+                    "type": "object",
+                    "properties": {
+                        "flowIngestorUrl": {
+                            "type": "string"
+                        },
+                        "flowTlsEnabled": {
+                            "type": "boolean"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "kafkaSecretName": {
+                            "type": "null"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "minionCertificateManager": {
+                    "type": "object",
+                    "properties": {
+                        "caSecretName": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "mtlsSecretName": {
+                            "type": "string"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        },
+                        "volumeSize": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "minionCertificateVerifier": {
+                    "type": "object",
+                    "properties": {
+                        "certificateManagerUrl": {
+                            "type": "string"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "minionGateway": {
+                    "type": "object",
+                    "properties": {
+                        "databaseHost": {
+                            "type": "string"
+                        },
+                        "databaseName": {
+                            "type": "string"
+                        },
+                        "databaseSchemaName": {
+                            "type": "string"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "ingressAnnotations": {
+                            "type": "object",
+                            "properties": {
+                                "nginx.ingress.kubernetes.io/auth-response-headers": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream": {
+                                    "type": "boolean"
+                                },
+                                "nginx.ingress.kubernetes.io/auth-tls-secret": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/auth-tls-verify-client": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/auth-tls-verify-depth": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/auth-url": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/proxy-body-size": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/server-snippet": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "internalGrpcPort": {
+                            "type": "integer"
+                        },
+                        "kafkaSecretName": {
+                            "type": "null"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        },
+                        "tlsSecretName": {
+                            "type": "string"
+                        },
+                        "useKubernetes": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "notification": {
+                    "type": "object",
+                    "properties": {
+                        "acsConnectionSecretName": {
+                            "type": "object"
+                        },
+                        "baseUrl": {
+                            "type": "object",
+                            "properties": {
+                                "appendTenantId": {
+                                    "type": "boolean"
+                                },
+                                "url": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "databaseHost": {
+                            "type": "string"
+                        },
+                        "databaseName": {
+                            "type": "string"
+                        },
+                        "databaseSchemaName": {
+                            "type": "string"
+                        },
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "kafkaSecretName": {
+                            "type": "null"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "retry": {
+                            "type": "object",
+                            "properties": {
+                                "delay": {
+                                    "type": "integer"
+                                },
+                                "max": {
+                                    "type": "integer"
+                                },
+                                "maxDelay": {
+                                    "type": "integer"
+                                },
+                                "multiplier": {
+                                    "type": "integer"
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ui": {
+                    "type": "object",
+                    "properties": {
+                        "imagePullPolicy": {
+                            "type": "string"
+                        },
+                        "imageShortName": {
+                            "type": "string"
+                        },
+                        "ingressAnnotations": {
+                            "type": "object",
+                            "properties": {
+                                "nginx.ingress.kubernetes.io/client-body-buffer-size": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/client-header-buffer-size": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/configuration-snippet": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/large-client-header-buffers": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/proxy-body-size": {
+                                    "type": "string"
+                                },
+                                "nginx.ingress.kubernetes.io/proxy-buffer-size": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "path": {
+                            "type": "string"
+                        },
+                        "port": {
+                            "type": "integer"
+                        },
+                        "privateRepoEnabled": {
+                            "type": "boolean"
+                        },
+                        "replicas": {
+                            "type": "integer"
+                        },
+                        "resources": {
+                            "type": "object",
+                            "properties": {
+                                "limits": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "requests": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cpu": {
+                                            "type": "string"
+                                        },
+                                        "memory": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "serviceName": {
+                            "type": "string"
+                        },
+                        "tlsSecretName": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "citus": {
+            "type": "object",
+            "properties": {
+                "adminPassword": {
+                    "type": "string"
+                },
+                "adminUser": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "cortexClient": {
+            "type": "object",
+            "properties": {
+                "hostRead": {
+                    "type": "string"
+                },
+                "hostWrite": {
+                    "type": "string"
+                },
+                "pathRead": {
+                    "type": "string"
+                },
+                "pathWrite": {
+                    "type": "string"
+                },
+                "portRead": {
+                    "type": "integer"
+                },
+                "portWrite": {
+                    "type": "integer"
+                },
+                "protocol": {
+                    "type": "string"
+                }
+            }
+        },
+        "customErrors": {
+            "type": "object",
+            "properties": {
+                "debug": {
+                    "type": "boolean"
+                },
+                "image": {
+                    "type": "string"
+                }
+            }
+        },
+        "grafana": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "serviceName": {
+                    "type": "string"
+                }
+            }
+        },
+        "hostname": {
+            "type": "string"
+        },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "controllerimage": {
+                    "type": "string"
+                },
+                "defaultEndpointsEnabled": {
+                    "type": "boolean"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "httpPort": {
+                    "type": "integer"
+                },
+                "httpsPort": {
+                    "type": "integer"
+                },
+                "secretJobimage": {
+                    "type": "string"
+                },
+                "webhookPatchJobimage": {
+                    "type": "string"
+                }
+            }
+        },
+        "keycloak": {
+            "type": "object",
+            "properties": {
+                "httpsPort": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "realmName": {
+                    "type": "string"
+                },
+                "serviceName": {
+                    "type": "string"
+                }
+            }
+        },
+        "nodeRestrictions": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "port": {
+            "type": "integer"
+        },
+        "prometheus": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "serviceName": {
+                    "type": "string"
+                }
+            }
+        },
+        "protocol": {
+            "type": "string"
+        },
+        "tls": {
+            "type": "object",
+            "properties": {
+                "certificateGeneration": {
+                    "type": "boolean"
+                },
+                "enabled": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}

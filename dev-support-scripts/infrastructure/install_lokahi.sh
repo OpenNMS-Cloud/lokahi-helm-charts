@@ -46,18 +46,18 @@ kubectl wait --for=condition=ready "$(kubectl get pods -o name --no-headers=true
 msg "Installing Dependencies" 
 msg " Tempo" 
 helm install tempo tempo/tempo --set tempo.metricsGenerator.enabled=True --set tempo.metricsGenerator.remoteWriteUrl=http://prometheus:9090/prometheus/api/v1/write  --namespace "${NAMESPACE}" >> "${LOGFILE}" 2>&1
-msg " Citus" 
-helm install citus ../../dependencies/citus -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
-msg " Cortex" 
-helm install cortex ../../dependencies/cortex -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
-msg " Grafana" 
-helm install grafana ../../dependencies/grafana -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
-msg " Kafka" 
-helm install kafka ../../dependencies/kafka -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
-msg " Keycloak" 
-helm install keycloak ../../dependencies/keycloak -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
-msg " Prometheus" 
-helm install prometheus ../../dependencies/prometheus  -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
+#msg " Citus" 
+#helm install citus ../../dependencies/citus -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
+#msg " Cortex" 
+#helm install cortex ../../dependencies/cortex -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
+#msg " Grafana" 
+#helm install grafana ../../dependencies/grafana -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
+#msg " Kafka" 
+#helm install kafka ../../dependencies/kafka -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
+#msg " Keycloak" 
+#helm install keycloak ../../dependencies/keycloak -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
+#msg " Prometheus" 
+#helm install prometheus ../../dependencies/prometheus  -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
 msg "Installing Lokahi" 
 helm install lokahi ../../lokahi -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}"  --wait >> "${LOGFILE}" 2>&1
 
