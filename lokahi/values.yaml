@@ -1,4 +1,4 @@
-hostname: onmshs
+hostname: onmshs # hostname for opennms dashboard
 port: 443 #set depending on tls.enabled and the ingress ports, do not change
 protocol: https #set depending on tls.enabled, do not change
 OpenNMS: # we might be able to remove this
@@ -15,7 +15,10 @@ OpenNMS: # we might be able to remove this
       otlpTracesEndpoint: null
       env:
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
-  api:
+
+# Specifies configuration for the rest server service, including K8 service  details, image settings, resource
+# limits, external flow server URL, certificate manager URL, and GraphQL playground settings.
+  api: 
     path: /api
     serviceName: opennms-rest-server
     imageShortName: lokahi-rest-server
@@ -41,6 +44,9 @@ OpenNMS: # we might be able to remove this
     maxFieldOccurrence: 5
     maxQueryDepth: 5
     playgroundGuiEnabled: false
+
+# Defines the metrics processor service, specifying k8 service details, image settings,
+# resource limits, external flow server URL, TLS configuration, and Kafka secret.
   metricsProcessor:
     serviceName: opennms-metrics-processor
     imageShortName: lokahi-metrics-processor
@@ -57,6 +63,9 @@ OpenNMS: # we might be able to remove this
     flowIngestorUrl: SOME-EXTERNAL-FLOW-SERVER:80
     flowTlsEnabled: false
     kafkaSecretName: ~
+
+# Configures the UI service, including path, TLS secret name, image details,
+# resource limits, repository access and annotations for opennms Ingress.
   ui:
     path: /
     serviceName: opennms-ui
@@ -83,6 +92,35 @@ OpenNMS: # we might be able to remove this
       nginx.ingress.kubernetes.io/large-client-header-buffers: 4 16k
       nginx.ingress.kubernetes.io/proxy-body-size: 4m
       nginx.ingress.kubernetes.io/proxy-buffer-size: 6k
+
+# Specifies configuration for the Minion and rest server charts, including K8 service  details, image settings, ports,
+# resource limits.
+  minion:
+    enabled: true
+    serviceName: opennms-minion
+    imageShortName: lokahi-minion
+    imagePullPolicy: IfNotPresent
+    replicas: 1
+    port: 8181
+    sshPort: 8101
+    TrapsListenerPort: 1162
+    netflow5ListenerPort: 8877
+    netflow9ListenerPort: 4729
+    netflowListenerPort: 9999
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
+    extraVolumes: []
+    extraMounts: []
+    extraInitContainers: []
+    addDefaultLocation: false
+
+# Defines configuration for the Minion Gateway service, including K8 service details, TLS secret name,
+# resource limits, annotations, and Kafka secret.
   minionGateway:
     serviceName: opennms-minion-gateway
     tlsSecretName: opennms-minion-gateway-certificate
@@ -115,6 +153,9 @@ OpenNMS: # we might be able to remove this
         client_body_timeout "1200s";
     privateRepoEnabled: false #move to global
     kafkaSecretName: ~ #move to global
+
+# Defines configuration for the inventory, rest server and events services including K8 service  details, database settings,
+# resource limits, encryption key, repository access, and Kafka secret.
   inventory:
     serviceName: opennms-inventory
     imageShortName: lokahi-inventory
@@ -133,6 +174,9 @@ OpenNMS: # we might be able to remove this
     encryptionKey: ~
     privateRepoEnabled: false
     kafkaSecretName: ~
+
+# Specifies configuration for the alert and rest server services including K8 service  details, database settings,
+# resource limits, repository access, and Kafka secret.
   alert:
     serviceName: opennms-alert
     imageShortName: lokahi-alert
@@ -150,6 +194,9 @@ OpenNMS: # we might be able to remove this
         memory: 2Gi
     privateRepoEnabled: false
     kafkaSecretName: ~
+
+# Defines the configuration for the notification and rest server services including K8 service  details, database settings,
+# resource limits, Kafka retry parameters, ACS connection, and base URL.
   notification:
     serviceName: opennms-notifications
     imageShortName: lokahi-notification
@@ -176,6 +223,9 @@ OpenNMS: # we might be able to remove this
     baseUrl:
       url: "onmshs:443"
       appendTenantId: false
+
+# Configures the settings for the events and rest server services including K8 service  name, image details, replica count,
+# database configuration, resource limits, and repository access.
   events:
     serviceName: opennms-events
     imageShortName: lokahi-events
@@ -192,6 +242,9 @@ OpenNMS: # we might be able to remove this
         cpu: "1"
         memory: 2Gi
     privateRepoEnabled: false
+
+# Configures the settings for the datachoices service including K8 service  name, image details,
+# replica count, database configuration, resource limits, and repository access.
   dataChoices:
     serviceName: opennms-datachoices
     imageShortName: lokahi-datachoices
@@ -208,11 +261,14 @@ OpenNMS: # we might be able to remove this
         cpu: "1"
         memory: 1Gi
     privateRepoEnabled: false
+
+# Configures the settings for the minion certificate manager and rest server services including K8 service  name, 
+# secret names, image details, replica count, resource limits, and repository access.
   minionCertificateManager:
-    enabled: false
+    enabled: true
     serviceName: opennms-minion-certificate-manager
-    caSecretName: ""
-    mtlsSecretName: opennms-minion-certificate
+    caSecretName: root-ca-certificate
+    mtlsSecretName: client-root-ca-certificate
     imageShortName: lokahi-minion-certificate-manager
     imagePullPolicy: IfNotPresent
     replicas: 1
@@ -225,6 +281,9 @@ OpenNMS: # we might be able to remove this
         cpu: "1"
         memory: 1Gi
     privateRepoEnabled: false
+
+# Configures the settings for the minion certificate verifier service including K8 service  name,
+# image details, replica count, resource limits, and repository access.
   minionCertificateVerifier:
     serviceName: opennms-minion-certificate-verifier
     imageShortName: lokahi-minion-certificate-verifier
@@ -239,21 +298,32 @@ OpenNMS: # we might be able to remove this
         memory: 1Gi
     privateRepoEnabled: false
     certificateManagerUrl: ""
+
+# Enables integration with Citus for the notification, inventory, events, datachoices and alert services, along with admin user 
+# and password configuration.
 citus:
-  enabled: false
+  enabled: true
   adminUser: desenv
   adminPassword: notset
+
+# Specifies the path, ports, service name, and realm name used in datachoices and inventory services.
 keycloak:
   path: /auth
   port: 8080
   httpsPort: 8443
   serviceName: onms-keycloak
   realmName: opennms
+
+# Enables integration with Grafana for the grafana service, specifying path,
+# port, and service name.
 grafana:
   enabled: true
   path: /grafana
   port: 3000
   serviceName: grafana
+
+# Configures hosts, paths, protocol, and ports for reading and writing data to Cortex 
+# in the metricprocessor and rest server services.
 cortexClient:
   hostRead: cortex
   hostWrite: cortex
@@ -262,12 +332,13 @@ cortexClient:
   protocol: http
   portRead: 9000
   portWrite: 9000
+
 nodeRestrictions: # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
   value: spot
 tls:
-  enabled: true
+  enabled: true # if value is set to true, it attach domain name with minion gateway and opennms lokahi UI
   # When Certificate Generation option is set to false you need to manually prepare secrets which are referred by
   # this helm chart. This includes creation of tls certificates for ingress but also for mutual tls between minions and
   # minion-gateway service
@@ -275,19 +346,41 @@ tls:
 
 ingress:
   enabled: false
-  defaultEndpointsEnabled: true # creates the nginx endpoints
+  defaultEndpointsEnabled: true
   httpPort: 80
   httpsPort: 443
   controllerimage: registry.k8s.io/ingress-nginx/controller:v1.7.0@sha256:7612338342a1e7b8090bef78f2a04fffcadd548ccaabe8a47bf7758ff549a5f7
   secretJobimage: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660
   webhookPatchJobimage: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660
 
+# These values configure custom error pages for ingress with the specified image and debug mode settings.
 customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
+# These values enable seamless integration of the notification service with Prometheus for monitoring and 
+# metric retrieval within a Kubernetes environment.
 prometheus:
   enabled: true
   path: /prometheus
   serviceName: prometheus
   port: 9090
+
+# These values are utilized for the root certificate settings, adjust duration 
+# and common name for root certificate management. 
+caCert:
+  generate: false # if you want to create new root certificate set this value to true
+  duration: 8760 # Expiring time of root certificate
+  commonName: opennms-prime
+
+# These values are utilized for the certificate signing, expiring time (duration) and renewal time 
+# for signed certificates. 
+certSigned:
+  duration: 8760 # Expiring time of signed certificates
+  renewBefore: 24 # Auto renewal time for signed certificates
+
+
+customCert:
+ enabled: false # if you want to upload your own certificate for your domain set this value to true
+ crt: certs/tls.crt # path for crt file
+ key: certs/tls.key # path for key file
