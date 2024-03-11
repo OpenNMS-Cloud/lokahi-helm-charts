@@ -24,7 +24,7 @@
                             "type": "string"
                         },
                         "kafkaSecretName": {
-                            "type": "string"
+                            "type": ["string","null"]
                         },
                         "privateRepoEnabled": {
                             "type": "boolean"
@@ -302,7 +302,7 @@
                                     }
                                 },
                                 "otlpTracesEndpoint": {
-                                    "type": "string"
+                                    "type": ["string","null"]
                                 }
                             }
                         },
@@ -329,7 +329,7 @@
                             "type": "string"
                         },
                         "encryptionKey": {
-                            "type": "string"
+                            "type": ["string","null"]
                         },
                         "imagePullPolicy": {
                             "type": "string"
@@ -338,7 +338,7 @@
                             "type": "string"
                         },
                         "kafkaSecretName": {
-                            "type": "string"
+                            "type": ["string","null"]
                         },
                         "privateRepoEnabled": {
                             "type": "boolean"
@@ -394,7 +394,7 @@
                             "type": "string"
                         },
                         "kafkaSecretName": {
-                            "type": "string"
+                            "type": ["string","null"]
                         },
                         "privateRepoEnabled": {
                             "type": "boolean"
@@ -594,7 +594,7 @@
                             "type": "integer"
                         },
                         "kafkaSecretName": {
-                            "type": "string"
+                            "type": ["string","null"]
                         },
                         "privateRepoEnabled": {
                             "type": "boolean"
@@ -673,7 +673,7 @@
                             "type": "string"
                         },
                         "kafkaSecretName": {
-                            "type": "string"
+                            "type": ["string","null"]
                         },
                         "privateRepoEnabled": {
                             "type": "boolean"
