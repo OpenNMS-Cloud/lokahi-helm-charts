@@ -12,23 +12,23 @@ OpenNMS: # we might be able to remove this
       env:
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 citus:
-  enabled: false
-  adminUser: desenv
-  adminPassword: notset
+  enabled: true
+  adminUser: desenv # admin username for citus
+  adminPassword: notset # admin password for citus
 keycloak:
   path: /auth
   imageShortName: lokahi-keycloak
   imagePullPolicy: IfNotPresent
   port: 8080
   httpsPort: 8443
-  hostnamePort: ~
-  hostnameAdminUrl: ~
+  hostnamePort: ~ # KC_HOSTNAME_URL port
+  hostnameAdminUrl: ~ # KC_HOSTNAME_ADMIN_URL
   replicas: 1
   serviceName: onms-keycloak
   tlsSecretName:
-  databaseSchemaName: "keycloak"
-  databaseName: "desenv"
-  databaseHost: "postgres"
+  databaseSchemaName: "keycloak" # KC_DB_URL schema name
+  databaseName: "desenv" # KC_DB_URL DataBase name
+  databaseHost: "postgres" # KC_DB_URL DataBaseHost name
   resources:
     limits:
       cpu: "1"
@@ -36,13 +36,13 @@ keycloak:
     requests:
       cpu: "1"
       memory: 1Gi
-  adminUsername: admin
-  adminPassword: notset
+  adminUsername: admin # Keycloak admin username
+  adminPassword: notset # Keycloak admin password
   realmName: opennms
-  dynamicRealmConfig: true
+  dynamicRealmConfig: true # Keycloak realm configmap
   privateRepoEnabled: false
-  configmapName: keycloak-realm-configmap
-  environment: {}
+  configmapName: keycloak-realm-configmap # Keycloak realm configmap name
+  environment: {} # Environment variables
 kafka:
   enabled: true
   serviceName: onms-kafka

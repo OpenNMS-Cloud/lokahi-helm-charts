@@ -13,8 +13,8 @@ nodeRestrictions: # will be applied to every pod in the instance
   value: spot
 
 prometheus:
-  enabled: true
-  path: /prometheus
+  enabled: true # to disable prometheus change it to false
+  path: /prometheus # prometheus end point
   serviceName: prometheus
   port: 9090
   image: prom/prometheus:v2.39.1

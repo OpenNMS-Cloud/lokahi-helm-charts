@@ -16,7 +16,7 @@ OpenNMS: # we might be able to remove this
       env:
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 
-# Specifies configuration for the rest server service, including K8 service  details, image settings, resource
+# Specifies configuration for the API service, including service details, image settings, resource
 # limits, external flow server URL, certificate manager URL, and GraphQL playground settings.
   api: 
     path: /api
@@ -45,7 +45,7 @@ OpenNMS: # we might be able to remove this
     maxQueryDepth: 5
     playgroundGuiEnabled: false
 
-# Defines the metrics processor service, specifying k8 service details, image settings,
+# Defines the metrics processor service, specifying service details, image settings,
 # resource limits, external flow server URL, TLS configuration, and Kafka secret.
   metricsProcessor:
     serviceName: opennms-metrics-processor
@@ -65,7 +65,7 @@ OpenNMS: # we might be able to remove this
     kafkaSecretName: ~
 
 # Configures the UI service, including path, TLS secret name, image details,
-# resource limits, repository access and annotations for opennms Ingress.
+# resource limits, repository access, and Ingress annotations for opennms.
   ui:
     path: /
     serviceName: opennms-ui
@@ -93,7 +93,7 @@ OpenNMS: # we might be able to remove this
       nginx.ingress.kubernetes.io/proxy-body-size: 4m
       nginx.ingress.kubernetes.io/proxy-buffer-size: 6k
 
-# Specifies configuration for the Minion and rest server charts, including K8 service  details, image settings, ports,
+# Specifies configuration for the Minion service, including service details, image settings, ports,
 # resource limits.
   minion:
     enabled: true
@@ -119,8 +119,8 @@ OpenNMS: # we might be able to remove this
     extraInitContainers: []
     addDefaultLocation: false
 
-# Defines configuration for the Minion Gateway service, including K8 service details, TLS secret name,
-# resource limits, annotations, and Kafka secret.
+# Defines configuration for the Minion Gateway service, including service details, TLS secret name,
+# resource limits, ingress annotations, and Kafka secret.
   minionGateway:
     serviceName: opennms-minion-gateway
     tlsSecretName: opennms-minion-gateway-certificate
@@ -154,7 +154,7 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false #move to global
     kafkaSecretName: ~ #move to global
 
-# Defines configuration for the inventory, rest server and events services including K8 service  details, database settings,
+# Defines configuration for the inventory service, including service details, database settings,
 # resource limits, encryption key, repository access, and Kafka secret.
   inventory:
     serviceName: opennms-inventory
@@ -175,7 +175,7 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false
     kafkaSecretName: ~
 
-# Specifies configuration for the alert and rest server services including K8 service  details, database settings,
+# Specifies configuration for the alert service, including service details, database settings,
 # resource limits, repository access, and Kafka secret.
   alert:
     serviceName: opennms-alert
@@ -195,7 +195,7 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false
     kafkaSecretName: ~
 
-# Defines the configuration for the notification and rest server services including K8 service  details, database settings,
+# Defines the configuration for the notification service, including service details, database settings,
 # resource limits, Kafka retry parameters, ACS connection, and base URL.
   notification:
     serviceName: opennms-notifications
@@ -224,7 +224,7 @@ OpenNMS: # we might be able to remove this
       url: "onmshs:443"
       appendTenantId: false
 
-# Configures the settings for the events and rest server services including K8 service  name, image details, replica count,
+# Configures the settings for the events service, including service name, image details, replica count,
 # database configuration, resource limits, and repository access.
   events:
     serviceName: opennms-events
@@ -243,7 +243,7 @@ OpenNMS: # we might be able to remove this
         memory: 2Gi
     privateRepoEnabled: false
 
-# Configures the settings for the datachoices service including K8 service  name, image details,
+# Configures the settings for the datachoices service, including service name, image details,
 # replica count, database configuration, resource limits, and repository access.
   dataChoices:
     serviceName: opennms-datachoices
@@ -262,7 +262,7 @@ OpenNMS: # we might be able to remove this
         memory: 1Gi
     privateRepoEnabled: false
 
-# Configures the settings for the minion certificate manager and rest server services including K8 service  name, 
+# Configures the settings for the minion certificate manager service, including service name, 
 # secret names, image details, replica count, resource limits, and repository access.
   minionCertificateManager:
     enabled: true
@@ -282,7 +282,7 @@ OpenNMS: # we might be able to remove this
         memory: 1Gi
     privateRepoEnabled: false
 
-# Configures the settings for the minion certificate verifier service including K8 service  name,
+# Configures the settings for the minion certificate verifier service, including service name,
 # image details, replica count, resource limits, and repository access.
   minionCertificateVerifier:
     serviceName: opennms-minion-certificate-verifier
@@ -299,14 +299,15 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false
     certificateManagerUrl: ""
 
-# Enables integration with Citus for the notification, inventory, events, datachoices and alert services, along with admin user 
+# Enables integration with Citus for the notification service, along with admin user 
 # and password configuration.
 citus:
   enabled: true
   adminUser: desenv
   adminPassword: notset
 
-# Specifies the path, ports, service name, and realm name used in datachoices and inventory services.
+# Specifies the path, ports, service name, and realm name for integration with
+# Keycloak authentication service.
 keycloak:
   path: /auth
   port: 8080
@@ -314,7 +315,7 @@ keycloak:
   serviceName: onms-keycloak
   realmName: opennms
 
-# Enables integration with Grafana for the grafana service, specifying path,
+# Enables integration with Grafana for the notification service, specifying path,
 # port, and service name.
 grafana:
   enabled: true
@@ -323,7 +324,7 @@ grafana:
   serviceName: grafana
 
 # Configures hosts, paths, protocol, and ports for reading and writing data to Cortex 
-# in the metricprocessor and rest server services.
+# in the notification service.
 cortexClient:
   hostRead: cortex
   hostWrite: cortex
@@ -338,7 +339,7 @@ nodeRestrictions: # will be applied to every pod in the instance
   key: kubernetes.azure.com/scalesetpriority
   value: spot
 tls:
-  enabled: true # if value is set to true, it attach domain name with minion gateway and opennms lokahi UI
+  enabled: true
   # When Certificate Generation option is set to false you need to manually prepare secrets which are referred by
   # this helm chart. This includes creation of tls certificates for ingress but also for mutual tls between minions and
   # minion-gateway service
@@ -366,21 +367,20 @@ prometheus:
   serviceName: prometheus
   port: 9090
 
-# These values are utilized for the root certificate settings, adjust duration 
-# and common name for root certificate management. 
+# These values are utilized for the default certificate settings; adjust duration, renewal time, 
+# and common name for certificate management. 
 caCert:
-  generate: false # if you want to create new root certificate set this value to true
-  duration: 8760 # Expiring time of root certificate
+  generate: true
+  duration: 8760
   commonName: opennms-prime
 
-# These values are utilized for the certificate signing, expiring time (duration) and renewal time 
-# for signed certificates. 
 certSigned:
-  duration: 8760 # Expiring time of signed certificates
-  renewBefore: 24 # Auto renewal time for signed certificates
+  duration: 8760
+  renewBefore: 24
 
-
+# These values allow for the use of custom certificates; set to true to enable and provide paths to the 
+# custom certificate (crt) and key files.
 customCert:
- enabled: false # if you want to upload your own certificate for your domain set this value to true
- crt: certs/tls.crt # path for crt file
- key: certs/tls.key # path for key file
+ enabled: false
+ crt: certs/tls.crt
+ key: certs/tls.key

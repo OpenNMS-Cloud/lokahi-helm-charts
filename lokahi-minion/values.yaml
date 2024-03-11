@@ -10,20 +10,21 @@ OpenNMS: # we might be able to remove this
       otlpTracesEndpoint: null
       env:
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+    developmentMode: false
   minion:
-    # Manually set an ID for Minion
+    # Set an ID for Minion
     id: ""
     customCertificateAuthority: false
-    grpcClientKeystorePassword: ""
+    grpcClientKeystorePassword: "" # GRPC_CLIENT_KEYSTORE_PASSWORD 
     serviceName: opennms-minion
     imageShortName: lokahi-minion
     imagePullPolicy: IfNotPresent
     replicas: 1
     port: 8181
     sshPort: 8101
-    trapsListenerPort: 1162
-    netflow5ListenerPort: 8877
-    netflow9ListenerPort: 4729
+    trapsListenerPort: 1162 # snmp-traps port
+    netflow5ListenerPort: 8877 # netflow5 port
+    netflow9ListenerPort: 4729 #netflow9 port
     netflowListenerPort: 9999
     # If we are running inside the cluster, we need to set mapping of the ip address to hostname
     customHostAliases: []

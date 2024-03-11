@@ -10,7 +10,7 @@ OpenNMS: # we might be able to remove this
 cortex:
   enabled: true
   serviceName: cortex
-  port: 9000
+  port: 9000 # ConfigMap http port
   image: cortexproject/cortex:v1.14.0
   resources:
     limits:
@@ -19,14 +19,6 @@ cortex:
     requests:
       cpu: 100m
       memory: 100Mi
-cortexClient:
-  hostRead: cortex
-  hostWrite: cortex
-  pathRead: /prometheus/api/v1
-  pathWrite: /api/v1/push
-  protocol: http
-  portRead: 9000
-  portWrite: 9000
 nodeRestrictions: # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
