@@ -13,6 +13,7 @@ keycloak:
 
 citus:
   enabled: true
+  adminPassword: admin
 
 OpenNMS:
   global:

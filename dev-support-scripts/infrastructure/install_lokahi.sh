@@ -58,6 +58,10 @@ helm install tempo tempo/tempo --set tempo.metricsGenerator.enabled=True --set t
 #helm install keycloak ../../dependencies/keycloak -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
 #msg " Prometheus" 
 #helm install prometheus ../../dependencies/prometheus  -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --wait >> "${LOGFILE}" 2>&1
+cd ../../lokahi >> "${LOGFILE}" 2>&1 || exit 1
+rm Chart.lock >> "${LOGFILE}" 2>&1
+helm dependency build >> "${LOGFILE}" 2>&1
+cd - >> "${LOGFILE}" 2>&1 || exit 1
 msg "Installing Lokahi" 
 helm install lokahi ../../lokahi -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}"  --wait >> "${LOGFILE}" 2>&1
 

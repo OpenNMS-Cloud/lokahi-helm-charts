@@ -31,8 +31,8 @@ msg "Installing Lokahi Minion"
 # TODO: --namespace "${NAMESPACE}"
 helm install lokahi-minion ../../lokahi-minion/ -f "${LOKAHIMINIONVALUEFILE}"  --wait >> "${LOGFILE}" 2>&1
 
-rm ../../lokahi-minion/certs/ca.crt
-rm ../../lokahi-minion/certs/minion1.p12
+#rm ../../lokahi-minion/certs/ca.crt
+#rm ../../lokahi-minion/certs/minion1.p12
 
 DURATION=$SECONDS
 msg "It took $((DURATION / 60)) minutes and $((DURATION % 60)) seconds to install Lokahi minion Helm Chart" 

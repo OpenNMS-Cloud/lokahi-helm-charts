@@ -31,7 +31,7 @@
                                     }
                                 },
                                 "otlpTracesEndpoint": {
-                                    "type": "null"
+                                    "type": "string"
                                 }
                             }
                         }
