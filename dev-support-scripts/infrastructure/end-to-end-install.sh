@@ -57,8 +57,5 @@ echo " " >> "${LOGFILE}" 2>&1
 echo "<<------>>" >> "${LOGFILE}" 2>&1
 echo " " >> "${LOGFILE}" 2>&1
 
-#rm ../tmp/minion.yaml
-rm ../tmp/ca.crt
-
 DURATION=$SECONDS
 echo "It took $((DURATION / 60)) minutes and $((DURATION % 60)) seconds to setup and deploy Lokahi and a minion."  | tee -a "${LOGFILE}"

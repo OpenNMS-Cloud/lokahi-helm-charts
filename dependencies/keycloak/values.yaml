@@ -43,9 +43,6 @@ keycloak:
   privateRepoEnabled: false
   configmapName: keycloak-realm-configmap
   environment: {}
-kafka:
-  enabled: true
-  serviceName: onms-kafka
 nodeRestrictions: # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority

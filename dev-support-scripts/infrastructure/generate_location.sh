@@ -4,7 +4,7 @@ LOCATION_NAME="e2e-test"
 
 
 USERNAME="admin"
-PASSWORD="notset"
+PASSWORD="admin" #grep "openNMSPassword" examples/lokahi-values.yaml | awk '{print $2}'
 CLIENT_ID="lokahi"
 KUBERNETES_NAMESPACE="-n default"
 

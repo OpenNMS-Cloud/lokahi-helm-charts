@@ -17,8 +17,6 @@ Keycloak for Lokahi
 | citus.adminUser | string | `"desenv"` |  |
 | citus.enabled | bool | `false` |  |
 | hostname | string | `"onmshs"` |  |
-| kafka.enabled | bool | `true` |  |
-| kafka.serviceName | string | `"onms-kafka"` |  |
 | keycloak.adminPassword | string | `""` |  |
 | keycloak.adminUsername | string | `"admin"` |  |
 | keycloak.configmapName | string | `"keycloak-realm-configmap"` |  |

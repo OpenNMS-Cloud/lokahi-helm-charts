@@ -6,14 +6,17 @@ tls:
   certificateGeneration: false
   cert:
     Name: opennms-ui-certificate
+
 keycloak:
-  adminPassword: admin
+  keycloak:
+   adminPassword: admin
   hostnamePort: 443
   hostnameAdminUrl: https://onmshs:443/auth
 
 citus:
   enabled: true
   adminPassword: admin
+  openNMSPassword: admin
 
 OpenNMS:
   global:
