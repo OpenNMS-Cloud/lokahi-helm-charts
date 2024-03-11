@@ -35,6 +35,12 @@ cortex:
   enabled: true
   serviceName: cortex
   port: 9000
+kafka:
+  enabled: true
+  serviceName: onms-kafka
+  port: 9092
+  controllerPort: 9093
+  localPort: 59092
 nodeRestrictions: # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority

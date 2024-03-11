@@ -16,8 +16,8 @@ OpenNMS: # we might be able to remove this
       env:
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 
-# Specifies configuration for the API service, including service details, image settings, resource
-# limits, external flow server URL, certificate manager URL, and GraphQL playground settings.
+# Specifies configuration for the rest server service, including K8 service  details, image settings, resource
+# limits, flow server URL, certificate manager URL, and GraphQL playground settings.
   api: 
     path: /api
     serviceName: opennms-rest-server
@@ -45,7 +45,7 @@ OpenNMS: # we might be able to remove this
     maxQueryDepth: 5
     playgroundGuiEnabled: false
 
-# Defines the metrics processor service, specifying service details, image settings,
+# Defines the metrics processor service, specifying K8 service details, image settings,
 # resource limits, external flow server URL, TLS configuration, and Kafka secret.
   metricsProcessor:
     serviceName: opennms-metrics-processor
@@ -65,7 +65,7 @@ OpenNMS: # we might be able to remove this
     kafkaSecretName: ~
 
 # Configures the UI service, including path, TLS secret name, image details,
-# resource limits, repository access, and Ingress annotations for opennms.
+# resource limits, repository access and annotations for opennms Ingress.
   ui:
     path: /
     serviceName: opennms-ui
@@ -93,8 +93,8 @@ OpenNMS: # we might be able to remove this
       nginx.ingress.kubernetes.io/proxy-body-size: 4m
       nginx.ingress.kubernetes.io/proxy-buffer-size: 6k
 
-# Specifies configuration for the Minion service, including service details, image settings, ports,
-# resource limits.
+# Specifies configuration for the Minion and rest server charts, including K8 service  details, image settings,
+ # ports, resource limits.
   minion:
     enabled: true
     serviceName: opennms-minion
@@ -119,7 +119,7 @@ OpenNMS: # we might be able to remove this
     extraInitContainers: []
     addDefaultLocation: false
 
-# Defines configuration for the Minion Gateway service, including service details, TLS secret name,
+# Defines configuration for the Minion Gateway service, including K8 service details, TLS secret name,
 # resource limits, ingress annotations, and Kafka secret.
   minionGateway:
     serviceName: opennms-minion-gateway
@@ -154,7 +154,7 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false #move to global
     kafkaSecretName: ~ #move to global
 
-# Defines configuration for the inventory service, including service details, database settings,
+# Defines configuration for the inventory, rest server and events services including K8 service  details, database settings,
 # resource limits, encryption key, repository access, and Kafka secret.
   inventory:
     serviceName: opennms-inventory
@@ -175,7 +175,7 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false
     kafkaSecretName: ~
 
-# Specifies configuration for the alert service, including service details, database settings,
+# Specifies configuration for the alert and rest server services including K8 service  details, database settings,
 # resource limits, repository access, and Kafka secret.
   alert:
     serviceName: opennms-alert
@@ -195,7 +195,7 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false
     kafkaSecretName: ~
 
-# Defines the configuration for the notification service, including service details, database settings,
+# Defines the configuration for the notification and rest server services including K8 service  details, database settings,
 # resource limits, Kafka retry parameters, ACS connection, and base URL.
   notification:
     serviceName: opennms-notifications
@@ -224,7 +224,7 @@ OpenNMS: # we might be able to remove this
       url: "onmshs:443"
       appendTenantId: false
 
-# Configures the settings for the events service, including service name, image details, replica count,
+# Configures the settings for the events and rest server services including K8 service  name, image details, replica count,
 # database configuration, resource limits, and repository access.
   events:
     serviceName: opennms-events
@@ -262,7 +262,7 @@ OpenNMS: # we might be able to remove this
         memory: 1Gi
     privateRepoEnabled: false
 
-# Configures the settings for the minion certificate manager service, including service name, 
+# Configures the settings for the datachoices service including K8 service name,
 # secret names, image details, replica count, resource limits, and repository access.
   minionCertificateManager:
     enabled: true
@@ -282,7 +282,7 @@ OpenNMS: # we might be able to remove this
         memory: 1Gi
     privateRepoEnabled: false
 
-# Configures the settings for the minion certificate verifier service, including service name,
+# CConfigures the settings for the minion certificate verifier service including K8 service name,
 # image details, replica count, resource limits, and repository access.
   minionCertificateVerifier:
     serviceName: opennms-minion-certificate-verifier
@@ -299,15 +299,14 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false
     certificateManagerUrl: ""
 
-# Enables integration with Citus for the notification service, along with admin user 
+# Enables integration with Citus for the notification, inventory, events, datachoices and alert services, along with admin user 
 # and password configuration.
 citus:
   enabled: true
   adminUser: desenv
   adminPassword: notset
 
-# Specifies the path, ports, service name, and realm name for integration with
-# Keycloak authentication service.
+# Specifies the path, ports, service name, and realm name used in datachoices and inventory services.
 keycloak:
   path: /auth
   port: 8080
@@ -315,8 +314,7 @@ keycloak:
   serviceName: onms-keycloak
   realmName: opennms
 
-# Enables integration with Grafana for the notification service, specifying path,
-# port, and service name.
+# Enables integration with Grafana specifying path, port, and service name.
 grafana:
   enabled: true
   path: /grafana
@@ -324,7 +322,7 @@ grafana:
   serviceName: grafana
 
 # Configures hosts, paths, protocol, and ports for reading and writing data to Cortex 
-# in the notification service.
+# in the metricprocessor and rest server services.
 cortexClient:
   hostRead: cortex
   hostWrite: cortex
@@ -339,7 +337,7 @@ nodeRestrictions: # will be applied to every pod in the instance
   key: kubernetes.azure.com/scalesetpriority
   value: spot
 tls:
-  enabled: true
+  enabled: true # if value is set to true, it enables tls in ingress.
   # When Certificate Generation option is set to false you need to manually prepare secrets which are referred by
   # this helm chart. This includes creation of tls certificates for ingress but also for mutual tls between minions and
   # minion-gateway service
@@ -360,27 +358,10 @@ customErrors:
   debug: true
 
 # These values enable seamless integration of the notification service with Prometheus for monitoring and 
-# metric retrieval within a Kubernetes environment.
+# metric retrieval.
 prometheus:
   enabled: true
   path: /prometheus
   serviceName: prometheus
   port: 9090
 
-# These values are utilized for the default certificate settings; adjust duration, renewal time, 
-# and common name for certificate management. 
-caCert:
-  generate: true
-  duration: 8760
-  commonName: opennms-prime
-
-certSigned:
-  duration: 8760
-  renewBefore: 24
-
-# These values allow for the use of custom certificates; set to true to enable and provide paths to the 
-# custom certificate (crt) and key files.
-customCert:
- enabled: false
- crt: certs/tls.crt
- key: certs/tls.key
