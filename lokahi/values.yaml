@@ -370,7 +370,7 @@ prometheus:
 # These values are utilized for the default certificate settings; adjust duration, renewal time, 
 # and common name for certificate management. 
 caCert:
-  generate: false
+  generate: true
   duration: 8760
   commonName: opennms-prime
 
