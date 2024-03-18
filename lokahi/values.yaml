@@ -209,7 +209,7 @@ OpenNMS: # we might be able to remove this
         memory: 1Gi
     privateRepoEnabled: false
   minionCertificateManager:
-    enabled: false
+    enabled: true
     serviceName: opennms-minion-certificate-manager
     caSecretName: ""
     mtlsSecretName: opennms-minion-certificate
@@ -240,7 +240,7 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false
     certificateManagerUrl: ""
 citus:
-  enabled: false
+  enabled: true
   adminUser: desenv
   adminPassword: notset
 keycloak:

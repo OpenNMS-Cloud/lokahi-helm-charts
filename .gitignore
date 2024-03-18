@@ -3,3 +3,6 @@
 dev-support-scripts/logs
 dev-support-scripts/tmp
 packages
+lokahi/Chart.lock
+lokahi/charts/*.tgz
+lokahi-minion/certs/

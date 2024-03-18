@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.OpenNMS.minion.serviceName }}
+  name: {{ .Values.minion.serviceName }}
   labels:
-    app: {{ .Values.OpenNMS.minion.serviceName }}
+    app: {{ .Values.minion.serviceName }}
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.OpenNMS.minion.serviceName }}
-  replicas: {{ .Values.OpenNMS.minion.replicas }}
+      app: {{ .Values.minion.serviceName }}
+  replicas: {{ .Values.minion.replicas }}
   template:
     metadata:
       labels:
         appdomain: opennms
-        app: {{ .Values.OpenNMS.minion.serviceName }}
+        app: {{ .Values.minion.serviceName }}
       annotations:
         linkerd.io/inject: enabled
-        kubectl.kubernetes.io/default-container: "{{ .Values.OpenNMS.minion.serviceName }}"
+        kubectl.kubernetes.io/default-container: "{{ .Values.minion.serviceName }}"
     spec:
-      {{- with .Values.OpenNMS.minion.customHostAliases }}
+      {{- with .Values.minion.customHostAliases }}
       hostAliases:
 {{ toYaml . | indent 7 }}
     {{- end }}
-      serviceAccountName: {{ .Values.OpenNMS.minion.serviceName }}-sa
+      serviceAccountName: {{ .Values.minion.serviceName }}-sa
       {{- if .Values.nodeRestrictions.enabled }}
       nodeSelector:                                                                                    
         {{ .Values.nodeRestrictions.key }}: {{ .Values.nodeRestrictions.value }}                       
@@ -47,9 +47,13 @@ spec:
         - name: minion-secrets
           secret:
             defaultMode: 420
+            {{- if .Values.minion.minionAppSecrets }}
+            secretName: {{ .Values.minion.minionAppSecrets }}
+            {{- else }}
             secretName: minion-app-secrets
-        {{- if .Values.OpenNMS.minion.extraVolumes }}
-          {{ toYaml .Values.OpenNMS.minion.extraVolumes | nindent 8 }}
+            {{- end }}
+        {{- if .Values.minion.extraVolumes }}
+          {{ toYaml .Values.minion.extraVolumes | nindent 8 }}
         {{- end }}
       initContainers:
         {{- if eq (include "onOpenShift" .) "false" }}
@@ -62,89 +66,91 @@ spec:
           securityContext:
             privileged: true
         {{- end }}
-        {{- if .Values.OpenNMS.minion.extraInitContainers }}
-          {{ toYaml .Values.OpenNMS.minion.extraInitContainers | nindent 8 }}
+        {{- if .Values.minion.extraInitContainers }}
+          {{ toYaml .Values.minion.extraInitContainers | nindent 8 }}
         {{- end }}
       containers:
-        - name: {{ .Values.OpenNMS.minion.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minion) | quote }}
-          imagePullPolicy: {{ .Values.OpenNMS.minion.imagePullPolicy }}
+        - name: {{ .Values.minion.serviceName }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.minion) | quote }}
+          imagePullPolicy: {{ include "lokahi.imagePullPolicy" (dict "Values" .Values "thisService" .Values.minion) | quote }}
           env:
-            {{- if .Values.OpenNMS.minion.id }}
+            {{- if .Values.minion.id }}
             - name: MINION_ID
-              value: "{{ .Values.OpenNMS.minion.id }}"
+              value: "{{ .Values.minion.id }}"
             {{- end }}
             - name: GRPC_CLIENT_KEYSTORE_PASSWORD
-              value: "{{ .Values.OpenNMS.minion.grpcClientKeystorePassword }}"
+              value: "{{ .Values.minion.grpcClientKeystorePassword }}"
             - name: MINION_GATEWAY_HOST
-            {{- if .Values.OpenNMS.minion.gatewayHost }}
-              value: "{{ .Values.OpenNMS.minion.gatewayHost }}" # we're inside the cluster, so we need to talk to the internal service name
+            {{- if .Values.minion.gatewayHost }}
+              value: "{{ .Values.minion.gatewayHost }}" # we're inside the cluster, so we need to talk to the internal service name
             {{- else }}
               value: "minion.{{ .Values.hostname }}" 
             {{- end}}
             - name: GRPC_CLIENT_OVERRIDE_AUTHORITY
               value: "minion.{{ .Values.hostname }}" # but the TLS certificate will have the external name, so expect that
-            {{- if .Values.OpenNMS.minion.customCertificateAuthority }}
+            {{- if .Values.minion.customCertificateAuthority }}
             - name: GRPC_CLIENT_TRUSTSTORE
               value: "/opt/karaf/certs/CA.cert"
             {{- end}}
+            {{- if .Values.global.developmentMode }}
             - name: JAVA_TOOL_OPTIONS
               value: "-Djava.net.preferIPv4Stack=true -XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" # FIXME: Permanent debug port, enable only for dev mode
-            {{- if .Values.OpenNMS.minion.logLevel }}
-            - name: KARAF_OPTS
-              value: -Dkaraf.log.console={{ .Values.OpenNMS.minion.logLevel }}
             {{- end }}
-            {{- if .Values.OpenNMS.global.openTelemetry.otlpTracesEndpoint }}
+            {{- if .Values.minion.logLevel }}
+            - name: KARAF_OPTS
+              value: -Dkaraf.log.console={{ .Values.minion.logLevel }}
+            {{- end }}
+            {{- if .Values.global.openTelemetry.otlpTracesEndpoint }}
             - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-              value: {{ .Values.OpenNMS.global.openTelemetry.otlpTracesEndpoint | toYaml }}
+              value: {{ .Values.global.openTelemetry.otlpTracesEndpoint | toYaml }}
             {{- else }}
             - name: OTEL_TRACES_EXPORTER
               value: "none"
             {{- end }}
             - name: OTEL_METRICS_EXPORTER
               value: "none"
-            {{- if .Values.OpenNMS.global.openTelemetry.env }}
-              {{- range $key, $val := .Values.OpenNMS.global.openTelemetry.env }}
+            {{- if .Values.global.openTelemetry.env }}
+              {{- range $key, $val := .Values.global.openTelemetry.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
               {{- end }}
             {{- end }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.minion) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.minion) | nindent 12 }}
           ports:
             - name: http
-              containerPort: {{ .Values.OpenNMS.minion.port }}
+              containerPort: {{ .Values.minion.port }}
             - name: snmp-traps
               protocol: UDP
-              containerPort: {{ .Values.OpenNMS.minion.trapsListenerPort }}
+              containerPort: {{ .Values.minion.trapsListenerPort }}
             - name: ssh
-              containerPort: {{ .Values.OpenNMS.minion.sshPort }}
+              containerPort: {{ .Values.minion.sshPort }}
             - name: netflow5
               protocol: UDP
-              containerPort: {{ .Values.OpenNMS.minion.netflow5ListenerPort }}
+              containerPort: {{ .Values.minion.netflow5ListenerPort }}
             - name: netflow9
               protocol: UDP
-              containerPort: {{ .Values.OpenNMS.minion.netflow9ListenerPort }}
+              containerPort: {{ .Values.minion.netflow9ListenerPort }}
           volumeMounts:
             - name: minion-secrets
               subPath: "minion.p12"
               mountPath: "/opt/karaf/minion.p12"
-            {{- if .Values.OpenNMS.minion.customCertificateAuthority }}
+            {{- if .Values.minion.customCertificateAuthority }}
             - name: minion-secrets
               subPath: "CA.cert"
               mountPath: "/opt/karaf/certs/CA.cert"
             {{- end}}
-            {{- if .Values.OpenNMS.minion.extraMounts }}
-              {{ toYaml .Values.OpenNMS.minion.extraMounts | nindent 12 }}
+            {{- if .Values.minion.extraMounts }}
+              {{ toYaml .Values.minion.extraMounts | nindent 12 }}
             {{- end }}
           resources:
             limits:
-              cpu: "{{ .Values.OpenNMS.minion.resources.limits.cpu }}"
-              memory: "{{ .Values.OpenNMS.minion.resources.limits.memory }}"
+              cpu: "{{ .Values.minion.resources.limits.cpu }}"
+              memory: "{{ .Values.minion.resources.limits.memory }}"
             requests:
-              cpu: "{{ .Values.OpenNMS.minion.resources.requests.cpu }}"
-              memory: "{{ .Values.OpenNMS.minion.resources.requests.memory }}"
+              cpu: "{{ .Values.minion.resources.requests.cpu }}"
+              memory: "{{ .Values.minion.resources.requests.memory }}"
           startupProbe:
             exec:
               command:

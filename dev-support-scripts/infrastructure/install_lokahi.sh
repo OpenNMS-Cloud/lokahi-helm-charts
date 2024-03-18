@@ -37,7 +37,8 @@ rm -r tmp
 cd - >> "${LOGFILE}" 2>&1 || exit
 
 msg "Setting up Ingress Nginx and Cert-manager"
-helm install ingress-nginx ingress-nginx-repo/ingress-nginx --version=4.7.0 --values="${INGRESSVALUEFILE}" --timeout=60s --set allowSnippetAnnotations=true >> "${LOGFILE}" 2>&1
+# KIND: --set controller.hostPort.enabled=true --set controller.service.type=ClusterIP
+helm install ingress-nginx ingress-nginx-repo/ingress-nginx --version=4.7.0 --values="${INGRESSVALUEFILE}" --timeout=60s --set allowSnippetAnnotations=true    >> "${LOGFILE}" 2>&1
 helm install cert-manager jetstack/cert-manager --set installCRDs=true --set cainjector.extraArgs={--leader-elect=false} --namespace "${NAMESPACE}" >> "${LOGFILE}" 2>&1
 
 msg "Waiting for ingress-nginx-controller pod to be ready"
@@ -63,7 +64,9 @@ rm Chart.lock >> "${LOGFILE}" 2>&1
 helm dependency build >> "${LOGFILE}" 2>&1
 cd - >> "${LOGFILE}" 2>&1 || exit 1
 msg "Installing Lokahi" 
-helm install lokahi ../../lokahi -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}"  --wait >> "${LOGFILE}" 2>&1
-
+#helm install lokahi lokahi/lokahi  -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --timeout 1200s --wait --devel >> "${LOGFILE}" 2>&1
+helm install lokahi ../../lokahi -f "${LOKAHIVALUEFILE}" --namespace "${NAMESPACE}" --timeout 1200s --wait >> "${LOGFILE}" 2>&1
+return_code=$?
 DURATION=$SECONDS
 msg "It took $((DURATION / 60)) minutes and $((DURATION % 60)) seconds to install Lokahi Helm Chart"
+exit $return_code

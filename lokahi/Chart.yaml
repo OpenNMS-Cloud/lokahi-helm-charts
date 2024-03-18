@@ -9,12 +9,14 @@ appVersion: "v1.0.0"
 
 dependencies:
   - name: "citus"
+    condition: citus.enabled
     version: "12.1-alpine"
     repository: "file://../dependencies/citus"
   - name: "cortex"
     version: "1.14.0"
     repository: "file://../dependencies/cortex"
   - name: "grafana"
+    condition: grafana.enabled
     version: "0.9.1"
     repository: "file://../dependencies/grafana"
   - name: "kafka"
@@ -24,6 +26,7 @@ dependencies:
     version: "0.9.1"
     repository: "file://../dependencies/keycloak"
   - name: "prometheus"
+    condition: prometheus.enabled
     version: "2.39.1"
     repository: "file://../dependencies/prometheus"
 

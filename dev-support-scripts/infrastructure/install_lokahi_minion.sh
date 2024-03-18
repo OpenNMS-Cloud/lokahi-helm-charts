@@ -29,10 +29,12 @@ msg "Create ${NAMESPACE}...N/A"
 
 msg "Installing Lokahi Minion" 
 # TODO: --namespace "${NAMESPACE}"
-helm install lokahi-minion ../../lokahi-minion/ -f "${LOKAHIMINIONVALUEFILE}"  --wait >> "${LOGFILE}" 2>&1
+helm install lokahi-minion ../../lokahi-minion/ -f "${LOKAHIMINIONVALUEFILE}" --timeout 600s --wait >> "${LOGFILE}" 2>&1
+return_code=$?
 
-#rm ../../lokahi-minion/certs/ca.crt
-#rm ../../lokahi-minion/certs/minion1.p12
+kubectl wait --for=condition=ready "$(kubectl get pods -o name --no-headers=true |grep "lokahi-minion")" >> "${LOGFILE}" 2>&1
+
 
 DURATION=$SECONDS
 msg "It took $((DURATION / 60)) minutes and $((DURATION % 60)) seconds to install Lokahi minion Helm Chart" 
+exit $return_code

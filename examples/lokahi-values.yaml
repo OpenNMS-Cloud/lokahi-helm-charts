@@ -10,8 +10,8 @@ tls:
 keycloak:
   keycloak:
    adminPassword: admin
-  hostnamePort: 443
-  hostnameAdminUrl: https://onmshs:443/auth
+   hostnamePort: 443
+   hostnameAdminUrl: https://onmshs:443/auth
 
 citus:
   enabled: true
@@ -39,8 +39,6 @@ OpenNMS:
         cpu: '0'
         memory: 512Mi
     corsAllowed: true
-    playgroundGuiEnabled: false
-    introspectionEnabled: false 
   ui:
     resources:
       limits:
@@ -126,6 +124,8 @@ OpenNMS:
         cpu: '0'
         memory: 512Mi
 grafana:
+ enabled: true
+ grafana:
   resources:
     limits:
       cpu: 500m
@@ -133,8 +133,9 @@ grafana:
     requests:
       cpu: 100m
       memory: 100Mi
-  autoAssignOrgRole: Admin  # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#auto_assign_org_role
 prometheus:
+ enabled: true
+ prometheus:
   resources:
     limits:
       cpu: "1"
@@ -142,5 +143,5 @@ prometheus:
     requests:
       cpu: 100m
       memory: 100Mi
-kafka:
-  localPort: 24092
+#kafka:
+#  localPort: 24092
