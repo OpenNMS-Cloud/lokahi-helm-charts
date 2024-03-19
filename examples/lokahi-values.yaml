@@ -2,17 +2,21 @@ hostname: onmshs
 port: 443
 protocol: https
 tls:
-  enabled: True
+  enabled: true
   certificateGeneration: false
   cert:
     Name: opennms-ui-certificate
-keycloak:
+
+Keycloak:
+ keycloak:
   adminPassword: admin
   hostnamePort: 443
   hostnameAdminUrl: https://onmshs:443/auth
 
-citus:
-  enabled: true
+Citus:
+ enabled: true
+ adminPassword: admin
+ openNMSPassword: admin
 
 OpenNMS:
   global:
@@ -36,7 +40,7 @@ OpenNMS:
         memory: 512Mi
     corsAllowed: true
     playgroundGuiEnabled: false
-    introspectionEnabled: false 
+    introspectionEnabled: false
   ui:
     resources:
       limits:
@@ -121,7 +125,7 @@ OpenNMS:
       requests:
         cpu: '0'
         memory: 512Mi
-grafana:
+Grafana:
   resources:
     limits:
       cpu: 500m
@@ -130,7 +134,7 @@ grafana:
       cpu: 100m
       memory: 100Mi
   autoAssignOrgRole: Admin  # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#auto_assign_org_role
-prometheus:
+Prometheus:
   resources:
     limits:
       cpu: "1"
@@ -138,5 +142,3 @@ prometheus:
     requests:
       cpu: 100m
       memory: 100Mi
-kafka:
-  localPort: 24092
