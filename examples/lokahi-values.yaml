@@ -135,6 +135,7 @@ Grafana:
       memory: 100Mi
   autoAssignOrgRole: Admin  # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#auto_assign_org_role
 Prometheus:
+ prometheus:
   resources:
     limits:
       cpu: "1"
