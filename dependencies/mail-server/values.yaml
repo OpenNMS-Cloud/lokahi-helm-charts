@@ -8,13 +8,13 @@ OpenNMS: # we might be able to remove this
       env:
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 mailServer:
-  enabled: false
+  enabled: false # to disable mail server change it to false
   serviceName: mail-server
   image: mailhog/mailhog:v1.0.1
   imagePullPolicy: IfNotPresent
   replicas: 1
   port: 8025
-  smtpPort: 1025
+  smtpPort: 1025 #smtp port
   resources:
     limits:
       cpu: 100m
