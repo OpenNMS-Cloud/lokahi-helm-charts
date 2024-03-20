@@ -142,3 +142,6 @@ Prometheus:
     requests:
       cpu: 100m
       memory: 100Mi
+  auth:
+   username: admin
+   password: admin

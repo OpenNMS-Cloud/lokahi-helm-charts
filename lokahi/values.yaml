@@ -286,8 +286,11 @@ customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
-prometheus:
+Prometheus:
   enabled: true
   path: /prometheus
   serviceName: prometheus
   port: 9090
+  auth:
+   username: admin
+   password: notset

@@ -27,3 +27,8 @@ prometheus:
     requests:
       cpu: 100m
       memory: 100Mi
+  auth:
+    username: "admin"
+    password: "notset"
+    secretName: "prometheus-credentials"
+    externalSecret: ""
