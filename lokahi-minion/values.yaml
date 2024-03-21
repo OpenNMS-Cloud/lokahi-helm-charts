@@ -5,16 +5,16 @@ global:
     repository: opennms
     tag: latest
   openTelemetry:
-    otlpTracesEndpoint: null
-    env:
-      OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+      otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
+      env: # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
+        OTEL_PROPAGATORS: tracecontext,baggage,jaeger
   developmentMode: false
 minion:
   # Set an ID for Minion
   id: ""
   # Enable this option if you are placing a `ca.cert` under the `certs` folder
   customCertificateAuthority: false
-  grpcClientKeystorePassword: ""
+  grpcClientKeystorePassword: ""  # client keystore password to sign PKCS12 file
   serviceName: opennms-minion
   imageShortName: lokahi-minion
   imagePullPolicy: IfNotPresent
@@ -22,9 +22,9 @@ minion:
   replicas: 1
   port: 8181
   sshPort: 8101
-  trapsListenerPort: 1162
-  netflow5ListenerPort: 8877
-  netflow9ListenerPort: 4729
+  trapsListenerPort: 1162 # snmp-traps port
+  netflow5ListenerPort: 8877 # netflow5 port
+  netflow9ListenerPort: 4729 #netflow9 port
   netflowListenerPort: 9999
   logLevel: ""
   # If we are running inside the cluster, we need to set mapping of the ip address to hostname

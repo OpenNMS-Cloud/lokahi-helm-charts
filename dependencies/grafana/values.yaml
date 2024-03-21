@@ -11,7 +11,7 @@ grafana:
   path: /grafana
   port: 3000
   replicas: 1
-  databaseHost: "postgres"
+  databaseHost: "postgres" # Database host name in grafana secret
   serviceName: grafana
   imageShortName: lokahi-grafana
   imagePullPolicy: IfNotPresent
@@ -28,9 +28,9 @@ citus:
   enabled: true
   workersEnabled: true
   serviceName: postgres
-  adminUser: desenv
-  adminPassword: notset
-  grafanaPassword: notset
+  adminUser: desenv # admin username for citus
+  adminPassword: notset # admin password for citus
+  grafanaPassword: notset # password for grafana user
 cortex:
   enabled: true
   serviceName: cortex
@@ -45,13 +45,13 @@ nodeRestrictions: # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
   value: spot
-
+# Keycloak integration with grafana
 keycloak:
   path: /auth
   port: 8080
   serviceName: onms-keycloak
   realmName: opennms
-
+# Prometheus integration with grafana
 prometheus:
   enabled: true
   path: /prometheus
