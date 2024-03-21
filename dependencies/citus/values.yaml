@@ -1,4 +1,4 @@
-OpenNMS: # we might be able to remove this
+OpenNMS:
   global:
     image:
       repository: opennms
@@ -9,16 +9,18 @@ citus:
   workersEnabled: true
   serviceName: postgres
   pgBouncerPort: 30099
-  coordinatorvolumeSize: 4Gi
-  workerVolumeSize: 2Gi
-  adminUser: desenv
-  adminPassword: notset
-  openNMSPassword: notset
-  keycloakPassword: notset
-  inventoryPassword: notset
-  alertPassword: notset
-  eventsPassword: notset
-  dataChoicesPassword: notset
-  minionGatewayPassword: notset
-  notificationPassword: notset
-  grafanaPassword: notset
+  coordinatorvolumeSize: 4Gi # request size of coordinator for local storage
+  workerVolumeSize: 2Gi # request size of worker for local storage 
+  adminUser: desenv # admin username for citus
+  adminPassword: notset # admin password for citus
+  
+  # citus-initial-sql Secret store passwords
+  openNMSPassword: notset # password for opennms user 
+  keycloakPassword: notset # password for keycloak user
+  inventoryPassword: notset # password for inventory user
+  alertPassword: notset # password for alert user
+  eventsPassword: notset # password for events user
+  dataChoicesPassword: notset # password for dataChoices user
+  minionGatewayPassword: notset # password for minion_gateway user
+  notificationPassword: notset # password for notification user
+  grafanaPassword: notset # password for grafana user

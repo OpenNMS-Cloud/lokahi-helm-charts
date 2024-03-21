@@ -6,15 +6,18 @@ OpenNMS: # we might be able to remove this
     image:
       repository: opennms
       tag: latest
-    springBoot:
-      env: {}
-    kafkaClient:
-      bootstrapServers: onms-kafka:9092
-    enableJsonLogging: false
+    springBoot: # Spring-boot-env-configmap
+      env: {} # Environment variables to be set for Spring Boot.
+    kafkaClient: # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services. 
+      bootstrapServers: onms-kafka:9092   
+    enableJsonLogging: false # JSON logging flag for Spring Boot.
     openTelemetry:
-      otlpTracesEndpoint: null
-      env:
+      otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
+      env: # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+ 
+# Specifies configuration for API module, including service details, image settings, resource
+# limits, external flow server URL, certificate manager URL and GraphQL playground settings.
   api:
     path: /api
     serviceName: opennms-rest-server
@@ -41,6 +44,8 @@ OpenNMS: # we might be able to remove this
     maxFieldOccurrence: 5
     maxQueryDepth: 5
     playgroundGuiEnabled: false
+# Specifies configuration for metrics processor module, specifying service details, image settings,
+# resource limits, external flow server URL, TLS configuration and Kafka secret.
   metricsProcessor:
     serviceName: opennms-metrics-processor
     imageShortName: lokahi-metrics-processor
@@ -57,6 +62,8 @@ OpenNMS: # we might be able to remove this
     flowIngestorUrl: SOME-EXTERNAL-FLOW-SERVER:80
     flowTlsEnabled: false
     kafkaSecretName: ~
+# Specifies configuration for the UI module, including path, TLS secret name, image details,
+# resource limits, repository access and Ingress annotations for opennms.
   ui:
     path: /
     serviceName: opennms-ui
@@ -83,6 +90,8 @@ OpenNMS: # we might be able to remove this
       nginx.ingress.kubernetes.io/large-client-header-buffers: 4 16k
       nginx.ingress.kubernetes.io/proxy-body-size: 4m
       nginx.ingress.kubernetes.io/proxy-buffer-size: 6k
+# Specifies configuration for the Minion Gateway module, including service details, TLS secret name,
+# resource limits, ingress annotations and Kafka secret.
   minionGateway:
     serviceName: opennms-minion-gateway
     tlsSecretName: opennms-minion-gateway-certificate
@@ -115,6 +124,8 @@ OpenNMS: # we might be able to remove this
         client_body_timeout "1200s";
     privateRepoEnabled: false #move to global
     kafkaSecretName: ~ #move to global
+# Specifies configuration for the inventory module, including service details, database settings,
+# resource limits, encryption key, repository access and Kafka secret.
   inventory:
     serviceName: opennms-inventory
     imageShortName: lokahi-inventory
@@ -133,6 +144,8 @@ OpenNMS: # we might be able to remove this
     encryptionKey: ~
     privateRepoEnabled: false
     kafkaSecretName: ~
+# Specifies configuration for the alert module, including service details, database settings,
+# resource limits, repository access, and Kafka secret.
   alert:
     serviceName: opennms-alert
     imageShortName: lokahi-alert
@@ -150,6 +163,8 @@ OpenNMS: # we might be able to remove this
         memory: 2Gi
     privateRepoEnabled: false
     kafkaSecretName: ~
+# Specifies configuration for the notification module, including service details, database settings,
+# resource limits, Kafka retry parameters, ACS connection and base URL.
   notification:
     serviceName: opennms-notifications
     imageShortName: lokahi-notification
@@ -176,6 +191,8 @@ OpenNMS: # we might be able to remove this
     baseUrl:
       url: "onmshs:443"
       appendTenantId: false
+# Specifies configuration for the events module, including service name, image details, replica count,
+# database configuration, resource limits and repository access.
   events:
     serviceName: opennms-events
     imageShortName: lokahi-events
@@ -192,6 +209,8 @@ OpenNMS: # we might be able to remove this
         cpu: "1"
         memory: 2Gi
     privateRepoEnabled: false
+# Specifies configuration for the datachoices module, including service name, image details,
+# replica count, database configuration, resource limits and repository access.
   dataChoices:
     serviceName: opennms-datachoices
     imageShortName: lokahi-datachoices
@@ -208,8 +227,10 @@ OpenNMS: # we might be able to remove this
         cpu: "1"
         memory: 1Gi
     privateRepoEnabled: false
+# Specifies configuration for the minion certificate manager module, including service name,
+# secret names, image details, replica count, resource limits and repository access.
   minionCertificateManager:
-    enabled: false
+    enabled: true
     serviceName: opennms-minion-certificate-manager
     caSecretName: ""
     mtlsSecretName: opennms-minion-certificate
@@ -225,6 +246,8 @@ OpenNMS: # we might be able to remove this
         cpu: "1"
         memory: 1Gi
     privateRepoEnabled: false
+# Specifies configuration for the minion certificate verifier module, including service name,
+# image details, replica count, resource limits and repository access.
   minionCertificateVerifier:
     serviceName: opennms-minion-certificate-verifier
     imageShortName: lokahi-minion-certificate-verifier
@@ -239,21 +262,26 @@ OpenNMS: # we might be able to remove this
         memory: 1Gi
     privateRepoEnabled: false
     certificateManagerUrl: ""
+# Enables integration of Citus with notification module.
 citus:
-  enabled: false
+  enabled: true
   adminUser: desenv
   adminPassword: notset
+# Specifies the path, ports, service name and realm name for Keycloak module.
 keycloak:
   path: /auth
   port: 8080
   httpsPort: 8443
   serviceName: onms-keycloak
   realmName: opennms
+# Enables integration of Grafana with notification module, specifying path, port and service name.
 grafana:
   enabled: true
   path: /grafana
   port: 3000
   serviceName: grafana
+# Configures hosts, paths, protocol and ports for reading and writing data to Cortex
+# in the notification module.
 cortexClient:
   hostRead: cortex
   hostWrite: cortex
@@ -282,16 +310,15 @@ ingress:
   secretJobimage: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660
   webhookPatchJobimage: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660
 
+# These values configure custom error pages for ingress with the specified image and debug mode settings.
 customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
-Prometheus:
- prometheus:
+# These values enable seamless integration of notification module with Prometheus for monitoring and
+# metric retrieval.
+prometheus:
   enabled: true
   path: /prometheus
   serviceName: prometheus
   port: 9090
-  auth:
-   username: admin
-   password: notset

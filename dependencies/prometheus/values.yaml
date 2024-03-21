@@ -1,4 +1,4 @@
-OpenNMS: # we might be able to remove this
+OpenNMS:
   global:
     image:
       repository: opennms
@@ -13,8 +13,8 @@ nodeRestrictions: # will be applied to every pod in the instance
   value: spot
 
 prometheus:
-  enabled: true
-  path: /prometheus
+  enabled: true # to disable prometheus change it to false
+  path: /prometheus # prometheus endpoint
   serviceName: prometheus
   port: 9090
   image: prom/prometheus:v2.39.1
@@ -27,8 +27,3 @@ prometheus:
     requests:
       cpu: 100m
       memory: 100Mi
-  auth:
-    username: "admin"
-    password: "notset"
-    secretName: "prometheus-credentials"
-    externalSecret: ""

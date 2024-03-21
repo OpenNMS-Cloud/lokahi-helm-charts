@@ -1,28 +1,28 @@
 hostname: onmshs
 port: 443 #set depending on tls.enabled and the ingress ports, do not change
 protocol: https #set depending on tls.enabled, do not change
-OpenNMS: # we might be able to remove this
+OpenNMS:
   global:
     image:
       repository: opennms
       tag: latest
     enableJsonLogging: false
     openTelemetry:
-      otlpTracesEndpoint: null
-      env:
+      otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
+      env: # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 citus:
   enabled: false
-  adminUser: desenv
-  adminPassword: notset
+  adminUser: desenv # admin username for citus
+  adminPassword: notset # admin password for citus
 keycloak:
   path: /auth
   imageShortName: lokahi-keycloak
   imagePullPolicy: IfNotPresent
   port: 8080
   httpsPort: 8443
-  hostnamePort: ~
-  hostnameAdminUrl: ~
+  hostnamePort: ~ # KC_HOSTNAME_URL port
+  hostnameAdminUrl: ~ # KC_HOSTNAME_ADMIN_URL
   replicas: 1
   serviceName: onms-keycloak
   tlsSecretName:
@@ -39,13 +39,10 @@ keycloak:
   adminUsername: admin
   adminPassword: notset
   realmName: opennms
-  dynamicRealmConfig: true
+  dynamicRealmConfig: true # Keycloak realm configmap
   privateRepoEnabled: false
-  configmapName: keycloak-realm-configmap
-  environment: {}
-kafka:
-  enabled: true
-  serviceName: onms-kafka
+  configmapName: keycloak-realm-configmap # Keycloak realm configmap name
+  environment: {} # Environment variables
 nodeRestrictions: # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority

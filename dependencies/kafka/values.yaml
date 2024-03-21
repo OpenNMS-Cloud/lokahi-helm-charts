@@ -1,4 +1,4 @@
-OpenNMS: # we might be able to remove this
+OpenNMS:
   global:
     image:
       repository: opennms
@@ -10,8 +10,8 @@ kafka:
   imagePullPolicy: IfNotPresent
   replicas: 1
   port: 9092
-  controllerPort: 9093
-  localPort: 59092
+  controllerPort: 9093 # KAFKA_CFG_LISTENERS controller port
+  localPort: 59092 # KAFKA_CFG_LISTENERS LOCALCLIENT port
   resources:
     limits:
       cpu: "2"
