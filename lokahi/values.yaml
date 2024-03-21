@@ -317,8 +317,11 @@ customErrors:
 
 # These values enable seamless integration of notification module with Prometheus for monitoring and
 # metric retrieval.
-prometheus:
+Prometheus:
   enabled: true
   path: /prometheus
   serviceName: prometheus
   port: 9090
+  auth:
+   username: admin
+   password: notset

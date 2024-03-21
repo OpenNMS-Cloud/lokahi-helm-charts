@@ -1,5 +1,5 @@
 apiVersion: v2
-name: cortex
+name: Cortex
 version: 1.14.0
 description: Cortex for Lokahi
 type: application
