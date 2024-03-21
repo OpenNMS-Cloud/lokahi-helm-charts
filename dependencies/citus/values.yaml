@@ -6,7 +6,7 @@ OpenNMS: # we might be able to remove this
   
 citus:
   enabled: true
-  workersEnabled: true 
+  workersEnabled: true
   serviceName: postgres
   pgBouncerPort: 30099
   coordinatorvolumeSize: 4Gi # request size of coordinator for local storage

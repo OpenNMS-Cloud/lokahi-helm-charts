@@ -10,7 +10,7 @@ OpenNMS: # we might be able to remove this
 cortex:
   enabled: true
   serviceName: cortex
-  port: 9000 # ConfigMap http port
+  port: 9000 # cortex listening port
   image: cortexproject/cortex:v1.14.0
   resources:
     limits:

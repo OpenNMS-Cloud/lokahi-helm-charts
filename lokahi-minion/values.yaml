@@ -14,7 +14,7 @@ minion:
   id: ""
   # Enable this option if you are placing a `ca.cert` under the `certs` folder
   customCertificateAuthority: false
-  grpcClientKeystorePassword: ""  # GRPC_CLIENT_KEYSTORE_PASSWORD 
+  grpcClientKeystorePassword: ""  # client keystore password to sign PKCS12 file
   serviceName: opennms-minion
   imageShortName: lokahi-minion
   imagePullPolicy: IfNotPresent
