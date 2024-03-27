@@ -20,16 +20,30 @@ tag:
 TODO: The default tag should eventually be .Chart.AppVersion, but we
 aren't versioning the chart yet.
 */}}
+# Used for dependencies Image, tag and repository used globally for all dependencies and lokahi charts
 {{- define "lokahi.image" }}
 {{- if .thisService.image -}}
 {{- .thisService.image -}}
 {{- else -}}
 {{- $imageShortName := .thisService.imageShortName | default .thisService.serviceName -}}
-{{- $tag := .Values.OpenNMS.global.image.tag | default "latest" -}}
-{{- printf "%s/%s:%s" .Values.OpenNMS.global.image.repository $imageShortName $tag -}}
+{{- $tag := .Values.global.image.tag | default "latest" -}}
+{{- printf "%s/%s:%s" .Values.global.image.repository $imageShortName $tag -}}
 {{- end -}}
 {{- end -}}
 
+# Used for dependencies HostName, Port and protocol used globally for all dependencies and lokahi charts
+{{- define "lokahi.global" }}
+{{- .Values -}}
+{{- end -}}
+
+# Used for dependencies openTelemetry otlpTracesEndpoint, and env OTEL_PROPAGATORS used globally for all dependencies and lokahi charts springboot env
+{{- define "lokahi.openTelemetry" }}
+{{- if  (empty .thisService) -}}
+{{- printf "%s" "null" -}}
+{{- else -}}
+{{- .thisService -}}
+{{- end -}}
+{{- end -}}
 {{- /*
 lokahi.deployment.env: return a subset of a pod spec "env" section with common environment
 variables and any service-specific overrides.

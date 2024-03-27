@@ -6,8 +6,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   host: {{ .Values.hostname }}.apps-crc.testing
-  path: {{ .Values.keycloak.path }}  
+  path: {{ .Values.Keycloak.path }}  
   to:
     kind: Service
-    name: {{ .Values.keycloak.serviceName }}
+    name: {{ .Values.Keycloak.serviceName }}
 {{- end }}

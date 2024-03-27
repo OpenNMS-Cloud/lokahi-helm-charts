@@ -20,7 +20,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ .Values.OpenNMS.minionGateway.tlsSecretName }}
+  name: {{ .Values.minionGateway.tlsSecretName }}
   namespace: {{ .Release.Namespace }}
   annotations:
     "helm.sh/resource-policy": keep

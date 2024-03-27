@@ -1,22 +1,22 @@
-{{- if .Values.grafana.enabled }}
+{{- if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .Values.grafana.serviceName }}
-  name: {{ .Values.grafana.serviceName }}
+    app: {{ .Values.serviceName }}
+  name: {{ .Values.serviceName }}
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.grafana.serviceName }}
+      app: {{ .Values.serviceName }}
   template:
     metadata:
       labels:
         appdomain: opennms
-        app: {{ .Values.grafana.serviceName }}
+        app: {{ .Values.serviceName }}
       annotations:
-        kubectl.kubernetes.io/default-container: "{{ .Values.grafana.serviceName }}"
+        kubectl.kubernetes.io/default-container: "{{ .Values.serviceName }}"
     spec:
       {{- if .Values.nodeRestrictions.enabled }}
       nodeSelector:                                                                                    
@@ -40,7 +40,7 @@ spec:
       volumes:
         - name: grafana-config
           secret:
-            secretName: {{ .Values.grafana.serviceName }}
+            secretName: {{ .Values.serviceName }}
             defaultMode: 420
       {{- if .Values.citus.enabled }}
       initContainers:
@@ -58,11 +58,11 @@ spec:
             echo "Database is available"
       {{- end }}
       containers:
-        - name: {{ .Values.grafana.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.grafana) | quote }}
-          imagePullPolicy: {{ .Values.grafana.imagePullPolicy }}
+        - name: {{ .Values.serviceName }}
+          image: {{ .Values.image}}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
-            - containerPort: {{ .Values.grafana.port }}
+            - containerPort: {{ .Values.grafanaPort }}
           volumeMounts:
             - name: grafana-config
               mountPath: "/etc/grafana/provisioning/datasources/default.yml"
@@ -85,7 +85,7 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /robots.txt
-              port: {{ .Values.grafana.port }}
+              port: {{ .Values.grafanaPort }}
               scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 30
@@ -93,12 +93,12 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 10
             tcpSocket:
-              port: {{ .Values.grafana.port }}
+              port: {{ .Values.grafanaPort }}
           resources:
             limits:
-              cpu: "{{ .Values.grafana.resources.limits.cpu }}"
-              memory: "{{ .Values.grafana.resources.limits.memory }}"
+              cpu: "{{ .Values.resources.limits.cpu }}"
+              memory: "{{ .Values.resources.limits.memory }}"
             requests:
-              cpu: "{{ .Values.grafana.resources.requests.cpu }}"
-              memory: "{{ .Values.grafana.resources.requests.memory }}"
+              cpu: "{{ .Values.resources.requests.cpu }}"
+              memory: "{{ .Values.resources.requests.memory }}"
 {{- end }}

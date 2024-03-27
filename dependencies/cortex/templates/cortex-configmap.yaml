@@ -1,9 +1,9 @@
-{{ if .Values.cortex.enabled }}
+{{ if .Values.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    app: {{ .Values.cortex.serviceName }}
+    app: {{ .Values.serviceName }}
   name: cortex-config-map
   namespace: {{ .Release.Namespace }}
 data:
@@ -13,7 +13,7 @@ data:
     # and development.
         
     server:
-      http_listen_port: {{ .Values.cortex.port }}
+      http_listen_port: {{ .Values.port }}
 
       # Configure the server to allow messages up to 100MB.
       grpc_server_max_recv_msg_size: 104857600
@@ -77,11 +77,11 @@ data:
       local:
         directory: /tmp/cortex/rules
 
-  {{- if .Values.OpenNMS.global.openTelemetry.otlpTracesEndpoint }}
+  {{- if  not (eq (include "lokahi.openTelemetry" (dict "thisService" .Values.global.openTelemetry.otlpTracesEndpoint)) "null") }}
     tracing:
       type: otel
       otel:
-        {{- $url := urlParse .Values.OpenNMS.global.openTelemetry.otlpTracesEndpoint }}
+        {{- $url := urlParse  (include "lokahi.openTelemetry" (dict "thisService" .Values.global.openTelemetry.otlpTracesEndpoint)) }}
         # this key is misnamed in 1.14 and is corrected in 1.15 in later to otlp_endpoint
         oltp_endpoint: {{ $url.host }}
         sample_ratio: 1

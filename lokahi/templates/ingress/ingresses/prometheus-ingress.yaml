@@ -1,4 +1,4 @@
-{{- if .Values.ingress.defaultEndpointsEnabled }}
+{{- if .Values.Prometheus.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -18,7 +18,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.hostname }}
+    - host: {{ .Values.global.hostname }}
       http:
         paths:
           {{- if .Values.Prometheus.enabled }}
@@ -33,7 +33,7 @@ spec:
   {{- if .Values.tls.enabled }}
   tls:
     - hosts:
-        -  {{.Values.hostname }}
+        -  {{.Values.global.hostname }}
       secretName: {{ .Values.OpenNMS.ui.tlsSecretName }}
   {{- end }}
 {{- end }}

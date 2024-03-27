@@ -63,9 +63,9 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"  # FIXME: Permanent debug port, enable only for dev mode
             - name: KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.keycloak.serviceName }}:8080/auth/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:8080/auth/"
             - name: KEYCLOAK_REALM
-              value: "{{ .Values.keycloak.realmName }}"
+              value: "{{ .Values.Keycloak.realmName }}"
             - name: GRPC_SERVER_PORT
               value: "8990"
             # Do not put any env variables below this. The lokahi.development.env include should be last

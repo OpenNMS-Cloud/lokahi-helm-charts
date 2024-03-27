@@ -1,21 +1,20 @@
-hostname: onmshs
-port: 443 #set depending on tls.enabled and the ingress ports, do not change
-protocol: https #set depending on tls.enabled, do not change
-OpenNMS: # we might be able to remove this
-  global:
-    image:
-      repository: opennms
-      tag: latest
-    springBoot: # Spring-boot-env-configmap
-      env: {} # Environment variables to be set for Spring Boot.
-    kafkaClient: # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services. 
-      bootstrapServers: onms-kafka:9092   
-    enableJsonLogging: false # JSON logging flag for Spring Boot.
-    openTelemetry:
-      otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
-      env: # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
-        OTEL_PROPAGATORS: tracecontext,baggage,jaeger
- 
+global:
+  hostname: example
+  port: 443 #set depending on tls.enabled and the ingress ports, do not change
+  protocol: https #set depending on tls.enabled, do not change
+  image:
+    repository: opennms
+    tag: latest
+  springBoot: # Spring-boot-env-configmap
+    env: {} # Environment variables to be set for Spring Boot.
+  kafkaClient: # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services. 
+    bootstrapServers: onms-kafka:9092   
+  enableJsonLogging: false # JSON logging flag for Spring Boot.
+  openTelemetry:
+    otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
+    env: # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
+      OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+OpenNMS: 
 # Specifies configuration for API module, including service details, image settings, resource
 # limits, external flow server URL, certificate manager URL and GraphQL playground settings.
   api:
@@ -189,7 +188,7 @@ OpenNMS: # we might be able to remove this
       max: 10
     acsConnectionSecretName: {} # the ACS connection string is expected in the 'connection-string' key
     baseUrl:
-      url: "onmshs:443"
+      port: 443
       appendTenantId: false
 # Specifies configuration for the events module, including service name, image details, replica count,
 # database configuration, resource limits and repository access.
@@ -232,8 +231,8 @@ OpenNMS: # we might be able to remove this
   minionCertificateManager:
     enabled: true
     serviceName: opennms-minion-certificate-manager
-    caSecretName: ""
-    mtlsSecretName: opennms-minion-certificate
+    caSecretName: root-ca-certificate
+    mtlsSecretName: client-root-ca-certificate
     imageShortName: lokahi-minion-certificate-manager
     imagePullPolicy: IfNotPresent
     replicas: 1
@@ -263,19 +262,22 @@ OpenNMS: # we might be able to remove this
     privateRepoEnabled: false
     certificateManagerUrl: ""
 # Enables integration of Citus with notification module.
-citus:
+Citus:
   enabled: true
   adminUser: desenv
   adminPassword: notset
 # Specifies the path, ports, service name and realm name for Keycloak module.
-keycloak:
+Keycloak:
+  enabled: true
   path: /auth
   port: 8080
   httpsPort: 8443
   serviceName: onms-keycloak
   realmName: opennms
+  adminUsername: admin
+  adminPassword: notsets
 # Enables integration of Grafana with notification module, specifying path, port and service name.
-grafana:
+Grafana:
   enabled: true
   path: /grafana
   port: 3000
@@ -315,10 +317,20 @@ customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
+Cortex:
+  enabled: true
+
+Kafka:
+  enabled: true
+  
 # These values enable seamless integration of notification module with Prometheus for monitoring and
 # metric retrieval.
-prometheus:
+Prometheus:
   enabled: true
   path: /prometheus
   serviceName: prometheus
   port: 9090
+  auth:
+   username: admin
+   password: notset
+   externalSecret: ""
