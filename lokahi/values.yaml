@@ -1,5 +1,5 @@
 global:
-  hostname: example
+  hostname: onmshs
   port: 443 #set depending on tls.enabled and the ingress ports, do not change
   protocol: https #set depending on tls.enabled, do not change
   image:
