@@ -1,25 +1,25 @@
-{{- if .Values.enabled }}
+{{- if .Values.prometheus.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.serviceName }}
+  name: {{ .Values.prometheus.serviceName }}
   labels:
-    app: {{ .Values.serviceName }}
+    app: {{ .Values.prometheus.serviceName }}
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: {{ .Values.prometheus.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.serviceName }}
+      app: {{ .Values.prometheus.serviceName }}
   template:
     metadata:
       labels:
         appdomain: opennms
-        app: {{ .Values.serviceName }}
+        app: {{ .Values.prometheus.serviceName }}
       annotations:
-        kubectl.kubernetes.io/default-container: "{{ .Values.serviceName }}"
+        kubectl.kubernetes.io/default-container: "{{ .Values.prometheus.serviceName }}"
     spec:
-      serviceAccountName: {{ .Values.serviceName }}-sa
+      serviceAccountName: {{ .Values.prometheus.serviceName }}-sa
       {{- if .Values.nodeRestrictions.enabled }}
       nodeSelector:
         {{ .Values.nodeRestrictions.key }}: {{ .Values.nodeRestrictions.value }}
@@ -44,17 +44,17 @@ spec:
           configMap:
             name: prometheus-config-map
       containers:
-        - name: {{ .Values.serviceName }}
-          image: {{ .Values.image }}
+        - name: {{ .Values.prometheus.serviceName }}
+          image: {{ .Values.prometheus.image }}
           ports:
-            - containerPort: {{ .Values.port }}
+            - containerPort: {{ .Values.prometheus.port }}
           resources:
             limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.prometheus.resources.limits.cpu }}
+              memory: {{ .Values.prometheus.resources.limits.memory }}
             requests:
-              cpu: {{ .Values.resources.requests.cpu }}
-              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.prometheus.resources.requests.cpu }}
+              memory: {{ .Values.prometheus.resources.requests.memory }}
           volumeMounts:
             - name: prometheus-config-volume
               mountPath: "/etc/prometheus/prometheus.yml"

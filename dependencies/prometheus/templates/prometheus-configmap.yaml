@@ -1,9 +1,9 @@
-{{- if .Values.enabled }}
+{{- if .Values.prometheus.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    app: {{ .Values.serviceName }}
+    app: {{ .Values.prometheus.serviceName }}
   name: prometheus-config-map
   namespace: {{ .Release.Namespace }}
 data:
