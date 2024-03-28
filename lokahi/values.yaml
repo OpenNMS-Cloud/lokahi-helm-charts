@@ -1,7 +1,7 @@
 global:
   hostname: onmshs
-  port: 443  #set depending on tls.enabled and the ingress ports, do not change
-  protocol: https  #set depending on tls.enabled, do not change
+  port: 443  # set depending on tls.enabled and the ingress ports, do not change
+  protocol: https  # set depending on tls.enabled, do not change
   image:
     repository: opennms
     tag: v0.0.60
@@ -14,7 +14,7 @@ global:
     otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
     env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
       OTEL_PROPAGATORS: tracecontext,baggage,jaeger
-OpenNMS: 
+OpenNMS:
 # Specifies configuration for API module, including service details, image settings, resource
 # limits, external flow server URL, certificate manager URL and GraphQL playground settings.
   api:
@@ -26,7 +26,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "1"
-        memory: 2Gi # MaxRAMPercentage=50,avg-usage=245MB
+        memory: 2Gi  # MaxRAMPercentage=50,avg-usage=245MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -53,7 +53,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=400MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=400MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -95,22 +95,22 @@ OpenNMS:
     serviceName: opennms-minion-gateway
     tlsSecretName: opennms-minion-gateway-certificate
     imageShortName: lokahi-minion-gateway
-    imagePullPolicy: IfNotPresent #move to global
+    imagePullPolicy: IfNotPresent
     internalGrpcPort: 8991
     replicas: 1
     useKubernetes: "true"
-    databaseName: "desenv" #move to global
+    databaseName: "desenv"
     databaseSchemaName: "minion_gateway"
-    databaseHost: "postgres" #move to global and add ability to override
+    databaseHost: "postgres"
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=40 for heap (avg-usage=480MB) plus up to 2GB off-heap (4 Ignite Data Regions)
+        memory: 4Gi  # MaxRAMPercentage=40 for heap (avg-usage=480MB) plus up to 2GB off-heap (4 Ignite Data Regions)
       requests:
         cpu: "1"
         memory: 2Gi
     ingressAnnotations:
-      nginx.ingress.kubernetes.io/proxy-body-size: "0" # To avoid HTTP 413 and "client intended to send too large chunked body: X bytes while sending request to upstream"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"  # To avoid HTTP 413 and "client intended to send too large chunked body: X bytes while sending request to upstream"
       nginx.ingress.kubernetes.io/auth-tls-secret: default/client-root-ca-certificate
       nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
       nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
@@ -121,8 +121,8 @@ OpenNMS:
         grpc_read_timeout "1200s";
         grpc_send_timeout "1200s";
         client_body_timeout "1200s";
-    privateRepoEnabled: false #move to global
-    kafkaSecretName: ~ #move to global
+    privateRepoEnabled: false
+    kafkaSecretName: ~
 # Specifies configuration for the inventory module, including service details, database settings,
 # resource limits, encryption key, repository access and Kafka secret.
   inventory:
@@ -136,7 +136,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=620MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=620MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -156,7 +156,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=480MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=480MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -175,7 +175,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=450MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=450MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -186,7 +186,7 @@ OpenNMS:
       maxDelay: 60000
       multiplier: 2
       max: 10
-    acsConnectionSecretName: {} # the ACS connection string is expected in the 'connection-string' key
+    acsConnectionSecretName: {}  # the ACS connection string is expected in the 'connection-string' key
     baseUrl:
       port: 443
       appendTenantId: false
@@ -203,7 +203,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=550MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=550MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -255,7 +255,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "1"
-        memory: 1Gi # MaxRAMPercentage=50,avg-usage=245MB
+        memory: 1Gi  # MaxRAMPercentage=50,avg-usage=245MB
       requests:
         cpu: "1"
         memory: 1Gi
@@ -294,7 +294,7 @@ cortexClient:
   protocol: http
   portRead: 9000
   portWrite: 9000
-nodeRestrictions: # will be applied to every pod in the instance
+nodeRestrictions:  # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
   value: spot
@@ -307,7 +307,7 @@ tls:
 
 ingress:
   enabled: false
-  defaultEndpointsEnabled: true # creates the nginx endpoints
+  defaultEndpointsEnabled: true  # creates the nginx endpoints
   httpPort: 80
   httpsPort: 443
   controllerimage: registry.k8s.io/ingress-nginx/controller:v1.7.0@sha256:7612338342a1e7b8090bef78f2a04fffcadd548ccaabe8a47bf7758ff549a5f7
@@ -326,15 +326,15 @@ Cortex:
 # To enable or disable Kafka dependency
 Kafka:
   enabled: true
-  
+
 # These values enable seamless integration of notification module with Prometheus for monitoring and
 # metric retrieval.
 Prometheus:
-  enabled: true
-  path: /prometheus
-  serviceName: prometheus
-  port: 9090
-  auth:
-   username: admin
-   password: notset
-   externalSecret: ""
+ enabled: true
+ path: /prometheus
+ serviceName: prometheus
+ port: 9090
+ auth:
+  username: admin
+  password: notset
+  externalSecret: ""
