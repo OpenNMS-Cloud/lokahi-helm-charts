@@ -20,12 +20,11 @@ tag:
 TODO: The default tag should eventually be .Chart.AppVersion, but we
 aren't versioning the chart yet.
 */}}
-
 {{- define "lokahi.image" }}
-{{- if .Values.image -}}
-{{- .Values.image -}}
+{{- if .thisService.image -}}
+{{- .thisService.image -}}
 {{- else -}}
-{{- $imageShortName := .Values.imageShortName | default .Values.serviceName -}}
+{{- $imageShortName := .thisService.imageShortName | default .thisService.serviceName -}}
 {{- $tag := .Values.global.image.tag | default "latest" -}}
 {{- printf "%s/%s:%s" .Values.global.image.repository $imageShortName $tag -}}
 {{- end -}}
