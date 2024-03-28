@@ -6,8 +6,8 @@ global:
     repository: opennms
     tag: v0.0.60
   openTelemetry:
-     otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
-     env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
+    otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
+    env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
       OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 # Set an ID for Minion
 id: ""
