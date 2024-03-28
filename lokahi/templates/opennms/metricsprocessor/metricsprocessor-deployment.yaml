@@ -52,7 +52,7 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.metricsProcessor.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"  # FIXME: Permanent debug port, enable only for dev mode
+              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar"  # -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" 
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: GRPC_FLOW_INGESTOR_URL

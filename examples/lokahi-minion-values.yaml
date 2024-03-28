@@ -4,7 +4,7 @@ global:
  protocol: https #set depending on tls.enabled, do not change
  image:
   repository: opennms
-  tag: latest
+  tag: v0.0.60
  openTelemetry:
   otlpTracesEndpoint: "http://tempo:4317"
   env:

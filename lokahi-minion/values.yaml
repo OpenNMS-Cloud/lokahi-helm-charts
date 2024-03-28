@@ -4,12 +4,11 @@ global:
   protocol: https #set depending on tls.enabled, do not change
   image:
     repository: opennms
-    tag: latest
+    tag: v0.0.60
   openTelemetry:
       otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
       env: # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
-  developmentMode: false
 # Set an ID for Minion
 id: ""
 # Enable this option if you are placing a `ca.cert` under the `certs` folder

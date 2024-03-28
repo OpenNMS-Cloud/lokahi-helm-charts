@@ -19,6 +19,10 @@ spec:
         linkerd.io/inject: enabled
         kubectl.kubernetes.io/default-container: "{{ .Values.serviceName }}"
     spec:
+      {{- with .Values.customHostAliases }}
+      hostAliases:
+{{ toYaml . | indent 7 }}
+    {{- end }}
       serviceAccountName: {{ .Values.serviceName }}-sa
       {{- if .Values.nodeRestrictions.enabled }}
       nodeSelector:                                                                                    
@@ -85,7 +89,7 @@ spec:
               value: "/opt/karaf/certs/CA.cert"
             {{- end}}
             - name: JAVA_TOOL_OPTIONS
-              value: "-Djava.net.preferIPv4Stack=true -XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" # FIXME: Permanent debug port, enable only for dev mode
+              value: "-Djava.net.preferIPv4Stack=true -XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" 
             {{- if .Values.logLevel }}
             - name: KARAF_OPTS
               value: -Dkaraf.log.console={{ .Values.logLevel }}

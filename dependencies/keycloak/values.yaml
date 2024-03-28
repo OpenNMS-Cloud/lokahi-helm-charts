@@ -1,4 +1,7 @@
 global:
+  image:
+   repository: opennms
+   tag: latest
   port: 443 #set depending on tls.enabled and the ingress ports, do not change
   protocol: https #set depending on tls.enabled, do not change:
   enableJsonLogging: false

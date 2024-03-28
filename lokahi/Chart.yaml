@@ -1,31 +1,31 @@
 apiVersion: v2
 name: lokahi
-version: 1.0.0-alpha
+version: 1.0.0
 home: https://github.com/OpenNMS-Cloud/lokahi
 icon: https://www.opennms.com/wp-content/uploads/2021/04/OpenNMS_Favicon_36px.png
 type: application
 description: A Helm chart for running OpenNMS Lokahi in Kubernetes
-appVersion: "v1.0.0"
+appVersion: "v0.0.60"
 
 dependencies:
   - name: "Citus"
     version: "12.1-alpine"
     repository: "file://../dependencies/citus"
-    condition: Ctius.enabled
+    condition: Citus.enabled
   - name: "Cortex"
     version: "1.14.0"
     repository: "file://../dependencies/cortex"
     condition: Cortex.enabled
   - name: "Grafana"
-    version: "0.9.1"
+    version: "0.0.60"
     repository: "file://../dependencies/grafana"
     condition: Grafana.enabled
   - name: "Kafka"
-    version: "0.9.1"
+    version: "3.3.2"
     repository: "file://../dependencies/kafka"
     condition: Kafka.enabled
   - name: "Keycloak"
-    version: "0.9.1"
+    version: "0.0.60"
     repository: "file://../dependencies/keycloak"
     condition: Keycloak.enabled
   - name: "Prometheus"

@@ -4,7 +4,7 @@ global:
   protocol: https
   image:
     repository: opennms
-    tag: latest
+    tag: v0.0.60
   openTelemetry:
     otlpTracesEndpoint: "http://tempo:4317"
 OpenNMS:

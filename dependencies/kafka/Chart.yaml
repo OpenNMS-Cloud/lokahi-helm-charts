@@ -1,6 +1,6 @@
 apiVersion: v2
 name: Kafka
-version: 0.9.1
-description: Grafana deployment for Lokahi
+version: 3.3.2
+description: Kafka deployment for Lokahi
 type: application
-appVersion: "v0.9.1"
+appVersion: "3.3.2-debian-11-r28"
