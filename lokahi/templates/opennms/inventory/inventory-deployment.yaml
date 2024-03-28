@@ -46,7 +46,7 @@ spec:
         - name: spring-boot-app-config-volume
           configMap:
             name: spring-boot-app-config
-      {{- if .Values.citus.enabled }}
+      {{- if .Values.Citus.enabled }}
       initContainers:
         - name: wait-for-db
           image: postgres:16-alpine
@@ -55,7 +55,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.citus.adminUser }} -h postgres -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -67,7 +67,7 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.inventory.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"  # FIXME: Permanent debug port, enable only for dev mode
+              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{ .Values.OpenNMS.inventory.databaseHost }}:5432/{{ .Values.OpenNMS.inventory.databaseName }}?currentSchema={{ .Values.OpenNMS.inventory.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
@@ -81,11 +81,11 @@ spec:
                   name: postgres
                   key: inventoryPwd
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-              value: "{{ .Values.OpenNMS.global.kafkaClient.bootstrapServers }}"
+              value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.keycloak.serviceName }}:8080/auth/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:8080/auth/"
             - name: KEYCLOAK_REALM
-              value: "{{ .Values.keycloak.realmName }}"
+              value: "{{ .Values.Keycloak.realmName }}"
             - name: INVENTORY_ENCRYPTION_KEY
               valueFrom:
                 secretKeyRef:

@@ -1,25 +1,25 @@
-{{ if .Values.cortex.enabled }}
+{{ if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.cortex.serviceName }}
+  name: {{ .Values.serviceName }}
   labels:
-    app: {{ .Values.cortex.serviceName }}
+    app: {{ .Values.serviceName }}
   namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.cortex.serviceName }}
+      app: {{ .Values.serviceName }}
   template:
     metadata:
       labels:
         appdomain: opennms
-        app: {{ .Values.cortex.serviceName }}
+        app: {{ .Values.serviceName }}
       annotations:
         # roll the deployment when the cortex configmap changes
         checksum/cortex-configmap: {{ include (print $.Template.BasePath "/cortex-configmap.yaml") . | sha256sum }}
-        kubectl.kubernetes.io/default-container: "{{ .Values.cortex.serviceName }}"
+        kubectl.kubernetes.io/default-container: "{{ .Values.serviceName }}"
     spec:
       {{- if .Values.nodeRestrictions.enabled }}
       nodeSelector:
@@ -47,18 +47,18 @@ spec:
         - name: cortex-rules-volume
           emptyDir: {}
       containers:
-        - name: {{ .Values.cortex.serviceName }}
-          image: {{ .Values.cortex.image }}
+        - name: {{ .Values.serviceName }}
+          image: {{ .Values.image }}
           args: ["-config.file=/etc/cortex.yml"]
           ports:
-            - containerPort: {{ .Values.cortex.port }}
+            - containerPort: {{ .Values.port }}
           resources:
             limits:
-              cpu: {{ .Values.cortex.resources.limits.cpu }}
-              memory: {{ .Values.cortex.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
             requests:
-              cpu: {{ .Values.cortex.resources.requests.cpu }}
-              memory: {{ .Values.cortex.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
           volumeMounts:
             - name: cortex-config-volume
               mountPath: "/etc/cortex.yml"

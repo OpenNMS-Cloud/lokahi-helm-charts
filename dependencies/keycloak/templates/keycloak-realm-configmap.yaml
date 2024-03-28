@@ -1,4 +1,4 @@
-{{- if .Values.keycloak.dynamicRealmConfig }}
+{{- if .Values.dynamicRealmConfig }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
