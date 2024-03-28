@@ -2,13 +2,13 @@ global:
  hostname: onmshs
  port: 443 #set depending on tls.enabled and the ingress ports, do not change
  protocol: https #set depending on tls.enabled, do not change
-  image:
-    repository: opennms
-    tag: latest
-  openTelemetry:
-    otlpTracesEndpoint: "http://tempo:4317"
-    env:
-      OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+ image:
+  repository: opennms
+  tag: latest
+ openTelemetry:
+  otlpTracesEndpoint: "http://tempo:4317"
+  env:
+    OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 # Override the default ID for Minion
 id: ""
 customCertificateAuthority: false

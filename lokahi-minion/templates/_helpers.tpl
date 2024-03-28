@@ -64,7 +64,11 @@ by adding them as key/value pairs under <serviceName>.env.
 {{/*
 SecurityContextConstraints apiVersion
 */}}
-
+{{- define "scc.apiVersion" -}}
+{{- if .Capabilities.APIVersions.Has "security.openshift.io/v1" -}}
+security.openshift.io/v1
+{{- end }}
+{{- end }}
 {{/*
 Are we running in an Red Hat OpenShift cluster?
 */}}
