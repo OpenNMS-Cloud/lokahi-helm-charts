@@ -2,6 +2,46 @@ apiVersion: v1
 entries:
   lokahi:
   - apiVersion: v2
+    appVersion: v0.0.60
+    created: "2024-03-28T21:32:39.217731631Z"
+    dependencies:
+    - condition: Citus.enabled
+      name: Citus
+      repository: file://../dependencies/citus
+      version: 12.1-alpine
+    - condition: Cortex.enabled
+      name: Cortex
+      repository: file://../dependencies/cortex
+      version: 1.14.0
+    - condition: Grafana.enabled
+      name: Grafana
+      repository: file://../dependencies/grafana
+      version: 0.0.60
+    - condition: Kafka.enabled
+      name: Kafka
+      repository: file://../dependencies/kafka
+      version: 3.3.2
+    - condition: Keycloak.enabled
+      name: Keycloak
+      repository: file://../dependencies/keycloak
+      version: 0.0.60
+    - condition: Prometheus.enabled
+      name: Prometheus
+      repository: file://../dependencies/prometheus
+      version: 2.39.1
+    description: A Helm chart for running OpenNMS Lokahi in Kubernetes
+    digest: bff53e810641679cc93c992dd44c97cdc77cb3524f2103c92dea8863aee33884
+    home: https://github.com/OpenNMS-Cloud/lokahi
+    icon: https://www.opennms.com/wp-content/uploads/2021/04/OpenNMS_Favicon_36px.png
+    maintainers:
+    - name: The OpenNMS Group Inc.
+      url: https://www.opennms.com
+    name: lokahi
+    type: application
+    urls:
+    - https://github.com/OpenNMS-Cloud/lokahi-helm-charts/releases/download/lokahi-1.0.0/lokahi-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
     appVersion: v1.0.0
     created: "2024-03-07T22:16:19.755320366Z"
     dependencies:
@@ -37,6 +77,21 @@ entries:
     version: 1.0.0-alpha
   lokahi-minion:
   - apiVersion: v2
+    appVersion: v0.0.60
+    created: "2024-03-28T21:32:39.349187Z"
+    description: A Helm chart for running OpenNMS Lokahi minion in Kubernetes
+    digest: f7f43edef0227a9ed76f8a98cba1cb05852d7e541ab745901ffa7d64130b9300
+    home: https://github.com/OpenNMS-Cloud/lokahi
+    icon: https://www.opennms.com/wp-content/uploads/2021/04/OpenNMS_Favicon_36px.png
+    maintainers:
+    - name: The OpenNMS Group Inc.
+      url: https://www.opennms.com
+    name: lokahi-minion
+    type: application
+    urls:
+    - https://github.com/OpenNMS-Cloud/lokahi-helm-charts/releases/download/lokahi-minion-1.0.0/lokahi-minion-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
     appVersion: v1.0.0
     created: "2024-03-07T22:16:19.86383812Z"
     description: A Helm chart for running OpenNMS Lokahi minion in Kubernetes
@@ -51,4 +106,4 @@ entries:
     urls:
     - https://github.com/OpenNMS-Cloud/lokahi-helm-charts/releases/download/lokahi-minion-1.0.0-alpha/lokahi-minion-1.0.0-alpha.tgz
     version: 1.0.0-alpha
-generated: "2024-03-07T22:16:19.863851545Z"
+generated: "2024-03-28T21:32:39.349200605Z"
