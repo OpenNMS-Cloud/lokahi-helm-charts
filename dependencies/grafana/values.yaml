@@ -8,7 +8,7 @@ grafanaPort: 3000
 replicas: 1
 databaseHost: "postgres" # Database host name in grafana secret
 serviceName: grafana
-image: opennms/lokahi-grafana:latest
+imageShortName: lokahi-grafana
 imagePullPolicy: IfNotPresent
 initContainerimage: busybox
 autoAssignOrgRole: Admin  # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#auto_assign_org_role

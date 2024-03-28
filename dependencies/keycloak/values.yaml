@@ -8,7 +8,7 @@ global:
       OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 enabled: true
 path: /auth
-image: opennms/lokahi-keycloak:latest
+imageShortName: lokahi-keycloak
 imagePullPolicy: IfNotPresent
 port: 8080
 httpsPort: 8443
