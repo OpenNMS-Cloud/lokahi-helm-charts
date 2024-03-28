@@ -142,6 +142,12 @@ Citus:
  adminPassword: admin
  openNMSPassword: admin
 
+Cortex:
+  enabled: true
+
+Kafka:
+  enabled: true
+
 tls:
   enabled: true
   certificateGeneration: false
