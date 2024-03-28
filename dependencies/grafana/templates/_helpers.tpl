@@ -20,8 +20,3 @@ tag:
 TODO: The default tag should eventually be .Chart.AppVersion, but we
 aren't versioning the chart yet.
 */}}
-
-# Used for grafana dependency HostName, Port and protocol
-{{- define "lokahi.global" }}
-{{- .Values -}}
-{{- end -}}

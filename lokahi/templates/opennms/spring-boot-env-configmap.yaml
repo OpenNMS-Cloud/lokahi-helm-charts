@@ -12,11 +12,14 @@ data:
   {{ $key }}: {{ $val | quote }}
   {{- end }}
 {{- end }}
-{{- if  not (eq (include "lokahi.openTelemetry" (dict "thisService" .Values.global.openTelemetry.otlpTracesEndpoint)) "null") }}
-  OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: {{ include "lokahi.openTelemetry" (dict "thisService" .Values.global.openTelemetry.otlpTracesEndpoint) }}
+{{- if .Values.global.openTelemetry.otlpTracesEndpoint }}
+  OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: {{ .Values.global.openTelemetry.otlpTracesEndpoint | toYaml }}
 {{- else }}
   OTEL_TRACES_EXPORTER: "none"
 {{- end }}
   OTEL_METRICS_EXPORTER: "none"
-  OTEL_PROPAGATORS: {{ include "lokahi.openTelemetry" (dict "thisService" .Values.global.openTelemetry.env.OTEL_PROPAGATORS)}}
-
+  {{- with .Values.global.openTelemetry }}
+  {{- range $key, $val := .env }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+{{- end }}

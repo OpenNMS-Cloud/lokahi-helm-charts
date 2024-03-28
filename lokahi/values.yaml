@@ -1,5 +1,5 @@
 global:
-  hostname: talha
+  hostname: onmshs
   port: 443 #set depending on tls.enabled and the ingress ports, do not change
   protocol: https #set depending on tls.enabled, do not change
   image:
@@ -282,6 +282,7 @@ Grafana:
   path: /grafana
   port: 3000
   serviceName: grafana
+  imageShortName: lokahi-grafana
 # Configures hosts, paths, protocol and ports for reading and writing data to Cortex
 # in the notification module.
 cortexClient:
@@ -317,9 +318,11 @@ customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
+# To enable or disable Cortex dependency
 Cortex:
   enabled: true
 
+# To enable or disable Kafka dependency
 Kafka:
   enabled: true
   

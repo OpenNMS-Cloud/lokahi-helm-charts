@@ -19,14 +19,14 @@ resources:
   requests:
     cpu: 100m
     memory: 100Mi
-citus:
+Citus:
   enabled: true
   workersEnabled: true
   serviceName: postgres
   adminUser: desenv # admin username for citus
   adminPassword: notset # admin password for citus
   grafanaPassword: notset # password for grafana user
-cortex:
+Cortex:
   enabled: true
   serviceName: cortex
   port: 9000
@@ -35,13 +35,13 @@ nodeRestrictions: # will be applied to every pod in the instance
   key: kubernetes.azure.com/scalesetpriority
   value: spot
 # Keycloak integration with grafana
-keycloak:
+Keycloak:
   path: /auth
   port: 8080
   serviceName: onms-keycloak
   realmName: opennms
 # Prometheus integration with grafana
-prometheus:
+Prometheus:
   enabled: true
   path: /prometheus
   serviceName: prometheus

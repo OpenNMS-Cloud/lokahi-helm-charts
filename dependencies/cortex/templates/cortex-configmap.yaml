@@ -77,11 +77,11 @@ data:
       local:
         directory: /tmp/cortex/rules
 
-  {{- if  not (eq (include "lokahi.openTelemetry" (dict "thisService" .Values.global.openTelemetry.otlpTracesEndpoint)) "null") }}
+  {{- if .Values.global.openTelemetry.otlpTracesEndpoint }}
     tracing:
       type: otel
       otel:
-        {{- $url := urlParse  (include "lokahi.openTelemetry" (dict "thisService" .Values.global.openTelemetry.otlpTracesEndpoint)) }}
+        {{- $url := urlParse  .Values.global.openTelemetry.otlpTracesEndpoint }}
         # this key is misnamed in 1.14 and is corrected in 1.15 in later to otlp_endpoint
         oltp_endpoint: {{ $url.host }}
         sample_ratio: 1

@@ -31,19 +31,6 @@ aren't versioning the chart yet.
 {{- end -}}
 {{- end -}}
 
-# Used for dependencies HostName, Port and protocol used globally for all dependencies and lokahi charts
-{{- define "lokahi.global" }}
-{{- .Values -}}
-{{- end -}}
-
-# Used for dependencies openTelemetry otlpTracesEndpoint, and env OTEL_PROPAGATORS used globally for all dependencies and lokahi charts springboot env
-{{- define "lokahi.openTelemetry" }}
-{{- if  (empty .thisService) -}}
-{{- printf "%s" "null" -}}
-{{- else -}}
-{{- .thisService -}}
-{{- end -}}
-{{- end -}}
 {{- /*
 lokahi.deployment.env: return a subset of a pod spec "env" section with common environment
 variables and any service-specific overrides.

@@ -4,7 +4,6 @@ global:
     tag: latest
   openTelemetry:
     otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
-
 enabled: true
 serviceName: cortex
 port: 9000 # cortex listening port

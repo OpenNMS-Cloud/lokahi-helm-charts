@@ -1,5 +1,4 @@
 global:
-  hostname: onmshs
   port: 443 #set depending on tls.enabled and the ingress ports, do not change
   protocol: https #set depending on tls.enabled, do not change:
   enableJsonLogging: false
@@ -35,7 +34,7 @@ dynamicRealmConfig: true # Keycloak realm configmap
 privateRepoEnabled: false
 configmapName: keycloak-realm-configmap # Keycloak realm configmap name
 environment: {} # Environment variables
-citus:
+Citus:
   enabled: false
   adminUser: desenv # admin username for citus
   adminPassword: notset # admin password for citus
