@@ -1,13 +1,13 @@
 global:
   hostname: onmshs
-  port: 443 #set depending on tls.enabled and the ingress ports, do not change
-  protocol: https #set depending on tls.enabled, do not change
+  port: 443  #set depending on tls.enabled and the ingress ports, do not change
+  protocol: https  #set depending on tls.enabled, do not change
   image:
     repository: opennms
     tag: v0.0.60
   openTelemetry:
-      otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
-      env: # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
+      otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
+      env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
         OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 # Set an ID for Minion
 id: ""
@@ -21,9 +21,9 @@ minionAppSecrets: ""
 replicas: 1
 port: 8181
 sshPort: 8101
-trapsListenerPort: 1162 # snmp-traps port
-netflow5ListenerPort: 8877 # netflow5 port
-netflow9ListenerPort: 4729 #netflow9 port
+trapsListenerPort: 1162  # snmp-traps port
+netflow5ListenerPort: 8877  # netflow5 port
+netflow9ListenerPort: 4729  # netflow9 port
 netflowListenerPort: 9999
 logLevel: ""
 # If we are running inside the cluster, we need to set mapping of the ip address to hostname
