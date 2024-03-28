@@ -1,14 +1,14 @@
 global:
   hostname: onmshs
-  port: 443  #set depending on tls.enabled and the ingress ports, do not change
-  protocol: https  #set depending on tls.enabled, do not change
+  port: 443  # set depending on tls.enabled and the ingress ports, do not change
+  protocol: https  # set depending on tls.enabled, do not change
   image:
     repository: opennms
     tag: v0.0.60
   openTelemetry:
-      otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
-      env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
-        OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+     otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
+     env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
+      OTEL_PROPAGATORS: tracecontext,baggage,jaeger
 # Set an ID for Minion
 id: ""
 # Enable this option if you are placing a `ca.cert` under the `certs` folder
@@ -41,7 +41,7 @@ resources:
 extraVolumes: []
 extraMounts: []
 extraInitContainers: []
-nodeRestrictions: # will be applied to every pod in the instance
+nodeRestrictions:  # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
   value: spot
