@@ -275,7 +275,7 @@ Keycloak:
   serviceName: onms-keycloak
   realmName: opennms
   adminUsername: admin
-  adminPassword: notsets
+  adminPassword: notset
 # Enables integration of Grafana with notification module, specifying path, port and service name.
 Grafana:
   enabled: true
