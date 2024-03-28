@@ -107,7 +107,7 @@ spec:
             {{- end }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values ") | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values ) | nindent 12 }}
           ports:
             - name: http
               containerPort: {{ .Values.global.port }}
