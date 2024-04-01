@@ -1,13 +1,13 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Values.minion.serviceName }}-rb
+  name: {{ .Values.serviceName }}-rb
   labels:
-    app: {{ .Values.minion.serviceName }}
+    app: {{ .Values.serviceName }}
   namespace: {{ .Release.Namespace }}
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.minion.serviceName }}-sa
+  name: {{ .Values.serviceName }}-sa
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: Role

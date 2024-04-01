@@ -1,8 +1,8 @@
 
 .DS_Store
-dev-support-scripts/logs
-dev-support-scripts/tmp
-packages
 lokahi/Chart.lock
-lokahi/charts/*.tgz
-lokahi-minion/certs/
+lokahi/charts
+support-scripts/tmp
+support-scripts/logs
+lokahi-minion/certs/ca.crt
+lokahi-minion/certs/minion1.p12

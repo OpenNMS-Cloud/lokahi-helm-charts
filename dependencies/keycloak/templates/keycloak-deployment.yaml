@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.keycloak.serviceName }}
+  name: {{ .Values.serviceName }}
   labels:
     app: keycloak
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.keycloak.serviceName }}
-  replicas: {{ .Values.keycloak.replicas }}
+      app: {{ .Values.serviceName }}
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
         appdomain: opennms
-        app: {{ .Values.keycloak.serviceName }}
+        app: {{ .Values.serviceName }}
       annotations:
         kubectl.kubernetes.io/default-container: "keycloak"
         prometheus.io/scrape: "true"
@@ -40,7 +40,7 @@ spec:
                 values:
                 - {{ .Values.nodeRestrictions.value }}
       {{- end }}
-      {{- if .Values.citus.enabled }}
+      {{- if .Values.Citus.enabled }}
       initContainers:
         - name: wait-for-db
           image: postgres:16-alpine
@@ -49,7 +49,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.citus.adminUser }} -h postgres -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -57,18 +57,18 @@ spec:
       {{- end }}
       containers:
         - name: keycloak
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.keycloak) | quote }}
-          imagePullPolicy: "{{ .Values.keycloak.imagePullPolicy }}"
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values) | quote }}
+          imagePullPolicy: "{{ .Values.imagePullPolicy }}"
           resources:
             limits:
-              cpu: "{{ .Values.keycloak.resources.limits.cpu }}"
-              memory: "{{ .Values.keycloak.resources.limits.memory }}"
+              cpu: "{{ .Values.resources.limits.cpu }}"
+              memory: "{{ .Values.resources.limits.memory }}"
             requests:
-              cpu: "{{ .Values.keycloak.resources.requests.cpu }}"
-              memory: "{{ .Values.keycloak.resources.requests.memory }}"
+              cpu: "{{ .Values.resources.requests.cpu }}"
+              memory: "{{ .Values.resources.requests.memory }}"
           args:
             - --import-realm
-            {{- if .Values.OpenNMS.global.enableJsonLogging }}
+            {{- if .Values.enableJsonLogging }}
             - --log-console-output=json
             {{- end }}
           env:
@@ -79,17 +79,17 @@ spec:
             - name: KC_CACHE
               value: ispn
             - name: KC_HOSTNAME_URL # Required in prod-mod to terminate TLS at Ingress
-            {{- if .Values.keycloak.hostnamePort }}
-              value: "{{ .Values.protocol }}://{{ .Values.hostname }}:{{ .Values.keycloak.hostnamePort }}{{ .Values.keycloak.path }}"
+            {{- if .Values.hostnamePort }}
+              value: "{{ .Values.global.protocol }}://{{ .Values.global.hostname }}:{{ .Values.hostnamePort }}{{ .Values.path }}"
             {{- else }}
-              value: "{{ .Values.protocol }}://{{ .Values.hostname }}{{ .Values.keycloak.path }}"
+              value: "{{ .Values.global.protocol }}://{{ .Values.global.hostname }}{{ .Values.path }}"
             {{- end }}
-            {{- if .Values.keycloak.hostnameAdminUrl }}
+            {{- if .Values.hostnameAdminUrl }}
             - name: KC_HOSTNAME_ADMIN_URL
-              value: "{{ .Values.keycloak.hostnameAdminUrl }}"
+              value: "{{ .Values.hostnameAdminUrl }}"
             {{- end }}
             - name: KC_DB_URL
-              value: "jdbc:postgresql://{{ .Values.keycloak.databaseHost }}:5432/{{ .Values.keycloak.databaseName }}?currentSchema={{ .Values.keycloak.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.databaseHost }}:5432/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -104,23 +104,23 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: username
-                  name: {{ .Values.keycloak.serviceName }}-initial-admin
+                  name: {{ .Values.serviceName }}-initial-admin
             - name: KEYCLOAK_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: password
-                  name: {{ .Values.keycloak.serviceName }}-initial-admin
+                  name: {{ .Values.serviceName }}-initial-admin
             - name: KC_HOSTNAME_STRICT_BACKCHANNEL
               value: "false"
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_HTTP_RELATIVE_PATH
-              value: "{{ .Values.keycloak.path }}"
+              value: "{{ .Values.path }}"
             - name: KC_PROXY
               value: edge # Required in prod-mod to terminate TLS at Ingress
             - name: jgroups.dns.query
-              value: "{{ .Values.keycloak.serviceName }}.{{ .Release.Namespace }}"
-            {{- if and .Values.tls.enabled .Values.keycloak.tlsSecretName }}
+              value: "{{ .Values.serviceName }}.{{ .Release.Namespace }}"
+            {{- if and .Values.tls.enabled .Values.tlsSecretName }}
             - name: KC_HTTPS_CERTIFICATE_FILE
               value: "/mnt/certificates/tls.crt"
             - name: KC_HTTPS_CERTIFICATE_KEY_FILE
@@ -130,35 +130,35 @@ spec:
             - name: KC_HOSTNAME_STRICT_HTTPS
               value: "false"
             {{- end }}
-            {{- range $Variable, $Value := .Values.keycloak.environment }}
+            {{- range $Variable, $Value := .Values.environment }}
             - name: {{ $Variable | quote }}
               value: {{ $Value | quote }}
             {{- end }}
-            {{- if .Values.OpenNMS.global.openTelemetry.otlpTracesEndpoint }}
+            {{- if .Values.global.openTelemetry.otlpTracesEndpoint }}
             - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
-              value: {{ .Values.OpenNMS.global.openTelemetry.otlpTracesEndpoint | toYaml }}
+              value: {{  .Values.global.openTelemetry.otlpTracesEndpoint | toYaml }}
             {{- else }}
             - name: OTEL_TRACES_EXPORTER
               value: "none"
             {{- end }}
             - name: OTEL_METRICS_EXPORTER
               value: "none"
-            {{- if .Values.OpenNMS.global.openTelemetry.env }}
-              {{- range $key, $val := .Values.OpenNMS.global.openTelemetry.env }}
+            {{- if .Values.global.openTelemetry.env }}
+              {{- range $key, $val := .Values.global.openTelemetry.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
               {{- end }}
             {{- end }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.keycloak) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values) | nindent 12 }}
           ports:
             - name: http
-              containerPort: {{ .Values.keycloak.port }}
+              containerPort: {{ .Values.port }}
             - name: https
-              containerPort: {{ .Values.keycloak.httpsPort }}
+              containerPort: {{ .Values.httpsPort }}
           volumeMounts:
-            {{- if and .Values.tls.enabled .Values.keycloak.tlsSecretName }}
+            {{- if and .Values.tls.enabled .Values.tlsSecretName }}
             - mountPath: /mnt/certificates
               name: keycloak-tls-certificates
             {{- end }}
@@ -166,26 +166,26 @@ spec:
               name: realm-config
           #startupProbe:
           #  httpGet:
-          #    {{- if and .Values.tls.enabled .Values.keycloak.tlsSecretName }}
+          #    {{- if and .Values.tls.enabled .Values.tlsSecretName }}
           #    scheme: HTTPS
           #    port: https
           #    {{- else }}
           #    scheme: HTTP
           #    port: http
           #    {{- end }}
-          #    path: {{ .Values.keycloak.path }}/health/live
+          #    path: {{ .Values.path }}/health/live
           #  failureThreshold: 150
           #  periodSeconds: 5
           livenessProbe:
             httpGet:
-              {{- if and .Values.tls.enabled .Values.keycloak.tlsSecretName }}
+              {{- if and .Values.tls.enabled .Values.tlsSecretName }}
               scheme: HTTPS
               port: https
               {{- else }}
               scheme: HTTP
               port: http
               {{- end }}
-              path: {{ .Values.keycloak.path }}/health/live
+              path: {{ .Values.path }}/health/live
             failureThreshold: 150
             initialDelaySeconds: 20
             periodSeconds: 2
@@ -193,31 +193,31 @@ spec:
             timeoutSeconds: 1
           readinessProbe:
             httpGet:
-              {{- if and .Values.tls.enabled .Values.keycloak.tlsSecretName }}
+              {{- if and .Values.tls.enabled .Values.tlsSecretName }}
               scheme: HTTPS
               port: https
               {{- else }}
               scheme: HTTP
               port: http
               {{- end }}
-              path: {{ .Values.keycloak.path }}/health/ready
+              path: {{ .Values.path }}/health/ready
             failureThreshold: 250
             initialDelaySeconds: 20
             periodSeconds: 2
             successThreshold: 1
             timeoutSeconds: 1
-      {{- if .Values.keycloak.privateRepoEnabled }}
+      {{- if .Values.privateRepoEnabled }}
       imagePullSecrets:
         - name: image-credentials
       {{- end }}
       volumes:
-        {{- if and .Values.tls.enabled .Values.keycloak.tlsSecretName }}
+        {{- if and .Values.tls.enabled .Values.tlsSecretName }}
         - name: keycloak-tls-certificates
           secret:
             defaultMode: 420
             optional: false
-            secretName: {{ .Values.keycloak.tlsSecretName }}
+            secretName: {{ .Values.tlsSecretName }}
         {{- end }}
         - name: realm-config
           configMap:
-            name: {{ .Values.keycloak.configmapName }}
+            name: {{ .Values.configmapName }}

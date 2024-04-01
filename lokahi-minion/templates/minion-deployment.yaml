@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.minion.serviceName }}
+  name: {{ .Values.serviceName }}
   labels:
-    app: {{ .Values.minion.serviceName }}
+    app: {{ .Values.serviceName }}
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.minion.serviceName }}
-  replicas: {{ .Values.minion.replicas }}
+      app: {{ .Values.serviceName }}
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
         appdomain: opennms
-        app: {{ .Values.minion.serviceName }}
+        app: {{ .Values.serviceName }}
       annotations:
         linkerd.io/inject: enabled
-        kubectl.kubernetes.io/default-container: "{{ .Values.minion.serviceName }}"
+        kubectl.kubernetes.io/default-container: "{{ .Values.serviceName }}"
     spec:
-      {{- with .Values.minion.customHostAliases }}
+      {{- with .Values.customHostAliases }}
       hostAliases:
 {{ toYaml . | indent 7 }}
     {{- end }}
-      serviceAccountName: {{ .Values.minion.serviceName }}-sa
+      serviceAccountName: {{ .Values.serviceName }}-sa
       {{- if .Values.nodeRestrictions.enabled }}
       nodeSelector:                                                                                    
         {{ .Values.nodeRestrictions.key }}: {{ .Values.nodeRestrictions.value }}                       
@@ -51,9 +51,8 @@ spec:
             secretName: {{ .Values.minion.minionAppSecrets }}
             {{- else }}
             secretName: minion-app-secrets
-            {{- end }}
-        {{- if .Values.minion.extraVolumes }}
-          {{ toYaml .Values.minion.extraVolumes | nindent 8 }}
+        {{- if .Values.extraVolumes }}
+          {{ toYaml .Values.extraVolumes | nindent 8 }}
         {{- end }}
       initContainers:
         {{- if eq (include "onOpenShift" .) "false" }}
@@ -66,39 +65,38 @@ spec:
           securityContext:
             privileged: true
         {{- end }}
-        {{- if .Values.minion.extraInitContainers }}
-          {{ toYaml .Values.minion.extraInitContainers | nindent 8 }}
+        {{- if .Values.extraInitContainers }}
+          {{ toYaml .Values.extraInitContainers | nindent 8 }}
         {{- end }}
       containers:
-        - name: {{ .Values.minion.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.minion) | quote }}
-          imagePullPolicy: {{ include "lokahi.imagePullPolicy" (dict "Values" .Values "thisService" .Values.minion) | quote }}
+        - name: {{ .Values.serviceName }}
+          image: {{ include "lokahi.image" (dict "Values" .Values) | quote }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           env:
-            {{- if .Values.minion.id }}
+            {{- if .Values.id }}
             - name: MINION_ID
-              value: "{{ .Values.minion.id }}"
+              value: "{{ .Values.id }}"
             {{- end }}
             - name: GRPC_CLIENT_KEYSTORE_PASSWORD
-              value: "{{ .Values.minion.grpcClientKeystorePassword }}"
+              value: "{{ .Values.grpcClientKeystorePassword }}"
             - name: MINION_GATEWAY_HOST
-            {{- if .Values.minion.gatewayHost }}
-              value: "{{ .Values.minion.gatewayHost }}" # we're inside the cluster, so we need to talk to the internal service name
+            {{- if .Values.gatewayHost }}
+              value: "{{ .Values.gatewayHost }}" # we're inside the cluster, so we need to talk to the internal service name
             {{- else }}
-              value: "minion.{{ .Values.hostname }}" 
+              value: "minion.{{ .Values.global.hostname }}" 
             {{- end}}
             - name: GRPC_CLIENT_OVERRIDE_AUTHORITY
-              value: "minion.{{ .Values.hostname }}" # but the TLS certificate will have the external name, so expect that
-            {{- if .Values.minion.customCertificateAuthority }}
+              value: "minion.{{ .Values.global.hostname }}" # but the TLS certificate will have the external name, so expect that
+            {{- if .Values.customCertificateAuthority }}
             - name: GRPC_CLIENT_TRUSTSTORE
               value: "/opt/karaf/certs/CA.cert"
             {{- end}}
             {{- if .Values.global.developmentMode }}
             - name: JAVA_TOOL_OPTIONS
-              value: "-Djava.net.preferIPv4Stack=true -XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" # FIXME: Permanent debug port, enable only for dev mode
-            {{- end }}
-            {{- if .Values.minion.logLevel }}
+              value: "-Djava.net.preferIPv4Stack=true -XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" 
+            {{- if .Values.logLevel }}
             - name: KARAF_OPTS
-              value: -Dkaraf.log.console={{ .Values.minion.logLevel }}
+              value: -Dkaraf.log.console={{ .Values.logLevel }}
             {{- end }}
             {{- if .Values.global.openTelemetry.otlpTracesEndpoint }}
             - name: OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
@@ -117,40 +115,40 @@ spec:
             {{- end }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.minion) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values ) | nindent 12 }}
           ports:
             - name: http
-              containerPort: {{ .Values.minion.port }}
+              containerPort: {{ .Values.global.port }}
             - name: snmp-traps
               protocol: UDP
-              containerPort: {{ .Values.minion.trapsListenerPort }}
+              containerPort: {{ .Values.trapsListenerPort }}
             - name: ssh
-              containerPort: {{ .Values.minion.sshPort }}
+              containerPort: {{ .Values.sshPort }}
             - name: netflow5
               protocol: UDP
-              containerPort: {{ .Values.minion.netflow5ListenerPort }}
+              containerPort: {{ .Values.netflow5ListenerPort }}
             - name: netflow9
               protocol: UDP
-              containerPort: {{ .Values.minion.netflow9ListenerPort }}
+              containerPort: {{ .Values.netflow9ListenerPort }}
           volumeMounts:
             - name: minion-secrets
               subPath: "minion.p12"
               mountPath: "/opt/karaf/minion.p12"
-            {{- if .Values.minion.customCertificateAuthority }}
+            {{- if .Values.customCertificateAuthority }}
             - name: minion-secrets
               subPath: "CA.cert"
               mountPath: "/opt/karaf/certs/CA.cert"
             {{- end}}
-            {{- if .Values.minion.extraMounts }}
-              {{ toYaml .Values.minion.extraMounts | nindent 12 }}
+            {{- if .Values.extraMounts }}
+              {{ toYaml .Values.extraMounts | nindent 12 }}
             {{- end }}
           resources:
             limits:
-              cpu: "{{ .Values.minion.resources.limits.cpu }}"
-              memory: "{{ .Values.minion.resources.limits.memory }}"
+              cpu: "{{ .Values.resources.limits.cpu }}"
+              memory: "{{ .Values.resources.limits.memory }}"
             requests:
-              cpu: "{{ .Values.minion.resources.requests.cpu }}"
-              memory: "{{ .Values.minion.resources.requests.memory }}"
+              cpu: "{{ .Values.resources.requests.cpu }}"
+              memory: "{{ .Values.resources.requests.memory }}"
           startupProbe:
             exec:
               command:

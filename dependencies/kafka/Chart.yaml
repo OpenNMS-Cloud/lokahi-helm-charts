@@ -1,6 +1,6 @@
 apiVersion: v2
-name: kafka
-version: 0.9.1
-description: Kafka for Lokahi
+name: Kafka
+version: 3.3.2
+description: Kafka deployment for Lokahi
 type: application
-appVersion: "v0.9.1"
+appVersion: "3.3.2-debian-11-r28"

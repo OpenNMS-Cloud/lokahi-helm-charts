@@ -46,7 +46,7 @@ spec:
         - name: spring-boot-app-config-volume
           configMap:
             name: spring-boot-app-config
-      {{- if .Values.citus.enabled }}
+      {{- if .Values.Citus.enabled }}
       initContainers:
         - name: wait-for-db
           image: postgres:16-alpine
@@ -55,7 +55,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.citus.adminUser }} -h postgres -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -67,9 +67,9 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.notification.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"  # FIXME: Permanent debug port, enable only for dev mode
+              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
-              value: "{{ .Values.OpenNMS.global.kafkaClient.bootstrapServers }}"
+              value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{ .Values.OpenNMS.notification.databaseHost }}:5432/{{ .Values.OpenNMS.notification.databaseName }}?currentSchema={{ .Values.OpenNMS.notification.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
@@ -93,7 +93,7 @@ spec:
             - name: HORIZON_EMAIL_RETRY_MAX
               value: "{{ .Values.OpenNMS.notification.retry.max }}"
             - name: LOKAHI_BASEURL_URL
-              value: "{{ .Values.OpenNMS.notification.baseUrl.url }}"
+              value: "{{ .Values.global.hostname }}:{{ .Values.OpenNMS.notification.baseUrl.port }}"
             - name: LOKAHI_BASEURL_APPENDTENANTID
               value: "{{ .Values.OpenNMS.notification.baseUrl.appendTenantId }}"
             {{- if .Values.OpenNMS.notification.acsConnectionSecretName }}
@@ -109,16 +109,16 @@ spec:
               value: "{{ .Values.OpenNMS.notification.smtpPort }}"
             {{- end }}
             - name: HORIZON_KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.keycloak.serviceName }}:{{ .Values.keycloak.port }}{{ .Values.keycloak.path }}/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: HORIZON_KEYCLOAK_ADMIN_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.keycloak.serviceName }}-initial-admin
+                  name: {{ .Values.Keycloak.serviceName }}-initial-admin
                   key: username
             - name: HORIZON_KEYCLOAK_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.keycloak.serviceName }}-initial-admin
+                  name: {{ .Values.Keycloak.serviceName }}-initial-admin
                   key: password
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.

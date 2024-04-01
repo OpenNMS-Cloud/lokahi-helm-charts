@@ -21,20 +21,12 @@ TODO: The default tag should eventually be .Chart.AppVersion, but we
 aren't versioning the chart yet.
 */}}
 {{- define "lokahi.image" }}
-{{- if .thisService.image -}}
-{{- .thisService.image -}}
+{{- if .Values.image -}}
+{{- .Values.image -}}
 {{- else -}}
-{{- $imageShortName := .thisService.imageShortName | default .thisService.serviceName -}}
+{{- $imageShortName := .Values.imageShortName | default .Values.serviceName -}}
 {{- $tag := .Values.global.image.tag | default "latest" -}}
 {{- printf "%s/%s:%s" .Values.global.image.repository $imageShortName $tag -}}
-{{- end -}}
-{{- end -}}
-
-{{- define "lokahi.imagePullPolicy" }}
-{{- if .thisService.imagePullPolicy -}}
-{{- .thisService.imagePullPolicy -}}
-{{- else -}}
-{{- .Values.global.imagePullPolicy -}}
 {{- end -}}
 {{- end -}}
 
@@ -57,12 +49,12 @@ by adding them as key/value pairs under <serviceName>.env.
 {{- define "lokahi.deployment.env" -}}
   {{- /* OpenTelemetry environment variables */ -}}
 - name: OTEL_SERVICE_NAME
-  value: {{ .thisService.serviceName | quote }}
+  value: {{ .Values.serviceName | quote }}
 - name: OTEL_RESOURCE_ATTRIBUTES
   value: {{ printf "service.version=%s" (regexReplaceAllLiteral ".*:" (include "lokahi.image" .) "") | quote }}
   {{- /* Other environment variables */ -}}
-  {{- if .thisService.env }}
-    {{- range $key, $val := .thisService.env }}
+  {{- if .Values.env }}
+    {{- range $key, $val := .Values.env }}
 - name: {{ $key }}
   value: {{ $val | quote }}
     {{- end }}
@@ -77,7 +69,6 @@ SecurityContextConstraints apiVersion
 security.openshift.io/v1
 {{- end }}
 {{- end }}
-
 {{/*
 Are we running in an Red Hat OpenShift cluster?
 */}}

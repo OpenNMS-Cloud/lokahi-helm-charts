@@ -1,21 +1,20 @@
-hostname: onmshs
-port: 443 #set depending on tls.enabled and the ingress ports, do not change
-protocol: https #set depending on tls.enabled, do not change
-OpenNMS: # we might be able to remove this
-  global:
-    image:
-      repository: opennms
-      tag: latest
-    springBoot: # Spring-boot-env-configmap
-      env: {} # Environment variables to be set for Spring Boot.
-    kafkaClient: # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services. 
-      bootstrapServers: onms-kafka:9092   
-    enableJsonLogging: false # JSON logging flag for Spring Boot.
-    openTelemetry:
-      otlpTracesEndpoint: null # Specifies the OTLP traces endpoint URL
-      env: # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
-        OTEL_PROPAGATORS: tracecontext,baggage,jaeger
- 
+global:
+  hostname: onmshs
+  port: 443  # set depending on tls.enabled and the ingress ports, do not change
+  protocol: https  # set depending on tls.enabled, do not change
+  image:
+    repository: opennms
+    tag: v0.0.60
+  springBoot:  # Spring-boot-env-configmap
+    env: {}  # Environment variables to be set for Spring Boot.
+  kafkaClient:  # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services.
+    bootstrapServers: onms-kafka:9092
+  enableJsonLogging: false  # JSON logging flag for Spring Boot.
+  openTelemetry:
+    otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
+    env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
+      OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+OpenNMS:
 # Specifies configuration for API module, including service details, image settings, resource
 # limits, external flow server URL, certificate manager URL and GraphQL playground settings.
   api:
@@ -27,7 +26,7 @@ OpenNMS: # we might be able to remove this
     resources:
       limits:
         cpu: "1"
-        memory: 2Gi # MaxRAMPercentage=50,avg-usage=245MB
+        memory: 2Gi  # MaxRAMPercentage=50,avg-usage=245MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -54,7 +53,7 @@ OpenNMS: # we might be able to remove this
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=400MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=400MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -96,22 +95,22 @@ OpenNMS: # we might be able to remove this
     serviceName: opennms-minion-gateway
     tlsSecretName: opennms-minion-gateway-certificate
     imageShortName: lokahi-minion-gateway
-    imagePullPolicy: IfNotPresent #move to global
+    imagePullPolicy: IfNotPresent
     internalGrpcPort: 8991
     replicas: 1
     useKubernetes: "true"
-    databaseName: "desenv" #move to global
+    databaseName: "desenv"
     databaseSchemaName: "minion_gateway"
-    databaseHost: "postgres" #move to global and add ability to override
+    databaseHost: "postgres"
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=40 for heap (avg-usage=480MB) plus up to 2GB off-heap (4 Ignite Data Regions)
+        memory: 4Gi  # MaxRAMPercentage=40 for heap (avg-usage=480MB) plus up to 2GB off-heap (4 Ignite Data Regions)
       requests:
         cpu: "1"
         memory: 2Gi
     ingressAnnotations:
-      nginx.ingress.kubernetes.io/proxy-body-size: "0" # To avoid HTTP 413 and "client intended to send too large chunked body: X bytes while sending request to upstream"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"  # To avoid HTTP 413 and "client intended to send too large chunked body: X bytes while sending request to upstream"
       nginx.ingress.kubernetes.io/auth-tls-secret: default/client-root-ca-certificate
       nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
       nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
@@ -122,8 +121,8 @@ OpenNMS: # we might be able to remove this
         grpc_read_timeout "1200s";
         grpc_send_timeout "1200s";
         client_body_timeout "1200s";
-    privateRepoEnabled: false #move to global
-    kafkaSecretName: ~ #move to global
+    privateRepoEnabled: false
+    kafkaSecretName: ~
 # Specifies configuration for the inventory module, including service details, database settings,
 # resource limits, encryption key, repository access and Kafka secret.
   inventory:
@@ -137,7 +136,7 @@ OpenNMS: # we might be able to remove this
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=620MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=620MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -157,7 +156,7 @@ OpenNMS: # we might be able to remove this
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=480MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=480MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -176,7 +175,7 @@ OpenNMS: # we might be able to remove this
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=450MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=450MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -187,9 +186,9 @@ OpenNMS: # we might be able to remove this
       maxDelay: 60000
       multiplier: 2
       max: 10
-    acsConnectionSecretName: {} # the ACS connection string is expected in the 'connection-string' key
+    acsConnectionSecretName: {}  # the ACS connection string is expected in the 'connection-string' key
     baseUrl:
-      url: "onmshs:443"
+      port: 443
       appendTenantId: false
 # Specifies configuration for the events module, including service name, image details, replica count,
 # database configuration, resource limits and repository access.
@@ -204,7 +203,7 @@ OpenNMS: # we might be able to remove this
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=550MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=550MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -232,8 +231,8 @@ OpenNMS: # we might be able to remove this
   minionCertificateManager:
     enabled: true
     serviceName: opennms-minion-certificate-manager
-    caSecretName: ""
-    mtlsSecretName: opennms-minion-certificate
+    caSecretName: root-ca-certificate
+    mtlsSecretName: client-root-ca-certificate
     imageShortName: lokahi-minion-certificate-manager
     imagePullPolicy: IfNotPresent
     replicas: 1
@@ -256,30 +255,35 @@ OpenNMS: # we might be able to remove this
     resources:
       limits:
         cpu: "1"
-        memory: 1Gi # MaxRAMPercentage=50,avg-usage=245MB
+        memory: 1Gi  # MaxRAMPercentage=50,avg-usage=245MB
       requests:
         cpu: "1"
         memory: 1Gi
     privateRepoEnabled: false
     certificateManagerUrl: ""
 # Enables integration of Citus with notification module.
-citus:
+Citus:
   enabled: true
   adminUser: desenv
   adminPassword: notset
 # Specifies the path, ports, service name and realm name for Keycloak module.
-keycloak:
+Keycloak:
+  enabled: true
   path: /auth
   port: 8080
   httpsPort: 8443
   serviceName: onms-keycloak
+  imageShortName: lokahi-keycloak
   realmName: opennms
+  adminUsername: admin
+  adminPassword: notset
 # Enables integration of Grafana with notification module, specifying path, port and service name.
-grafana:
+Grafana:
   enabled: true
   path: /grafana
   port: 3000
   serviceName: grafana
+  imageShortName: lokahi-grafana
 # Configures hosts, paths, protocol and ports for reading and writing data to Cortex
 # in the notification module.
 cortexClient:
@@ -290,7 +294,7 @@ cortexClient:
   protocol: http
   portRead: 9000
   portWrite: 9000
-nodeRestrictions: # will be applied to every pod in the instance
+nodeRestrictions:  # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
   value: spot
@@ -303,7 +307,7 @@ tls:
 
 ingress:
   enabled: false
-  defaultEndpointsEnabled: true # creates the nginx endpoints
+  defaultEndpointsEnabled: true  # creates the nginx endpoints
   httpPort: 80
   httpsPort: 443
   controllerimage: registry.k8s.io/ingress-nginx/controller:v1.7.0@sha256:7612338342a1e7b8090bef78f2a04fffcadd548ccaabe8a47bf7758ff549a5f7
@@ -315,6 +319,14 @@ customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
+# To enable or disable Cortex dependency
+Cortex:
+  enabled: true
+
+# To enable or disable Kafka dependency
+Kafka:
+  enabled: true
+
 # These values enable seamless integration of notification module with Prometheus for monitoring and
 # metric retrieval.
 Prometheus:
@@ -323,5 +335,6 @@ Prometheus:
   serviceName: prometheus
   port: 9090
   auth:
-   username: admin
-   password: notset
+    username: admin
+    password: notset
+    externalSecret: ""

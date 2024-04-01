@@ -2,6 +2,6 @@ Thank you for installing {{ .Chart.Name }}.
 
 Your release is named {{ .Release.Name }}.
 
-{{- if .Values.minion.id }}
-Minion ID: {{.Values.minion.id }}
+{{- if .Values.id }}
+Minion ID: {{.Values.id }}
 {{- end }}

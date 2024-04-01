@@ -1,6 +1,6 @@
 # lokahi
 
-![Version: 1.0.0-alpha](https://img.shields.io/badge/Version-1.0.0--alpha-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.0.0](https://img.shields.io/badge/AppVersion-v1.0.0-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
 
 A Helm chart for running OpenNMS Lokahi in Kubernetes
 
@@ -12,10 +12,40 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | ---- | ------ | --- |
 | The OpenNMS Group Inc. |  | <https://www.opennms.com> |
 
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| file://../dependencies/citus | Citus | 12.1-alpine |
+| file://../dependencies/cortex | Cortex | 1.14.0 |
+| file://../dependencies/grafana | Grafana | 0.0.60 |
+| file://../dependencies/kafka | Kafka | 3.3.2 |
+| file://../dependencies/keycloak | Keycloak | 0.0.60 |
+| file://../dependencies/prometheus | Prometheus | 2.39.1 |
+
 ## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| Citus.adminPassword | string | `"notset"` |  |
+| Citus.adminUser | string | `"desenv"` |  |
+| Citus.enabled | bool | `true` |  |
+| Cortex.enabled | bool | `true` |  |
+| Grafana.enabled | bool | `true` |  |
+| Grafana.imageShortName | string | `"lokahi-grafana"` |  |
+| Grafana.path | string | `"/grafana"` |  |
+| Grafana.port | int | `3000` |  |
+| Grafana.serviceName | string | `"grafana"` |  |
+| Kafka.enabled | bool | `true` |  |
+| Keycloak.adminPassword | string | `"notset"` |  |
+| Keycloak.adminUsername | string | `"admin"` |  |
+| Keycloak.enabled | bool | `true` |  |
+| Keycloak.httpsPort | int | `8443` |  |
+| Keycloak.imageShortName | string | `"lokahi-keycloak"` |  |
+| Keycloak.path | string | `"/auth"` |  |
+| Keycloak.port | int | `8080` |  |
+| Keycloak.realmName | string | `"opennms"` |  |
+| Keycloak.serviceName | string | `"onms-keycloak"` |  |
 | OpenNMS.alert.databaseHost | string | `"postgres"` |  |
 | OpenNMS.alert.databaseName | string | `"desenv"` |  |
 | OpenNMS.alert.databaseSchemaName | string | `"alert"` |  |
@@ -75,14 +105,6 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.events.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.events.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.events.serviceName | string | `"opennms-events"` |  |
-| OpenNMS.global.developmentMode | bool | `false` |  |
-| OpenNMS.global.enableJsonLogging | bool | `false` |  |
-| OpenNMS.global.image.repository | string | `"opennms"` |  |
-| OpenNMS.global.image.tag | string | `"latest"` |  |
-| OpenNMS.global.kafkaClient.bootstrapServers | string | `"onms-kafka:9092"` |  |
-| OpenNMS.global.openTelemetry.env.OTEL_PROPAGATORS | string | `"tracecontext,baggage,jaeger"` |  |
-| OpenNMS.global.openTelemetry.otlpTracesEndpoint | string | `nil` |  |
-| OpenNMS.global.springBoot.env | object | `{}` |  |
 | OpenNMS.inventory.databaseHost | string | `"postgres"` |  |
 | OpenNMS.inventory.databaseName | string | `"desenv"` |  |
 | OpenNMS.inventory.databaseSchemaName | string | `"inventory"` |  |
@@ -109,11 +131,11 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsProcessor.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.metricsProcessor.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.metricsProcessor.serviceName | string | `"opennms-metrics-processor"` |  |
-| OpenNMS.minionCertificateManager.caSecretName | string | `""` |  |
-| OpenNMS.minionCertificateManager.enabled | bool | `false` |  |
+| OpenNMS.minionCertificateManager.caSecretName | string | `"root-ca-certificate"` |  |
+| OpenNMS.minionCertificateManager.enabled | bool | `true` |  |
 | OpenNMS.minionCertificateManager.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.minionCertificateManager.imageShortName | string | `"lokahi-minion-certificate-manager"` |  |
-| OpenNMS.minionCertificateManager.mtlsSecretName | string | `"opennms-minion-certificate"` |  |
+| OpenNMS.minionCertificateManager.mtlsSecretName | string | `"client-root-ca-certificate"` |  |
 | OpenNMS.minionCertificateManager.privateRepoEnabled | bool | `false` |  |
 | OpenNMS.minionCertificateManager.replicas | int | `1` |  |
 | OpenNMS.minionCertificateManager.resources.limits.cpu | string | `"1"` |  |
@@ -158,7 +180,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionGateway.useKubernetes | string | `"true"` |  |
 | OpenNMS.notification.acsConnectionSecretName | object | `{}` |  |
 | OpenNMS.notification.baseUrl.appendTenantId | bool | `false` |  |
-| OpenNMS.notification.baseUrl.url | string | `"onmshs:443"` |  |
+| OpenNMS.notification.baseUrl.port | int | `443` |  |
 | OpenNMS.notification.databaseHost | string | `"postgres"` |  |
 | OpenNMS.notification.databaseName | string | `"desenv"` |  |
 | OpenNMS.notification.databaseSchemaName | string | `"notification"` |  |
@@ -194,9 +216,13 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.ui.resources.requests.memory | string | `"256Mi"` |  |
 | OpenNMS.ui.serviceName | string | `"opennms-ui"` |  |
 | OpenNMS.ui.tlsSecretName | string | `"opennms-ui-certificate"` |  |
-| citus.adminPassword | string | `""` |  |
-| citus.adminUser | string | `"desenv"` |  |
-| citus.enabled | bool | `false` |  |
+| Prometheus.auth.externalSecret | string | `""` |  |
+| Prometheus.auth.password | string | `"notset"` |  |
+| Prometheus.auth.username | string | `"admin"` |  |
+| Prometheus.enabled | bool | `true` |  |
+| Prometheus.path | string | `"/prometheus"` |  |
+| Prometheus.port | int | `9090` |  |
+| Prometheus.serviceName | string | `"prometheus"` |  |
 | cortexClient.hostRead | string | `"cortex"` |  |
 | cortexClient.hostWrite | string | `"cortex"` |  |
 | cortexClient.pathRead | string | `"/prometheus/api/v1"` |  |
@@ -206,11 +232,16 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | cortexClient.protocol | string | `"http"` |  |
 | customErrors.debug | bool | `true` |  |
 | customErrors.image | string | `"quay.io/kubernetes-ingress-controller/custom-error-pages:0.4"` |  |
-| grafana.enabled | bool | `true` |  |
-| grafana.path | string | `"/grafana"` |  |
-| grafana.port | int | `3000` |  |
-| grafana.serviceName | string | `"grafana"` |  |
-| hostname | string | `"onmshs"` |  |
+| global.enableJsonLogging | bool | `false` |  |
+| global.hostname | string | `"onmshs"` |  |
+| global.image.repository | string | `"opennms"` |  |
+| global.image.tag | string | `"v0.0.60"` |  |
+| global.kafkaClient.bootstrapServers | string | `"onms-kafka:9092"` |  |
+| global.openTelemetry.env.OTEL_PROPAGATORS | string | `"tracecontext,baggage,jaeger"` |  |
+| global.openTelemetry.otlpTracesEndpoint | string | `nil` |  |
+| global.port | int | `443` |  |
+| global.protocol | string | `"https"` |  |
+| global.springBoot.env | object | `{}` |  |
 | ingress.controllerimage | string | `"registry.k8s.io/ingress-nginx/controller:v1.7.0@sha256:7612338342a1e7b8090bef78f2a04fffcadd548ccaabe8a47bf7758ff549a5f7"` |  |
 | ingress.defaultEndpointsEnabled | bool | `true` |  |
 | ingress.enabled | bool | `false` |  |
@@ -218,20 +249,9 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | ingress.httpsPort | int | `443` |  |
 | ingress.secretJobimage | string | `"registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660"` |  |
 | ingress.webhookPatchJobimage | string | `"registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660"` |  |
-| keycloak.httpsPort | int | `8443` |  |
-| keycloak.path | string | `"/auth"` |  |
-| keycloak.port | int | `8080` |  |
-| keycloak.realmName | string | `"opennms"` |  |
-| keycloak.serviceName | string | `"onms-keycloak"` |  |
 | nodeRestrictions.enabled | bool | `false` |  |
 | nodeRestrictions.key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
 | nodeRestrictions.value | string | `"spot"` |  |
-| port | int | `443` |  |
-| prometheus.enabled | bool | `true` |  |
-| prometheus.path | string | `"/prometheus"` |  |
-| prometheus.port | int | `9090` |  |
-| prometheus.serviceName | string | `"prometheus"` |  |
-| protocol | string | `"https"` |  |
 | tls.certificateGeneration | bool | `false` |  |
 | tls.enabled | bool | `true` |  |
 
