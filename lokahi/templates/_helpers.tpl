@@ -20,13 +20,14 @@ tag:
 TODO: The default tag should eventually be .Chart.AppVersion, but we
 aren't versioning the chart yet.
 */}}
+# Used for dependencies Image, tag and repository used globally for all dependencies and lokahi charts
 {{- define "lokahi.image" }}
 {{- if .thisService.image -}}
 {{- .thisService.image -}}
 {{- else -}}
 {{- $imageShortName := .thisService.imageShortName | default .thisService.serviceName -}}
-{{- $tag := .Values.OpenNMS.global.image.tag | default "latest" -}}
-{{- printf "%s/%s:%s" .Values.OpenNMS.global.image.repository $imageShortName $tag -}}
+{{- $tag := .Values.global.image.tag | default "latest" -}}
+{{- printf "%s/%s:%s" .Values.global.image.repository $imageShortName $tag -}}
 {{- end -}}
 {{- end -}}
 

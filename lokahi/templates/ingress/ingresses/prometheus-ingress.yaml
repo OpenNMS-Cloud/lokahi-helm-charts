@@ -1,0 +1,39 @@
+{{- if .Values.Prometheus.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- range $Annotation, $Value := .Values.OpenNMS.ui.ingressAnnotations }}
+    {{ $Annotation | quote }}: {{ $Value | quote }}
+    {{- end }}
+    ingress.kubernetes.io/affinity: "cookie"
+    ingress.kubernetes.io/session-cookie-name: "route"
+    ingress.kubernetes.io/session-cookie-hash: "sha1"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/auth-realm: Prometheus
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: {{ default "prometheus-credentials" .Values.Prometheus.auth.externalSecret }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.global.hostname }}
+      http:
+        paths:
+          {{- if .Values.Prometheus.enabled }}
+          - path: {{ .Values.Prometheus.path }}
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.Prometheus.serviceName }}
+                port:
+                  number: {{ .Values.Prometheus.port }}
+          {{- end }}
+  {{- if .Values.tls.enabled }}
+  tls:
+    - hosts:
+        -  {{.Values.global.hostname }}
+      secretName: {{ .Values.OpenNMS.ui.tlsSecretName }}
+  {{- end }}
+{{- end }}

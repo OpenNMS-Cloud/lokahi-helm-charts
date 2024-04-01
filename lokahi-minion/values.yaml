@@ -1,43 +1,47 @@
-hostname: onmshs
-port: 443 #set depending on tls.enabled and the ingress ports, do not change
-protocol: https #set depending on tls.enabled, do not change
-OpenNMS: # we might be able to remove this
-  global:
-    image:
-      repository: opennms
-      tag: latest
-    openTelemetry:
-      otlpTracesEndpoint: null
-      env:
-        OTEL_PROPAGATORS: tracecontext,baggage,jaeger
-  minion:
-    # Manually set an ID for Minion
-    id: ""
-    customCertificateAuthority: false
-    grpcClientKeystorePassword: ""
-    serviceName: opennms-minion
-    imageShortName: lokahi-minion
-    imagePullPolicy: IfNotPresent
-    replicas: 1
-    port: 8181
-    sshPort: 8101
-    trapsListenerPort: 1162
-    netflow5ListenerPort: 8877
-    netflow9ListenerPort: 4729
-    netflowListenerPort: 9999
-    # If we are running inside the cluster, we need to set this value to the internal nginx controller service name
-    gatewayHost: ""
-    resources:
-      limits:
-        cpu: "2"
-        memory: 1Gi
-      requests:
-        cpu: "1"
-        memory: 1Gi
-    extraVolumes: []
-    extraMounts: []
-    extraInitContainers: []
-nodeRestrictions: # will be applied to every pod in the instance
+global:
+  hostname: onmshs
+  port: 443  # set depending on tls.enabled and the ingress ports, do not change
+  protocol: https  # set depending on tls.enabled, do not change
+  image:
+    repository: opennms
+    tag: v0.0.60
+  openTelemetry:
+    otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
+    env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
+      OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+# Set an ID for Minion
+id: ""
+# Enable this option if you are placing a `ca.cert` under the `certs` folder
+customCertificateAuthority: false
+grpcClientKeystorePassword: ""  # client keystore password to sign PKCS12 file
+serviceName: opennms-minion
+imageShortName: lokahi-minion
+imagePullPolicy: IfNotPresent
+minionAppSecrets: ""
+replicas: 1
+port: 8181
+sshPort: 8101
+trapsListenerPort: 1162  # snmp-traps port
+netflow5ListenerPort: 8877  # netflow5 port
+netflow9ListenerPort: 4729  # netflow9 port
+netflowListenerPort: 9999
+logLevel: ""
+# If we are running inside the cluster, we need to set mapping of the ip address to hostname
+customHostAliases: []
+# Override, the default gatewayHost
+#  If we are running inside the cluster, we can set this value to the internal nginx controller service name
+gatewayHost: ""
+resources:
+  limits:
+    cpu: "2"
+    memory: 1Gi
+  requests:
+    cpu: "1"
+    memory: 1Gi
+extraVolumes: []
+extraMounts: []
+extraInitContainers: []
+nodeRestrictions:  # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
   value: spot

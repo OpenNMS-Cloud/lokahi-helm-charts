@@ -1,58 +1,47 @@
-hostname: onmshs
-port: 443 #set depending on tls.enabled and the ingress ports, do not change
-protocol: https #set depending on tls.enabled, do not change
-OpenNMS: # we might be able to remove this
-  global:
-    image:
-      repository: opennms
-      tag: latest
-grafana:
-  enabled: true
-  path: /grafana
-  port: 3000
-  replicas: 1
-  databaseHost: "postgres"
-  serviceName: grafana
-  imageShortName: lokahi-grafana
-  imagePullPolicy: IfNotPresent
-  initContainerimage: busybox
-  autoAssignOrgRole: Admin  # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#auto_assign_org_role
-  resources:
-    limits:
-      cpu: 500m
-      memory: 1Gi
-    requests:
-      cpu: 100m
-      memory: 100Mi
-citus:
+global:
+ hostname: onmshs
+ port: 443 #set depending on tls.enabled and the ingress ports, do not change
+ protocol: https #set depending on tls.enabled, do not change
+enabled: true
+path: /grafana
+grafanaPort: 3000
+replicas: 1
+databaseHost: "postgres" # Database host name in grafana secret
+serviceName: grafana
+imageShortName: lokahi-grafana
+imagePullPolicy: IfNotPresent
+initContainerimage: busybox
+autoAssignOrgRole: Admin  # https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#auto_assign_org_role
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+Citus:
   enabled: true
   workersEnabled: true
   serviceName: postgres
-  adminUser: desenv
-  adminPassword: notset
-  grafanaPassword: notset
-cortex:
+  adminUser: desenv # admin username for citus
+  adminPassword: notset # admin password for citus
+  grafanaPassword: notset # password for grafana user
+Cortex:
   enabled: true
   serviceName: cortex
   port: 9000
-kafka:
-  enabled: true
-  serviceName: onms-kafka
-  port: 9092
-  controllerPort: 9093
-  localPort: 59092
 nodeRestrictions: # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
   value: spot
-
-keycloak:
+# Keycloak integration with grafana
+Keycloak:
   path: /auth
   port: 8080
   serviceName: onms-keycloak
   realmName: opennms
-
-prometheus:
+# Prometheus integration with grafana
+Prometheus:
   enabled: true
   path: /prometheus
   serviceName: prometheus

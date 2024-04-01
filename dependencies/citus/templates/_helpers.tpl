@@ -46,6 +46,7 @@ Note: when this is included, the the lokahi.development.env include should be la
 in the 'env' section so variables can be overridden with Helm chart values when needed
 by adding them as key/value pairs under <serviceName>.env.
 */}}
+# this function is used for citus dependency Image, tag and repository.
 {{- define "lokahi.deployment.env" -}}
   {{- /* OpenTelemetry environment variables */ -}}
 - name: OTEL_SERVICE_NAME

@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: keycloak
-  name: {{ .Values.keycloak.serviceName }}
+  name: {{ .Values.serviceName }}
   namespace: {{ .Release.Namespace }}
 spec:
   internalTrafficPolicy: Cluster
@@ -11,19 +11,19 @@ spec:
   - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-    - port: {{ .Values.keycloak.port }}
+    - port: {{ .Values.port }}
       name: http
       protocol: TCP
-      targetPort: {{ .Values.keycloak.port }}
-    - port: {{ .Values.keycloak.httpsPort }}
+      targetPort: {{ .Values.port }}
+    - port: {{ .Values.httpsPort }}
       name: https
       protocol: TCP
-      targetPort: {{ .Values.keycloak.httpsPort }}
+      targetPort: {{ .Values.httpsPort }}
     - port: 7800
       name: discovery
       protocol: TCP
       targetPort: 7800
   selector:
-    app: {{ .Values.keycloak.serviceName }}
+    app: {{ .Values.serviceName }}
   sessionAffinity: None
   type: ClusterIP

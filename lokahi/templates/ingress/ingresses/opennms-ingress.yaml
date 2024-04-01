@@ -16,7 +16,7 @@ spec:
       port:
         number: {{ .Values.OpenNMS.ui.port }}
   rules:
-    - host: {{ .Values.hostname }}
+    - host: {{ .Values.global.hostname }}
       http:
         paths:
           - path: {{ .Values.OpenNMS.ui.path }}
@@ -26,13 +26,13 @@ spec:
                 name: {{ .Values.OpenNMS.ui.serviceName }}
                 port:
                   number: {{ .Values.OpenNMS.ui.port }}
-          - path: {{ .Values.keycloak.path }}
+          - path: {{ .Values.Keycloak.path }}
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.keycloak.serviceName }}
+                name: {{ .Values.Keycloak.serviceName }}
                 port:
-                  number: {{ .Values.keycloak.port }}
+                  number: {{ .Values.Keycloak.port }}
           - path: {{ .Values.OpenNMS.api.path }}
             pathType: Prefix
             backend:
@@ -40,26 +40,17 @@ spec:
                 name: {{ .Values.OpenNMS.api.serviceName }}
                 port:
                   number: 9090
-          - path: {{ .Values.grafana.path }}
+          - path: {{ .Values.Grafana.path }}
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.grafana.serviceName }}
+                name: {{ .Values.Grafana.serviceName }}
                 port:
-                  number: {{ .Values.grafana.port }}
-          {{- if .Values.prometheus.enabled }}
-          - path: {{ .Values.prometheus.path }}
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Values.prometheus.serviceName }}
-                port:
-                  number: {{ .Values.prometheus.port }}
-          {{- end }}
+                  number: {{ .Values.Grafana.port }}
   {{- if .Values.tls.enabled }}
   tls:
     - hosts:
-        -  {{.Values.hostname }}
+        -  {{.Values.global.hostname }}
       secretName: {{ .Values.OpenNMS.ui.tlsSecretName }}
   {{- end }}
 {{- end }}
