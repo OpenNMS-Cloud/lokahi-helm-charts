@@ -9,9 +9,10 @@ EXECTIME="$(date +%Y%m%d_%H%M%S)"
 LOGFILE="$(pwd)/../logs/${EXECTIME}.log"
 
 # Common properties
-export DOMAIN="example.com"
+export DOMAIN="lokahi.com"
 export PORT=443
-export NAMESPACE="default"
+export NAMESPACE="lokahi"
+export MINION_NAMESPACE="${NAMESPACE}"
 export CLUSTERTYPE="Kubernetes" #Kubernetes,set value to Kind, when running on kind cluster
 
 command -v helm    >/dev/null 2>&1 || { echo >&2 "helm is required but it's not installed. Aborting."; exit 1; }
@@ -76,7 +77,7 @@ if [ $return_code -ne 0 ]; then
  exit $return_code
 fi
 
-./install_lokahi_minion.sh "${DOMAIN}" "${PORT}" "${NAMESPACE}" "${LOGFILE}"
+./install_lokahi_minion.sh "${DOMAIN}" "${PORT}" "${MINION_NAMESPACE}" "${LOGFILE}"
 
 echo " " >> "${LOGFILE}" 2>&1
 echo "<<------>>" >> "${LOGFILE}" 2>&1
