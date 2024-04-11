@@ -198,6 +198,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.retry.maxDelay | int | `60000` |  |
 | OpenNMS.notification.retry.multiplier | int | `2` |  |
 | OpenNMS.notification.serviceName | string | `"opennms-notifications"` |  |
+| OpenNMS.notification.smtpHost | string | `""` |  |
+| OpenNMS.notification.smtpPort | string | `""` |  |
 | OpenNMS.ui.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.ui.imageShortName | string | `"lokahi-ui"` |  |
 | OpenNMS.ui.ingressAnnotations."nginx.ingress.kubernetes.io/client-body-buffer-size" | string | `"4k"` |  |
