@@ -28,8 +28,10 @@ msg "LOKAHI MINION VALUE FILE: ${LOKAHIMINIONVALUEFILE}"
 msg "LOGFILE: ${LOGFILE}"
 
 if [ "$NAMESPACE" != "default" ]; then
- msg "Creating ${NAMESPACE} namespace"
- kubectl create namespace "${NAMESPACE}"
+ if [ "$(kubectl get namespace  --no-headers -o custom-columns=":metadata.name" | grep "^$NAMESPACE")" != "$NAMESPACE" ]; then
+  msg "Creating ${NAMESPACE} namespace"
+  kubectl create namespace "${NAMESPACE}"
+ fi
 fi
 
 msg "Installing Lokahi Minion" 
