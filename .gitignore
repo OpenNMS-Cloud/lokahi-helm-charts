@@ -5,4 +5,4 @@ lokahi/charts
 support-scripts/tmp
 support-scripts/logs
 lokahi-minion/certs/ca.crt
-lokahi-minion/certs/minion1.p12
+lokahi-minion/certs/minion.p12
