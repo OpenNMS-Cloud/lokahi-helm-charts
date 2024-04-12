@@ -11,7 +11,7 @@ LOGFILE="$(pwd)/../logs/${EXECTIME}.log"
 # Common properties
 export DOMAIN="lokahi.com"
 export PORT=443
-export NAMESPACE="lokahi"
+export NAMESPACE="default"
 export MINION_NAMESPACE="${NAMESPACE}"
 export CLUSTERTYPE="Kubernetes" #Kubernetes,set value to Kind, when running on kind cluster
 

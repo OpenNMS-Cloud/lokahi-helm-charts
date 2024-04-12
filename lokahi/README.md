@@ -1,6 +1,6 @@
 # lokahi
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
 
 A Helm chart for running OpenNMS Lokahi in Kubernetes
 
@@ -198,6 +198,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.retry.maxDelay | int | `60000` |  |
 | OpenNMS.notification.retry.multiplier | int | `2` |  |
 | OpenNMS.notification.serviceName | string | `"opennms-notifications"` |  |
+| OpenNMS.notification.smtpHost | string | `""` |  |
+| OpenNMS.notification.smtpPort | string | `""` |  |
 | OpenNMS.ui.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.ui.imageShortName | string | `"lokahi-ui"` |  |
 | OpenNMS.ui.ingressAnnotations."nginx.ingress.kubernetes.io/client-body-buffer-size" | string | `"4k"` |  |

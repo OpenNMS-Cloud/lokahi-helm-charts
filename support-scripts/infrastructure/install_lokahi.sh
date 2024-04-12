@@ -59,7 +59,9 @@ fi
 
 msg "Setting up certificates"
 cd ../../support-scripts || exit
+if [ ! -d "tmp" ]; then
 mkdir tmp
+fi
 ./load-or-generate-secret.sh "opennms-ca" "root-ca-certificate" "tmp/server-ca.key" "tmp/server-ca.crt" -n "$NAMESPACE" >> "${LOGFILE}" 2>&1
 ./generate-and-sign-certificate.sh "minion.$DOMAIN" "opennms-minion-gateway-certificate" "tmp/server-ca.key" "tmp/server-ca.crt" -n "$NAMESPACE" >> "${LOGFILE}" 2>&1
 ./generate-and-sign-certificate.sh "$DOMAIN" "opennms-ui-certificate" "tmp/server-ca.key" "tmp/server-ca.crt" -n "$NAMESPACE" >> "${LOGFILE}" 2>&1
