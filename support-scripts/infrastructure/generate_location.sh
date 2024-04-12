@@ -29,7 +29,7 @@ AUTHURL="${API_BASE_URL}/auth/realms/${AUTH_REALM}/protocol/openid-connect/token
 GRAPHURL="${API_BASE_URL}/api/graphql"
 
 CLIENT_TRUSTSTORE="$(pwd)/../tmp/ca.crt"
-CLIENT_KEYSTORE="$(pwd)/../tmp/minion1.p12"
+CLIENT_KEYSTORE="$(pwd)/../tmp/minion.p12"
 
 kubectl get secret root-ca-certificate ${KUBERNETES_NAMESPACE} -o go-template='{{index .data "ca.crt" }}' | base64 --decode > "${CLIENT_TRUSTSTORE}"
 
@@ -115,7 +115,9 @@ RESPONSE=$(curl \
 
 store_certificate ()
 {
+	echo "Storing Certificate"
     echo "${CERTIFICATE_DATA}" | base64 --decode >"/tmp/cert.zip"
+	#unzip -l /tmp/cert.zip
     unzip -o -p /tmp/cert.zip storage/minion1-${LOCATION_NAME}.p12 >"${CLIENT_KEYSTORE}"
 }
 
@@ -124,6 +126,12 @@ create_location
 lookup_location
 retrieve_certificate
 store_certificate
+
+if [ ! -f "${CLIENT_KEYSTORE}" ]; then
+echo "Unable to find ${CLIENT_KEYSTORE}"
+exit 1
+fi
+
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
 OURIP="$(ipconfig getifaddr en0)"
@@ -141,4 +149,4 @@ sed 's/customHostAliases: \[\]/customHostAliases: \
 sed "s/OURIP/${OURIP}/g" ../tmp/minion2.yaml > ../tmp/minion.yaml
 
 mv ../tmp/ca.crt ../../lokahi-minion/certs/ca.crt
-mv ../tmp/minion1.p12 ../../lokahi-minion/certs/minion1.p12
+mv ../tmp/minion.p12 ../../lokahi-minion/certs/minion.p12

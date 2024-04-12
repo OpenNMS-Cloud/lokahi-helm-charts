@@ -1,5 +1,9 @@
 #!/bin/bash
 
+msg(){
+    echo "$1" | tee -a  "${LOGFILE}" 2>&1
+}
+
 SECONDS=0
 EXECTIME="$(date +%Y%m%d_%H%M%S)"
 
@@ -18,12 +22,19 @@ INGRESSVALUEFILE="../../examples/ingress-nginx-values.yaml"
 
 
 sed "s/  hostname: onmshs/  hostname: $DOMAIN/g" ${LOKAHIVALUEFILE} > ../tmp/lokahi.yaml
+if [ "$NAMESPACE" != "default" ]; then
+msg "Making namespace modifications"
+sed "s/      nginx.ingress.kubernetes.io\/auth-tls-secret: default\/client-root-ca-certificate/      nginx.ingress.kubernetes.io\/auth-tls-secret: ${NAMESPACE}\/client-root-ca-certificate/g" ../tmp/lokahi.yaml > ../tmp/lokahi2.yaml
+sed "s/      nginx.ingress.kubernetes.io\/auth-url: \"http:\/\/opennms-minion-certificate-verifier.default.svc.cluster.local:8080\/certificate\/debug\"/      nginx.ingress.kubernetes.io\/auth-url: \"http:\/\/opennms-minion-certificate-verifier.${NAMESPACE}.svc.cluster.local:8080\/certificate\/debug\"/g" ../tmp/lokahi2.yaml > ../tmp/lokahi.yaml
+rm ../tmp/lokahi2.yaml
+fi
 LOKAHIVALUEFILE="../tmp/lokahi.yaml"
 
+if [ ! -s "$LOKAHIVALUEFILE" ]; then
+msg "The file '${LOKAHIVALUEFILE}' is empty."
+exit 1
+fi
 
-msg(){
-    echo "$1" | tee -a  "${LOGFILE}" 2>&1
-}
 
 msg "Lokahi Installation Script" 
 msg "EXECTIME: ${EXECTIME}"
@@ -48,7 +59,9 @@ fi
 
 msg "Setting up certificates"
 cd ../../support-scripts || exit
+if [ ! -d "tmp" ]; then
 mkdir tmp
+fi
 ./load-or-generate-secret.sh "opennms-ca" "root-ca-certificate" "tmp/server-ca.key" "tmp/server-ca.crt" -n "$NAMESPACE" >> "${LOGFILE}" 2>&1
 ./generate-and-sign-certificate.sh "minion.$DOMAIN" "opennms-minion-gateway-certificate" "tmp/server-ca.key" "tmp/server-ca.crt" -n "$NAMESPACE" >> "${LOGFILE}" 2>&1
 ./generate-and-sign-certificate.sh "$DOMAIN" "opennms-ui-certificate" "tmp/server-ca.key" "tmp/server-ca.crt" -n "$NAMESPACE" >> "${LOGFILE}" 2>&1

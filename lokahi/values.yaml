@@ -179,6 +179,8 @@ OpenNMS:
       requests:
         cpu: "1"
         memory: 2Gi
+    smtpHost: ""
+    smtpPort: ""
     privateRepoEnabled: false
     kafkaSecretName: ~
     retry:

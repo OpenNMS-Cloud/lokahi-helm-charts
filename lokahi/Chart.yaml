@@ -1,6 +1,6 @@
 apiVersion: v2
 name: lokahi
-version: 1.0.0
+version: 1.0.1
 home: https://github.com/OpenNMS-Cloud/lokahi
 icon: https://www.opennms.com/wp-content/uploads/2021/04/OpenNMS_Favicon_36px.png
 type: application
