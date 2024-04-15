@@ -14,11 +14,11 @@ spec:
     - port: {{ .Values.port }}
       name: http
       protocol: TCP
-      targetPort: {{ .Values.port }}
+      targetPort: 8080
     - port: {{ .Values.httpsPort }}
       name: https
       protocol: TCP
-      targetPort: {{ .Values.httpsPort }}
+      targetPort: 8443
     - port: 7800
       name: discovery
       protocol: TCP

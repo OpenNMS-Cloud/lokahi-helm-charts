@@ -11,11 +11,11 @@ spec:
     - port: {{ .Values.port }}
       name: client
       protocol: TCP
-      targetPort: {{ .Values.port }}
+      targetPort: 9092
     - port: {{ .Values.controllerPort }}
       name: controller
       protocol: TCP
-      targetPort: {{ .Values.controllerPort }}
+      targetPort: 9093
   selector:
     app: {{ .Values.serviceName }}
   type: ClusterIP

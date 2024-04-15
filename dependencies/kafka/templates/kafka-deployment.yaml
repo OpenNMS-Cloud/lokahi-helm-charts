@@ -74,9 +74,9 @@ spec:
               memory: "{{ .Values.resources.requests.memory }}"
           ports:
             - name: client
-              containerPort: {{ .Values.port }}
+              containerPort: 9092
             - name: controller
-              containerPort: {{ .Values.controllerPort }}
+              containerPort: 9093
             - name: local
               containerPort: {{ .Values.localPort }}
           livenessProbe:

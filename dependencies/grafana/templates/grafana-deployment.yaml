@@ -93,7 +93,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 10
             tcpSocket:
-              port: {{ .Values.grafanaPort }}
+              port: 3000
           resources:
             limits:
               cpu: "{{ .Values.resources.limits.cpu }}"

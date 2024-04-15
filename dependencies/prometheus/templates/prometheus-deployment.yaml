@@ -47,7 +47,7 @@ spec:
         - name: {{ .Values.serviceName }}
           image: {{ .Values.image }}
           ports:
-            - containerPort: {{ .Values.port }}
+            - containerPort: 9090
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu }}

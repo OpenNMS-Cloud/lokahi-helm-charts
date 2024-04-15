@@ -10,6 +10,7 @@ spec:
   type: ClusterIP
   ports:
     - port: {{ .Values.port }}
+      targetPort: 9090
       protocol: TCP
       name: prometheus-http
   selector:

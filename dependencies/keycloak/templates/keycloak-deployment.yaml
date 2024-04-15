@@ -154,9 +154,9 @@ spec:
             {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values) | nindent 12 }}
           ports:
             - name: http
-              containerPort: {{ .Values.port }}
+              containerPort: 8080
             - name: https
-              containerPort: {{ .Values.httpsPort }}
+              containerPort: 8443
           volumeMounts:
             {{- if and .Values.tls.enabled .Values.tlsSecretName }}
             - mountPath: /mnt/certificates

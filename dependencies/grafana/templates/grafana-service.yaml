@@ -10,7 +10,7 @@ spec:
   ports:
     - port: {{ .Values.grafanaPort }}
       protocol: TCP
-      targetPort: {{ .Values.grafanaPort }}
+      targetPort: 3000
   selector:
     app: {{ .Values.serviceName }}
   type: ClusterIP
