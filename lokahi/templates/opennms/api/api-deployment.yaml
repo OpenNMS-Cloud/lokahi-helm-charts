@@ -73,16 +73,16 @@ spec:
               value: "false"
             {{- end }}
             - name: GRPC_URL_INVENTORY
-              value: "{{ .Values.OpenNMS.inventory.serviceName }}:6565"
+              value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             - name: GRPC_URL_EVENTS
-              value: "{{ .Values.OpenNMS.events.serviceName }}:6565"
+              value: "{{ .Values.OpenNMS.events.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             - name: GRPC_URL_NOTIFICATION
-              value: "{{ .Values.OpenNMS.notification.serviceName }}:6565"
+              value: "{{ .Values.OpenNMS.notification.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             - name: GRPC_URL_ALERT
-              value: "{{ .Values.OpenNMS.alert.serviceName }}:6565"
+              value: "{{ .Values.OpenNMS.alert.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             - name: GRPC_URL_MINION_CERTIFICATE_MANAGER
               value: {{ if or (eq .Values.OpenNMS.api.certificateManagerUrl "") (eq .Values.OpenNMS.api.certificateManagerUrl "dev")
-                }}"{{ .Values.OpenNMS.minionCertificateManager.serviceName }}:8990"{{
+                }}"{{ .Values.OpenNMS.minionCertificateManager.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 8990 }}"{{
               else
                 }}"{{ .Values.OpenNMS.api.certificateManagerUrl }}"{{ end }}
             - name: GRPC_URL_FLOWS
@@ -132,9 +132,9 @@ spec:
                 name: spring-boot-env
           ports:
             - name: grpc
-              containerPort: 9090
+              containerPort: {{ .Values.OpenNMS.port.grpc | default 9090 }}
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"

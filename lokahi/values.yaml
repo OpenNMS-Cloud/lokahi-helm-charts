@@ -14,7 +14,26 @@ global:
     otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
     env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
       OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+  cortex:
+    port: ~       # default value 9000
+  grafana:
+    port: ~       # default value  3000
+  kafka:
+    port: ~       # default value  9092
+    localPort: ~       # default value  59092
+    controllerPort: ~       # default value  9093
+  prometheus:
+    port: ~        # default value  9090
+  keycloak:
+    port: ~        # default value  8080
+    httpsPort: ~   # default value  8443
+  citus:
+    port: ~       # default value  5432
+
 OpenNMS:
+  port:
+    grpc: ~       # default value  6565
+    http: ~       # default value  8080
 # Specifies configuration for API module, including service details, image settings, resource
 # limits, external flow server URL, certificate manager URL and GraphQL playground settings.
   api:
@@ -65,12 +84,12 @@ OpenNMS:
 # resource limits, repository access and Ingress annotations for opennms.
   ui:
     path: /
+    port: 8080
     serviceName: opennms-ui
     tlsSecretName: opennms-ui-certificate
     imageShortName: lokahi-ui
     imagePullPolicy: IfNotPresent
     replicas: 1
-    port: 8080
     resources:
       limits:
         cpu: "1"

@@ -69,7 +69,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.inventory.databaseHost }}:5432/{{ .Values.OpenNMS.inventory.databaseName }}?currentSchema={{ .Values.OpenNMS.inventory.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.inventory.databaseHost }}:{{ .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.OpenNMS.inventory.databaseName }}?currentSchema={{ .Values.OpenNMS.inventory.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -100,9 +100,9 @@ spec:
           {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.inventory | indent 10 }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
             - name: grpc
-              containerPort: 6565
+              containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }}
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"

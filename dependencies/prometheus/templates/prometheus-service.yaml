@@ -9,7 +9,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: {{ .Values.port }}
+    - port: {{ .Values.global.prometheus.port | default .Values.port }}
       targetPort: 9090
       protocol: TCP
       name: prometheus-http

@@ -71,7 +71,7 @@ spec:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.notification.databaseHost }}:5432/{{ .Values.OpenNMS.notification.databaseName }}?currentSchema={{ .Values.OpenNMS.notification.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.notification.databaseHost }}:{{ .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.OpenNMS.notification.databaseName }}?currentSchema={{ .Values.OpenNMS.notification.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -109,7 +109,7 @@ spec:
               value: "{{ .Values.OpenNMS.notification.smtpPort }}"
             {{- end }}
             - name: HORIZON_KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloak.port | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: HORIZON_KEYCLOAK_ADMIN_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -129,9 +129,9 @@ spec:
           {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.notification | indent 10 }}
           ports:
             - name: grpc
-              containerPort: 6565
+              containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }}
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"

@@ -8,7 +8,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - port: {{ .Values.grafanaPort }}
+    - port: {{ .Values.global.grafana.port | default .Values.port }}
       protocol: TCP
       targetPort: 3000
   selector:

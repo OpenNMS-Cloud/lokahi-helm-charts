@@ -11,7 +11,7 @@ spec:
     app: citus-worker
   clusterIP: None
   ports:
-  - port: {{ .Values.port }}
+  - port: {{ .Values.global.citus.port | default .Values.port }}
     targetPort: 5432
     name: postgres
 {{- end }}

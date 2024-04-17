@@ -89,7 +89,7 @@ spec:
               value: "{{ .Values.hostnameAdminUrl }}"
             {{- end }}
             - name: KC_DB_URL
-              value: "jdbc:postgresql://{{ .Values.databaseHost }}:5432/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.databaseHost }}:{{ .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
