@@ -59,6 +59,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.alert.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.alert.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.alert.serviceName | string | `"opennms-alert"` |  |
+| OpenNMS.alert.debugPort | bool | `false` |  |
 | OpenNMS.api.certificateManagerUrl | string | `""` |  |
 | OpenNMS.api.flowsTlsEnabled | bool | `false` |  |
 | OpenNMS.api.flowsUrl | string | `"SOME-EXTERNAL-FLOW-SERVER:80"` |  |
@@ -81,6 +82,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.api.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.api.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.api.serviceName | string | `"opennms-rest-server"` |  |
+| OpenNMS.api.debugPort | bool | `false` |  |
 | OpenNMS.dataChoices.databaseHost | string | `"postgres"` |  |
 | OpenNMS.dataChoices.databaseName | string | `"desenv"` |  |
 | OpenNMS.dataChoices.databaseSchemaName | string | `"datachoices"` |  |
@@ -93,6 +95,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.dataChoices.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.dataChoices.resources.requests.memory | string | `"1Gi"` |  |
 | OpenNMS.dataChoices.serviceName | string | `"opennms-datachoices"` |  |
+| OpenNMS.dataChoices.debugPort | bool | `false` |  |
 | OpenNMS.events.databaseHost | string | `"postgres"` |  |
 | OpenNMS.events.databaseName | string | `"desenv"` |  |
 | OpenNMS.events.databaseSchemaName | string | `"events"` |  |
@@ -105,6 +108,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.events.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.events.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.events.serviceName | string | `"opennms-events"` |  |
+| OpenNMS.events.debugPort | bool | `false` |  |
 | OpenNMS.inventory.databaseHost | string | `"postgres"` |  |
 | OpenNMS.inventory.databaseName | string | `"desenv"` |  |
 | OpenNMS.inventory.databaseSchemaName | string | `"inventory"` |  |
@@ -119,6 +123,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.inventory.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.inventory.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.inventory.serviceName | string | `"opennms-inventory"` |  |
+| OpenNMS.inventory.debugPort | bool | `false` |  |
 | OpenNMS.metricsProcessor.flowIngestorUrl | string | `"SOME-EXTERNAL-FLOW-SERVER:80"` |  |
 | OpenNMS.metricsProcessor.flowTlsEnabled | bool | `false` |  |
 | OpenNMS.metricsProcessor.imagePullPolicy | string | `"IfNotPresent"` |  |
@@ -131,6 +136,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsProcessor.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.metricsProcessor.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.metricsProcessor.serviceName | string | `"opennms-metrics-processor"` |  |
+| OpenNMS.metricsProcessor.debugPort | bool | `false` |  |
 | OpenNMS.minionCertificateManager.caSecretName | string | `"root-ca-certificate"` |  |
 | OpenNMS.minionCertificateManager.enabled | bool | `true` |  |
 | OpenNMS.minionCertificateManager.imagePullPolicy | string | `"IfNotPresent"` |  |
@@ -143,6 +149,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionCertificateManager.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.minionCertificateManager.resources.requests.memory | string | `"1Gi"` |  |
 | OpenNMS.minionCertificateManager.serviceName | string | `"opennms-minion-certificate-manager"` |  |
+| OpenNMS.minionCertificateManager.debugPort | bool | `false` |  |
 | OpenNMS.minionCertificateManager.volumeSize | string | `"1Gi"` |  |
 | OpenNMS.minionCertificateVerifier.certificateManagerUrl | string | `""` |  |
 | OpenNMS.minionCertificateVerifier.imagePullPolicy | string | `"IfNotPresent"` |  |
@@ -154,6 +161,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionCertificateVerifier.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.minionCertificateVerifier.resources.requests.memory | string | `"1Gi"` |  |
 | OpenNMS.minionCertificateVerifier.serviceName | string | `"opennms-minion-certificate-verifier"` |  |
+| OpenNMS.minionCertificateVerifier.debugPort | bool | `false` |  |
 | OpenNMS.minionGateway.databaseHost | string | `"postgres"` |  |
 | OpenNMS.minionGateway.databaseName | string | `"desenv"` |  |
 | OpenNMS.minionGateway.databaseSchemaName | string | `"minion_gateway"` |  |
@@ -176,6 +184,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionGateway.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.minionGateway.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.minionGateway.serviceName | string | `"opennms-minion-gateway"` |  |
+| OpenNMS.minionGateway.debugPort | bool | `false` |  |
 | OpenNMS.minionGateway.tlsSecretName | string | `"opennms-minion-gateway-certificate"` |  |
 | OpenNMS.minionGateway.useKubernetes | string | `"true"` |  |
 | OpenNMS.notification.acsConnectionSecretName | object | `{}` |  |
@@ -198,6 +207,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.retry.maxDelay | int | `60000` |  |
 | OpenNMS.notification.retry.multiplier | int | `2` |  |
 | OpenNMS.notification.serviceName | string | `"opennms-notifications"` |  |
+| OpenNMS.notification.debugPort | bool | `false` |  |
 | OpenNMS.notification.smtpHost | string | `""` |  |
 | OpenNMS.notification.smtpPort | string | `""` |  |
 | OpenNMS.ui.imagePullPolicy | string | `"IfNotPresent"` |  |
