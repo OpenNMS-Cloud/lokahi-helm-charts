@@ -24,8 +24,6 @@ Citus:
   workersEnabled: true
   serviceName: postgres
   adminUser: desenv # admin username for citus
-  adminPassword: notset # admin password for citus
-  grafanaPassword: notset # password for grafana user
 Cortex:
   enabled: true
   serviceName: cortex
