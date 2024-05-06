@@ -68,9 +68,9 @@ spec:
           env:
             - name: JAVA_TOOL_OPTIONS
               {{- if .Values.OpenNMS.events.debugPort }}
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
+              value: "-javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
               {{- else }}
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar"
+              value: "-javaagent:agent/opentelemetry-javaagent.jar"
               {{- end }}  
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{ .Values.OpenNMS.events.databaseHost }}:5432/{{ .Values.OpenNMS.events.databaseName }}?currentSchema={{ .Values.OpenNMS.events.databaseSchemaName }}"

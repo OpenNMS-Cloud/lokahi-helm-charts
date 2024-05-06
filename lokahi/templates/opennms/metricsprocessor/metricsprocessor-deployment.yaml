@@ -53,9 +53,9 @@ spec:
           env:
             - name: JAVA_TOOL_OPTIONS
               {{- if .Values.OpenNMS.metricsProcessor.debugPort }}
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
+              value: "-javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
               {{- else }}
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar"
+              value: "-javaagent:agent/opentelemetry-javaagent.jar"
               {{- end }}  
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"

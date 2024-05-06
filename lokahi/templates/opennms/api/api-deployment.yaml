@@ -57,9 +57,9 @@ spec:
           env:
             - name: JAVA_TOOL_OPTIONS
               {{- if .Values.OpenNMS.api.debugPort }}
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
+              value: "-javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
               {{- else }}
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar"
+              value: "-javaagent:agent/opentelemetry-javaagent.jar"
               {{- end }} 
             - name: SPRING_CACHE_CAFFEINE_SPEC
               value: "maximumSize=10000,expireAfterWrite=60s"
