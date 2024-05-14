@@ -57,7 +57,7 @@ spec:
             claimName: minion-certificate-manager-pvc
       containers:
         - name: {{ .Values.OpenNMS.minionCertificateManager.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateManager) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateManager) }}{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.OpenNMS.minionCertificateManager.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS

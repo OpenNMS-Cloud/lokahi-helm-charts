@@ -48,7 +48,7 @@ spec:
             name: spring-boot-app-config
       containers:
         - name: {{ .Values.OpenNMS.minionCertificateVerifier.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateVerifier) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateVerifier) }}{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.OpenNMS.minionCertificateVerifier.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS

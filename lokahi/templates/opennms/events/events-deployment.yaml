@@ -63,7 +63,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Values.OpenNMS.events.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.events) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.events) }}{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.OpenNMS.events.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS

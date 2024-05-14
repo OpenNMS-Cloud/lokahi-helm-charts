@@ -57,7 +57,7 @@ spec:
       {{- end }}
       containers:
         - name: keycloak
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values) }}{{ .Chart.AppVersion }}
           imagePullPolicy: "{{ .Values.imagePullPolicy }}"
           resources:
             limits:

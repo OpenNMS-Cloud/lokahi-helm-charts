@@ -48,7 +48,7 @@ spec:
             name: spring-boot-app-config
       containers:
         - name: {{ .Values.OpenNMS.metricsProcessor.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsProcessor) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsProcessor) }}{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.OpenNMS.metricsProcessor.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
