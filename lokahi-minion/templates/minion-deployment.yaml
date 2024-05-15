@@ -90,7 +90,7 @@ spec:
             {{- end}}
             - name: JAVA_TOOL_OPTIONS
               {{- if .Values.debug }}
-              value: "-Djava.net.preferIPv4Stack=true -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address={{ .Values.OpenNMS.alert.debugPort }},suspend=n,quiet=y"
+              value: "-Djava.net.preferIPv4Stack=true -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address={{ .Values.debugPort }},suspend=n,quiet=y"
               {{- else }}
               value: "-Djava.net.preferIPv4Stack=true -javaagent:agent/opentelemetry-javaagent.jar"
               {{- end }}

@@ -61,7 +61,7 @@ spec:
           env:
             - name: JAVA_TOOL_OPTIONS
               {{- if .Values.OpenNMS.minionGateway.debug }}
-              value: "-Djava.net.preferIPv4Stack=true  -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address={{ .Values.OpenNMS.alert.debugPort }},suspend=n,quiet=y -XX:MaxDirectMemorySize=768m"
+              value: "-Djava.net.preferIPv4Stack=true  -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address={{ .Values.OpenNMS.minionGateway.debugPort }},suspend=n,quiet=y -XX:MaxDirectMemorySize=768m"
               {{- else }}
               value: "-Djava.net.preferIPv4Stack=true -javaagent:agent/opentelemetry-javaagent.jar"
               {{- end }} 
