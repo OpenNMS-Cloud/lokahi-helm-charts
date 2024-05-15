@@ -179,8 +179,13 @@ OpenNMS:
       requests:
         cpu: "1"
         memory: 2Gi
-    smtpHost: ""
-    smtpPort: ""
+    mailFrom: admin@test.opennms.org
+    smtpHost: mail-server
+    smtpPort: 1025
+    smtpStartTls: false
+    smtpAuth: false
+    smtpUsername: ~
+    smtpPassword: ~
     privateRepoEnabled: false
     kafkaSecretName: ~
     retry:
