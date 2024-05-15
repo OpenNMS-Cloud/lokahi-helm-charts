@@ -187,6 +187,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.notification.imageShortName | string | `"lokahi-notification"` |  |
 | OpenNMS.notification.kafkaSecretName | string | `nil` |  |
+| OpenNMS.notification.mailFrom | string | `""` |  |
 | OpenNMS.notification.privateRepoEnabled | bool | `false` |  |
 | OpenNMS.notification.replicas | int | `1` |  |
 | OpenNMS.notification.resources.limits.cpu | string | `"2"` |  |
@@ -200,6 +201,10 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.serviceName | string | `"opennms-notifications"` |  |
 | OpenNMS.notification.smtpHost | string | `""` |  |
 | OpenNMS.notification.smtpPort | string | `""` |  |
+| OpenNMS.notification.smtpStartTls | bool | `false` |  |
+| OpenNMS.notification.smtpAuth | bool | `false` |  |
+| OpenNMS.notification.smtpUsername | string | `""` |  |
+| OpenNMS.notification.smtpPassword | string | `""` |  |
 | OpenNMS.ui.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.ui.imageShortName | string | `"lokahi-ui"` |  |
 | OpenNMS.ui.ingressAnnotations."nginx.ingress.kubernetes.io/client-body-buffer-size" | string | `"4k"` |  |
