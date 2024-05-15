@@ -19,7 +19,8 @@ imageShortName: lokahi-minion
 imagePullPolicy: IfNotPresent
 minionAppSecrets: ""
 replicas: 1
-debugPort: false
+debug: false
+debugPort: 5005
 port: 8181
 sshPort: 8101
 trapsListenerPort: 1162  # snmp-traps port

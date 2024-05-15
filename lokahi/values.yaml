@@ -174,7 +174,8 @@ OpenNMS:
     imageShortName: lokahi-notification
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debugPort: false
+    debug: false
+    debugPort: 5005
     databaseName: "desenv"
     databaseSchemaName: "notification"
     databaseHost: "postgres"

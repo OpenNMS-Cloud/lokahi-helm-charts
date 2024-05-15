@@ -67,8 +67,8 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.alert.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              {{- if .Values.OpenNMS.alert.debugPort }}
-              value: "-javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
+              {{- if .Values.OpenNMS.alert.debug }}
+              value: "-javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address={{ .Values.OpenNMS.alert.debugPort }},suspend=n,quiet=y"
               {{- else }}
               value: "-javaagent:agent/opentelemetry-javaagent.jar"
               {{- end }} 
