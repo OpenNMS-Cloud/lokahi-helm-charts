@@ -117,7 +117,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.inventory.databaseName | string | `"desenv"` |  |
 | OpenNMS.inventory.databaseSchemaName | string | `"inventory"` |  |
 | OpenNMS.inventory.debug | bool | `false` |  |
-| OpenNMS.ivventory.debugPort | int | `5005` |  |
+| OpenNMS.inventory.debugPort | int | `5005` |  |
 | OpenNMS.inventory.encryptionKey | string | `nil` |  |
 | OpenNMS.inventory.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.inventory.imageShortName | string | `"lokahi-inventory"` |  |
