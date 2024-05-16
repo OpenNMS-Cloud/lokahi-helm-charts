@@ -179,8 +179,13 @@ OpenNMS:
       requests:
         cpu: "1"
         memory: 2Gi
+    mailFrom: ""          # sender's email address
     smtpHost: ""
     smtpPort: ""
+    smtpStartTls: false   # enable encryption (TLS) for an email connection 
+    smtpAuth: false       # SMTP authentication 
+    smtpUsername: ""
+    smtpPassword: ""
     privateRepoEnabled: false
     kafkaSecretName: ~
     retry:
