@@ -49,7 +49,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.alert.databaseHost | string | `"postgres"` |  |
 | OpenNMS.alert.databaseName | string | `"desenv"` |  |
 | OpenNMS.alert.databaseSchemaName | string | `"alert"` |  |
-| OpenNMS.alert.debugPort | bool | `false` |  |
+| OpenNMS.alert.debug | bool | `false` |  |
+| OpenNMS.alert.debugPort | int | `5005` |  |
 | OpenNMS.alert.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.alert.imageShortName | string | `"lokahi-alert"` |  |
 | OpenNMS.alert.kafkaSecretName | string | `nil` |  |
@@ -61,7 +62,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.alert.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.alert.serviceName | string | `"opennms-alert"` |  |
 | OpenNMS.api.certificateManagerUrl | string | `""` |  |
-| OpenNMS.api.debugPort | bool | `false` |  |
+| OpenNMS.api.debug | bool | `false` |  |
+| OpenNMS.api.debugPort | int | `5005` |  |
 | OpenNMS.api.flowsTlsEnabled | bool | `false` |  |
 | OpenNMS.api.flowsUrl | string | `"SOME-EXTERNAL-FLOW-SERVER:80"` |  |
 | OpenNMS.api.imagePullPolicy | string | `"IfNotPresent"` |  |
@@ -86,7 +88,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.dataChoices.databaseHost | string | `"postgres"` |  |
 | OpenNMS.dataChoices.databaseName | string | `"desenv"` |  |
 | OpenNMS.dataChoices.databaseSchemaName | string | `"datachoices"` |  |
-| OpenNMS.dataChoices.debugPort | bool | `false` |  |
+| OpenNMS.dataChoices.debug | bool | `false` |  |
+| OpenNMS.dataChoices.debugPort | int | `5005` |  |
 | OpenNMS.dataChoices.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.dataChoices.imageShortName | string | `"lokahi-datachoices"` |  |
 | OpenNMS.dataChoices.privateRepoEnabled | bool | `false` |  |
@@ -99,7 +102,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.events.databaseHost | string | `"postgres"` |  |
 | OpenNMS.events.databaseName | string | `"desenv"` |  |
 | OpenNMS.events.databaseSchemaName | string | `"events"` |  |
-| OpenNMS.events.debugPort | bool | `false` |  |
+| OpenNMS.events.debug | bool | `false` |  |
+| OpenNMS.events.debugPort | int | `5005` |  |
 | OpenNMS.events.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.events.imageShortName | string | `"lokahi-events"` |  |
 | OpenNMS.events.privateRepoEnabled | bool | `false` |  |
@@ -112,7 +116,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.inventory.databaseHost | string | `"postgres"` |  |
 | OpenNMS.inventory.databaseName | string | `"desenv"` |  |
 | OpenNMS.inventory.databaseSchemaName | string | `"inventory"` |  |
-| OpenNMS.inventory.debugPort | bool | `false` |  |
+| OpenNMS.inventory.debug | bool | `false` |  |
+| OpenNMS.ivventory.debugPort | int | `5005` |  |
 | OpenNMS.inventory.encryptionKey | string | `nil` |  |
 | OpenNMS.inventory.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.inventory.imageShortName | string | `"lokahi-inventory"` |  |
@@ -124,7 +129,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.inventory.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.inventory.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.inventory.serviceName | string | `"opennms-inventory"` |  |
-| OpenNMS.metricsProcessor.debugPort | bool | `false` |  |
+| OpenNMS.metricsProcessor.debug | bool | `false` |  |
+| OpenNMS.metricsProcessor.debugPort | int | `5005` |  |
 | OpenNMS.metricsProcessor.flowIngestorUrl | string | `"SOME-EXTERNAL-FLOW-SERVER:80"` |  |
 | OpenNMS.metricsProcessor.flowTlsEnabled | bool | `false` |  |
 | OpenNMS.metricsProcessor.imagePullPolicy | string | `"IfNotPresent"` |  |
@@ -138,7 +144,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsProcessor.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.metricsProcessor.serviceName | string | `"opennms-metrics-processor"` |  |
 | OpenNMS.minionCertificateManager.caSecretName | string | `"root-ca-certificate"` |  |
-| OpenNMS.minionCertificateManager.debugPort | bool | `false` |  |
+| OpenNMS.minionCertificateManager.debug | bool | `false` |  |
+| OpenNMS.minionCertificateManager.debugPort | int | `5005` |  |
 | OpenNMS.minionCertificateManager.enabled | bool | `true` |  |
 | OpenNMS.minionCertificateManager.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.minionCertificateManager.imageShortName | string | `"lokahi-minion-certificate-manager"` |  |
@@ -152,7 +159,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionCertificateManager.serviceName | string | `"opennms-minion-certificate-manager"` |  |
 | OpenNMS.minionCertificateManager.volumeSize | string | `"1Gi"` |  |
 | OpenNMS.minionCertificateVerifier.certificateManagerUrl | string | `""` |  |
-| OpenNMS.minionCertificateVerifier.debugPort | bool | `false` |  |
+| OpenNMS.minionCertificateVerifier.debug | bool | `false` |  |
+| OpenNMS.minionCertificateVerifier.debugPort | int | `5005` |  |
 | OpenNMS.minionCertificateVerifier.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.minionCertificateVerifier.imageShortName | string | `"lokahi-minion-certificate-verifier"` |  |
 | OpenNMS.minionCertificateVerifier.privateRepoEnabled | bool | `false` |  |
@@ -165,7 +173,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionGateway.databaseHost | string | `"postgres"` |  |
 | OpenNMS.minionGateway.databaseName | string | `"desenv"` |  |
 | OpenNMS.minionGateway.databaseSchemaName | string | `"minion_gateway"` |  |
-| OpenNMS.minionGateway.debugPort | bool | `false` |  |
+| OpenNMS.minionGateway.debug | bool | `false` |  |
+| OpenNMS.minionGateway.debugPort | int | `5005` |  |
 | OpenNMS.minionGateway.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.minionGateway.imageShortName | string | `"lokahi-minion-gateway"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-response-headers" | string | `"tenant-id, location-id"` |  |
@@ -193,7 +202,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.databaseHost | string | `"postgres"` |  |
 | OpenNMS.notification.databaseName | string | `"desenv"` |  |
 | OpenNMS.notification.databaseSchemaName | string | `"notification"` |  |
-| OpenNMS.notification.debugPort | bool | `false` |  |
+| OpenNMS.notification.debug | bool | `false` |  |
+| OpenNMS.notification.debugPort | int | `5005` |  |
 | OpenNMS.notification.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.notification.imageShortName | string | `"lokahi-notification"` |  |
 | OpenNMS.notification.kafkaSecretName | string | `nil` |  |

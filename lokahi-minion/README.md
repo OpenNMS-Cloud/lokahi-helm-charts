@@ -18,7 +18,8 @@ A Helm chart for running OpenNMS Lokahi minion in Kubernetes
 |-----|------|---------|-------------|
 | customCertificateAuthority | bool | `false` |  |
 | customHostAliases | list | `[]` |  |
-| debugPort | bool | `false` |  |
+| debug | bool | `false` |  |
+| debugPort | int | `5005` |  |
 | extraInitContainers | list | `[]` |  |
 | extraMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |
