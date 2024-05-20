@@ -48,7 +48,7 @@ spec:
             name: spring-boot-app-config
       containers:
         - name: {{ .Values.OpenNMS.minionCertificateVerifier.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateVerifier) }}{{ .Chart.AppVersion }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateVerifier "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.OpenNMS.minionCertificateVerifier.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
@@ -60,7 +60,7 @@ spec:
                 }}"{{ .Values.OpenNMS.minionCertificateVerifier.certificateManagerUrl }}"{{ end }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateVerifier) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateVerifier "tag" .Chart.AppVersion) | nindent 12 }}
           envFrom:
           - configMapRef:
               name: spring-boot-env

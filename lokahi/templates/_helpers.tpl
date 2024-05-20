@@ -26,7 +26,8 @@ aren't versioning the chart yet.
 {{- .thisService.image -}}
 {{- else -}}
 {{- $imageShortName := .thisService.imageShortName | default .thisService.serviceName -}}
-{{- printf "%s/%s:" .Values.global.image.repository $imageShortName  -}}
+{{- $tag := .tag -}}
+{{- printf "%s/%s:%s" .Values.global.image.repository $imageShortName $tag -}}
 {{- end -}}
 {{- end -}}
 
@@ -51,7 +52,7 @@ by adding them as key/value pairs under <serviceName>.env.
 - name: OTEL_SERVICE_NAME
   value: {{ .thisService.serviceName | quote }}
 - name: OTEL_RESOURCE_ATTRIBUTES
-  value: {{ printf "service.version=%s" (regexReplaceAllLiteral ".*:" (include "lokahi.image" .) "") | quote }}
+  value: {{ printf "service.version=%s" .tag | quote }}
   {{- /* Other environment variables */ -}}
   {{- if .thisService.env }}
     {{- range $key, $val := .thisService.env }}
