@@ -26,7 +26,7 @@ aren't versioning the chart yet.
 {{- else -}}
 {{- $imageShortName := .thisService.imageShortName | default .thisService.serviceName -}}
 {{- $tag := .tag -}}
-{{- printf "%s/%s:" .Values.global.image.repository $imageShortName $tag -}}
+{{- printf "%s/%s:%s" .Values.global.image.repository $imageShortName $tag -}}
 {{- end -}}
 {{- end -}}
 
