@@ -89,10 +89,10 @@ spec:
               value: "/opt/karaf/certs/CA.cert"
             {{- end}}
             - name: JAVA_TOOL_OPTIONS
-              {{- if .Values.debug }}
-              value: "-Djava.net.preferIPv4Stack=true -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address={{ .Values.debugPort }},suspend=n,quiet=y"
+              {{- if .Values.debug.enabled }}
+              value: "{{- if .Values.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{- end }} -javaagent:{{ .Values.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.debug.transport }},server={{ if .Values.debug.server }}y{{ else }}n{{ end }},address={{ .Values.debug.port }},suspend={{ if .Values.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.debug.quiet }}y{{ else }}n{{ end }}"
               {{- else }}
-              value: "-Djava.net.preferIPv4Stack=true -javaagent:agent/opentelemetry-javaagent.jar"
+              value: "{{- if .Values.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{- end }} -javaagent:{{ .Values.debug.java.javaAgentPath }}"
               {{- end }}
             {{- if .Values.logLevel }}
             - name: KARAF_OPTS

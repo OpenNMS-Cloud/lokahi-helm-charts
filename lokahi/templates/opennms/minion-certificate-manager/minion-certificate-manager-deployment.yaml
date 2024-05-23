@@ -61,10 +61,10 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.minionCertificateManager.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              {{- if .Values.OpenNMS.minionCertificateManager.debug }}
-              value: "-javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address={{ .Values.OpenNMS.minionCertificateManager.debugPort }},suspend=n,quiet=y"
+              {{- if .Values.OpenNMS.minionCertificateManager.debug.enabled }}
+              value: "{{- if .Values.OpenNMS.minionCertificateManager.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.minionCertificateManager.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.minionCertificateManager.debug.transport }},server={{ if .Values.OpenNMS.minionCertificateManager.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.minionCertificateManager.debug.port }},suspend={{ if .Values.OpenNMS.minionCertificateManager.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.minionCertificateManager.debug.quiet }}y{{ else }}n{{ end }}"
               {{- else }}
-              value: "-javaagent:agent/opentelemetry-javaagent.jar"
+              value: "{{- if .Values.OpenNMS.minionCertificateManager.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.minionCertificateManager.debug.java.javaAgentPath }}"
               {{- end }}  
             - name: KEYCLOAK_BASE_URL
               value: "http://{{ .Values.Keycloak.serviceName }}:8080/auth/"

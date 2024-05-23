@@ -23,8 +23,15 @@ OpenNMS:
     imageShortName: lokahi-rest-server
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: true
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     resources:
       limits:
         cpu: "1"
@@ -52,8 +59,15 @@ OpenNMS:
     imageShortName: lokahi-metrics-processor
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: true
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     resources:
       limits:
         cpu: "2"
@@ -102,8 +116,15 @@ OpenNMS:
     imagePullPolicy: IfNotPresent
     internalGrpcPort: 8991
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: true
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     useKubernetes: "true"
     databaseName: "desenv"
     databaseSchemaName: "minion_gateway"
@@ -136,8 +157,15 @@ OpenNMS:
     imageShortName: lokahi-inventory
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "inventory"
     databaseHost: "postgres"
@@ -158,8 +186,15 @@ OpenNMS:
     imageShortName: lokahi-alert
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "alert"
     databaseHost: "postgres"
@@ -179,8 +214,15 @@ OpenNMS:
     imageShortName: lokahi-notification
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "notification"
     databaseHost: "postgres"
@@ -211,8 +253,15 @@ OpenNMS:
     imageShortName: lokahi-events
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "events"
     databaseHost: "postgres"
@@ -231,8 +280,15 @@ OpenNMS:
     imageShortName: lokahi-datachoices
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "datachoices"
     databaseHost: "postgres"
@@ -254,8 +310,15 @@ OpenNMS:
     imageShortName: lokahi-minion-certificate-manager
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     volumeSize: 1Gi
     resources:
       limits:
@@ -272,8 +335,15 @@ OpenNMS:
     imageShortName: lokahi-minion-certificate-verifier
     imagePullPolicy: IfNotPresent
     replicas: 1
-    debug: false
-    debugPort: 5005
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      suspend: true 
+      quiet: true
     resources:
       limits:
         cpu: "1"

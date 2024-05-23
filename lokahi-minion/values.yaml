@@ -19,8 +19,15 @@ imageShortName: lokahi-minion
 imagePullPolicy: IfNotPresent
 minionAppSecrets: ""
 replicas: 1
-debug: false
-debugPort: 5005
+debug:
+  enabled: true
+  java:
+    preferIPv4Stack: true
+    javaAgentPath: agent/opentelemetry-javaagent.jar
+  transport: dt_socket
+  port: 5005
+  suspend: true 
+  quiet: true
 port: 8181
 sshPort: 8101
 trapsListenerPort: 1162  # snmp-traps port

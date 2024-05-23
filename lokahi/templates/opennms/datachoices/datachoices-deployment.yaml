@@ -64,10 +64,10 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.dataChoices.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              {{- if .Values.OpenNMS.dataChoices.debug }}
-              value: "-javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address={{ .Values.OpenNMS.dataChoices.debugPort }},suspend=n,quiet=y"
+              {{- if .Values.OpenNMS.dataChoices.debug.enabled }}
+              value: "{{- if .Values.OpenNMS.dataChoices.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.dataChoices.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.dataChoices.debug.transport }},server={{ if .Values.OpenNMS.dataChoices.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.dataChoices.debug.port }},suspend={{ if .Values.OpenNMS.dataChoices.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.dataChoices.debug.quiet }}y{{ else }}n{{ end }}"
               {{- else }}
-              value: "-javaagent:agent/opentelemetry-javaagent.jar"
+              value: "{{- if .Values.OpenNMS.dataChoices.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.dataChoices.debug.java.javaAgentPath }}"
               {{- end }} 
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{ .Values.OpenNMS.dataChoices.databaseHost }}:5432/{{ .Values.OpenNMS.dataChoices.databaseName }}?currentSchema={{ .Values.OpenNMS.dataChoices.databaseSchemaName }}"
