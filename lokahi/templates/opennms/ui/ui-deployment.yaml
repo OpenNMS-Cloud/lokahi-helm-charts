@@ -50,7 +50,7 @@ spec:
           emptyDir: {}
       containers:
         - name: {{ .Values.OpenNMS.ui.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.ui) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.ui "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.OpenNMS.ui.imagePullPolicy }}
           ports:
             - name: http

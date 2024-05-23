@@ -60,7 +60,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Values.OpenNMS.dataChoices.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.dataChoices) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.dataChoices "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.OpenNMS.dataChoices.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
@@ -85,7 +85,7 @@ spec:
               value: "{{ .Values.Keycloak.realmName }}"
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.dataChoices) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.dataChoices "tag" .Chart.AppVersion) | nindent 12 }}
           envFrom:
           - configMapRef:
               name: spring-boot-env

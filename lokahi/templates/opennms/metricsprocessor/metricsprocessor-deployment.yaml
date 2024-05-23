@@ -48,7 +48,7 @@ spec:
             name: spring-boot-app-config
       containers:
         - name: {{ .Values.OpenNMS.metricsProcessor.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsProcessor) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsProcessor "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.OpenNMS.metricsProcessor.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
@@ -63,7 +63,7 @@ spec:
               value: {{ .Values.cortexClient.protocol }}://{{ .Values.cortexClient.hostWrite }}:{{ .Values.cortexClient.portWrite }}{{ .Values.cortexClient.pathWrite }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsProcessor) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsProcessor "tag" .Chart.AppVersion) | nindent 12 }}
           envFrom:
           - configMapRef:
               name: spring-boot-env

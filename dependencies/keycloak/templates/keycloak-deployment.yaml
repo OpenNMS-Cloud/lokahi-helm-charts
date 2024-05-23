@@ -57,7 +57,7 @@ spec:
       {{- end }}
       containers:
         - name: keycloak
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values "tag" .Chart.AppVersion) }}
           imagePullPolicy: "{{ .Values.imagePullPolicy }}"
           resources:
             limits:
@@ -151,7 +151,7 @@ spec:
             {{- end }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values "tag" .Chart.AppVersion) | nindent 12 }}
           ports:
             - name: http
               containerPort: {{ .Values.port }}
