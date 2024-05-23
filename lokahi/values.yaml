@@ -24,12 +24,13 @@ OpenNMS:
     imagePullPolicy: IfNotPresent
     replicas: 1
     debug:
-      enabled: true
+      enabled: false
       java:
         preferIPv4Stack: false
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     resources:
@@ -60,12 +61,13 @@ OpenNMS:
     imagePullPolicy: IfNotPresent
     replicas: 1
     debug:
-      enabled: true
+      enabled: false
       java:
         preferIPv4Stack: false
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     resources:
@@ -123,6 +125,7 @@ OpenNMS:
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     useKubernetes: "true"
@@ -164,6 +167,7 @@ OpenNMS:
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     databaseName: "desenv"
@@ -193,6 +197,7 @@ OpenNMS:
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     databaseName: "desenv"
@@ -221,6 +226,7 @@ OpenNMS:
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     databaseName: "desenv"
@@ -260,6 +266,7 @@ OpenNMS:
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     databaseName: "desenv"
@@ -287,6 +294,7 @@ OpenNMS:
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     databaseName: "desenv"
@@ -317,6 +325,7 @@ OpenNMS:
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     volumeSize: 1Gi
@@ -342,6 +351,7 @@ OpenNMS:
         javaAgentPath: agent/opentelemetry-javaagent.jar
       transport: dt_socket
       port: 5005
+      server: true
       suspend: true 
       quiet: true
     resources:

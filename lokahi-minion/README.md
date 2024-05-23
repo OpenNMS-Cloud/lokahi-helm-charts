@@ -18,8 +18,14 @@ A Helm chart for running OpenNMS Lokahi minion in Kubernetes
 |-----|------|---------|-------------|
 | customCertificateAuthority | bool | `false` |  |
 | customHostAliases | list | `[]` |  |
-| debug | bool | `false` |  |
-| debugPort | int | `5005` |  |
+| debug.enabled | bool | `false` |  |
+| debug.java.preferIPv4Stack | bool | `true` |  |
+| debug.java.javaAgentPath | string | `agent/opentelemetry-javaagent.jar` |  |
+| debug.port | int | `5005` |  |
+| debug.quiet | bool | `true` |  |
+| debug.server | bool | `true` |  |
+| debug.suspend | bool | `true` |  |
+| debug.transport | string | `dt_socket` |  |
 | extraInitContainers | list | `[]` |  |
 | extraMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |

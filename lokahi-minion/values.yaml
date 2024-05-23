@@ -20,12 +20,13 @@ imagePullPolicy: IfNotPresent
 minionAppSecrets: ""
 replicas: 1
 debug:
-  enabled: true
+  enabled: false
   java:
     preferIPv4Stack: true
     javaAgentPath: agent/opentelemetry-javaagent.jar
   transport: dt_socket
   port: 5005
+  server: true
   suspend: true 
   quiet: true
 port: 8181
