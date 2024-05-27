@@ -67,7 +67,11 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.inventory.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
+              {{- if .Values.OpenNMS.inventory.debug.enabled }}
+              value: "{{- if .Values.OpenNMS.inventory.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.inventory.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.inventory.debug.transport }},server={{ if .Values.OpenNMS.inventory.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.inventory.debug.port }},suspend={{ if .Values.OpenNMS.inventory.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.inventory.debug.quiet }}y{{ else }}n{{ end }}"
+              {{- else }}
+              value: "{{- if .Values.OpenNMS.inventory.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.inventory.debug.java.javaAgentPath }}"
+              {{- end }} 
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{ .Values.OpenNMS.inventory.databaseHost }}:5432/{{ .Values.OpenNMS.inventory.databaseName }}?currentSchema={{ .Values.OpenNMS.inventory.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME

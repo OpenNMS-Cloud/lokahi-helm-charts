@@ -60,7 +60,11 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.minionGateway.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-Djava.net.preferIPv4Stack=true -XX:MaxRAMPercentage=40 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y -XX:MaxDirectMemorySize=768m"
+              {{- if .Values.OpenNMS.minionGateway.debug.enabled }}
+              value: "{{- if .Values.OpenNMS.minionGateway.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{- end }} -javaagent:{{ .Values.OpenNMS.minionGateway.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.minionGateway.debug.transport }},server={{ if .Values.OpenNMS.minionGateway.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.minionGateway.debug.port }},suspend={{ if .Values.OpenNMS.minionGateway.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.minionGateway.debug.quiet }}y{{ else }}n{{ end }}"
+              {{- else }}
+              value: "{{- if .Values.OpenNMS.minionGateway.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{- end }} -javaagent:{{ .Values.OpenNMS.minionGateway.debug.java.javaAgentPath }}"
+              {{- end }} 
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
