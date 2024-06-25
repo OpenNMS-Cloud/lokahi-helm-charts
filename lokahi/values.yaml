@@ -86,7 +86,7 @@ OpenNMS:
   ui:
     path: /
     serviceName: opennms-ui
-    tlsSecretName: opennms-ui-certificate
+    tlsSecretName: root-ca-certificate
     imageShortName: lokahi-ui
     imagePullPolicy: IfNotPresent
     replicas: 1
@@ -113,7 +113,7 @@ OpenNMS:
 # resource limits, ingress annotations and Kafka secret.
   minionGateway:
     serviceName: opennms-minion-gateway
-    tlsSecretName: opennms-minion-gateway-certificate
+    tlsSecretName: root-ca-certificate
     imageShortName: lokahi-minion-gateway
     imagePullPolicy: IfNotPresent
     internalGrpcPort: 8991

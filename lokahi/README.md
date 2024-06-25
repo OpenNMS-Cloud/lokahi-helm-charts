@@ -248,7 +248,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionGateway.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.minionGateway.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.minionGateway.serviceName | string | `"opennms-minion-gateway"` |  |
-| OpenNMS.minionGateway.tlsSecretName | string | `"opennms-minion-gateway-certificate"` |  |
+| OpenNMS.minionGateway.tlsSecretName | string | `"root-ca-certificate"` |  |
 | OpenNMS.minionGateway.useKubernetes | string | `"true"` |  |
 | OpenNMS.notification.acsConnectionSecretName | object | `{}` |  |
 | OpenNMS.notification.baseUrl.appendTenantId | bool | `false` |  |
@@ -302,7 +302,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.ui.resources.requests.cpu | string | `"100m"` |  |
 | OpenNMS.ui.resources.requests.memory | string | `"256Mi"` |  |
 | OpenNMS.ui.serviceName | string | `"opennms-ui"` |  |
-| OpenNMS.ui.tlsSecretName | string | `"opennms-ui-certificate"` |  |
+| OpenNMS.ui.tlsSecretName | string | `"root-ca-certificate"` |  |
 | Prometheus.auth.externalSecret | string | `""` |  |
 | Prometheus.auth.password | string | `"notset"` |  |
 | Prometheus.auth.username | string | `"admin"` |  |
