@@ -51,7 +51,7 @@ spec:
           image: {{ .Values.image }}
           args: ["-config.file=/etc/cortex.yml"]
           ports:
-            - containerPort: {{ .Values.port }}
+            - containerPort: {{ .Values.global.cortex.port | default .Values.port }}
           resources:
             limits:
               cpu: {{ .Values.resources.limits.cpu }}

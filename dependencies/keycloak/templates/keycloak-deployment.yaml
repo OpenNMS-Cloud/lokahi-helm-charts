@@ -89,7 +89,7 @@ spec:
               value: "{{ .Values.hostnameAdminUrl }}"
             {{- end }}
             - name: KC_DB_URL
-              value: "jdbc:postgresql://{{ .Values.databaseHost }}:5432/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.databaseHost }}:{{ .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -154,9 +154,9 @@ spec:
             {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values "tag" .Chart.AppVersion) | nindent 12 }}
           ports:
             - name: http
-              containerPort: {{ .Values.port }}
+              containerPort: 8080
             - name: https
-              containerPort: {{ .Values.httpsPort }}
+              containerPort: 8443
           volumeMounts:
             {{- if and .Values.tls.enabled .Values.tlsSecretName }}
             - mountPath: /mnt/certificates

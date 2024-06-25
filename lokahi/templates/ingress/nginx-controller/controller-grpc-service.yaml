@@ -17,7 +17,7 @@ spec:
     - name: grpc
       protocol: TCP
       nodePort: 30990
-      port: 8990
+      port: {{ .Values.OpenNMS.port.grpc }}
   selector:
     app.kubernetes.io/component: controller-{{ .Release.Namespace }}
     app.kubernetes.io/name: ingress-nginx-{{ .Release.Namespace }}

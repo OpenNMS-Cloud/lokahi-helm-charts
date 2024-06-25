@@ -4,6 +4,7 @@ global:
     tag: latest
   
 enabled: true
+port: 5432
 workersEnabled: true
 serviceName: postgres
 pgBouncerPort: 30099

@@ -8,14 +8,14 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - port: {{ .Values.port }}
+    - port: {{ .Values.global.kafka.port | default .Values.port }}
       name: client
       protocol: TCP
-      targetPort: {{ .Values.port }}
-    - port: {{ .Values.controllerPort }}
+      targetPort: 9092
+    - port: {{ .Values.global.kafka.controllerPort | default .Values.controllerPort }}
       name: controller
       protocol: TCP
-      targetPort: {{ .Values.controllerPort }}
+      targetPort: 9093
   selector:
     app: {{ .Values.serviceName }}
   type: ClusterIP

@@ -59,7 +59,7 @@ spec:
               {{- end }} 
             - name: GRPC_URL_MINION_CERTIFICATE_MANAGER
               value: {{ if or (eq .Values.OpenNMS.minionCertificateVerifier.certificateManagerUrl "") (eq .Values.OpenNMS.minionCertificateVerifier.certificateManagerUrl "dev")
-                }}"{{ .Values.OpenNMS.minionCertificateManager.serviceName }}:8990"{{
+                }}"{{ .Values.OpenNMS.minionCertificateManager.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 8990 }}"{{
               else
                 }}"{{ .Values.OpenNMS.minionCertificateVerifier.certificateManagerUrl }}"{{ end }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
@@ -70,7 +70,7 @@ spec:
               name: spring-boot-env
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"
