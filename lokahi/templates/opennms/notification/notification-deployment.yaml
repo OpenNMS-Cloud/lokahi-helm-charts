@@ -82,6 +82,8 @@ spec:
                 secretKeyRef:
                   name: postgres
                   key: notificationPwd
+            - name: GRPC_SERVER_PORT
+              value: "{{ .Values.OpenNMS.port.grpc | default 6565}}"
             - name: SPRING_MAIL_FROM
               value: "{{ .Values.OpenNMS.notification.mailFrom }}"
             - name: HORIZON_EMAIL_RETRY_DELAY
@@ -129,9 +131,9 @@ spec:
           {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.notification | indent 10 }}
           ports:
             - name: grpc
-              containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }}
+              containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }} 
             - name: http
-              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
+              containerPort: 8080 
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"

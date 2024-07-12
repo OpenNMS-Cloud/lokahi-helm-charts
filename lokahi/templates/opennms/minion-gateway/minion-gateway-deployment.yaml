@@ -90,9 +90,9 @@ spec:
           {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.minionGateway | indent 10 }}
           ports:
             - name: http
-              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
+              containerPort: 8080 
             - name: grpc
-              containerPort: {{ .Values.OpenNMS.port.grpc | default 8990 }}
+              containerPort: 8990
             - name: internal-grpc
               containerPort: {{ .Values.OpenNMS.minionGateway.internalGrpcPort }}
             - name: ig-client

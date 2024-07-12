@@ -54,7 +54,7 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.ui.imagePullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.OpenNMS.port.http | default .Values.OpenNMS.ui.port }}
+              containerPort: {{ .Values.OpenNMS.ui.port }}
           resources:
             limits:
               cpu: "{{ .Values.OpenNMS.ui.resources.limits.cpu }}"

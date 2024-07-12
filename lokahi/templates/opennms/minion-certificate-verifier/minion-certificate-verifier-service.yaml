@@ -10,6 +10,7 @@ spec:
   ports:
     - port: {{ .Values.OpenNMS.port.http | default 8080 }}
       protocol: TCP
+      targetPort: 8080
       name: http
   selector:
     app: {{ .Values.OpenNMS.minionCertificateVerifier.serviceName }}

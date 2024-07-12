@@ -86,6 +86,10 @@ spec:
               value: "http://{{ .Values.Keycloak.serviceName }}:8080/auth/"
             - name: KEYCLOAK_REALM
               value: "{{ .Values.Keycloak.realmName }}"
+            - name: GRPC_CLIENT_ALERT_URL
+              value: "{{ .Values.OpenNMS.alert.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565}}"
+            - name: GRPC_SERVER_PORT
+              value: "{{ .Values.OpenNMS.port.grpc | default 6565}}"
             - name: INVENTORY_ENCRYPTION_KEY
               valueFrom:
                 secretKeyRef:
@@ -100,9 +104,9 @@ spec:
           {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.inventory | indent 10 }}
           ports:
             - name: http
-              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
+              containerPort: 8080 
             - name: grpc
-              containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }}
+              containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }} 
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"

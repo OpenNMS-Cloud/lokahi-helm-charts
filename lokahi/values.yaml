@@ -32,8 +32,8 @@ global:
 
 OpenNMS:
   port:
-    grpc: ~       # default value  6565
-    http: ~       # default value  8080
+    grpc: 6570    # default value  6565
+    http: ~      # default value  8080
 # Specifies configuration for API module, including service details, image settings, resource
 # limits, external flow server URL, certificate manager URL and GraphQL playground settings.
   api:

@@ -84,6 +84,8 @@ spec:
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: GRPC_URL_INVENTORY
               value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565}}"
+            - name: GRPC_SERVER_PORT
+              value: "{{ .Values.OpenNMS.port.grpc | default 6565}}"
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
             {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.events) | nindent 12 }}
@@ -93,9 +95,9 @@ spec:
           {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.events | indent 10 }}
           ports:
             - name: http
-              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
+              containerPort: 8080 
             - name: grpc
-              containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }}
+              containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }} 
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"

@@ -72,13 +72,15 @@ spec:
             - name: GRAPHQL_SPQR_GUI_ENABLED
               value: "false"
             {{- end }}
+            - name: SERVER_PORT
+              value: "{{ .Values.OpenNMS.port.grpc | default 9090}}"
             - name: GRPC_URL_INVENTORY
               value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             - name: GRPC_URL_EVENTS
               value: "{{ .Values.OpenNMS.events.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             - name: GRPC_URL_NOTIFICATION
               value: "{{ .Values.OpenNMS.notification.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565 }}"
-            - name: GRPC_URL_ALERT
+            - name: GRPC_URL_ALERTS
               value: "{{ .Values.OpenNMS.alert.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             - name: GRPC_URL_MINION_CERTIFICATE_MANAGER
               value: {{ if or (eq .Values.OpenNMS.api.certificateManagerUrl "") (eq .Values.OpenNMS.api.certificateManagerUrl "dev")
@@ -134,7 +136,7 @@ spec:
             - name: grpc
               containerPort: {{ .Values.OpenNMS.port.grpc | default 9090 }}
             - name: http
-              containerPort: {{ .Values.OpenNMS.port.http | default 8080 }}
+              containerPort: 8080
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"
