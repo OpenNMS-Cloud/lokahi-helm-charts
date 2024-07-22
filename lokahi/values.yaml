@@ -445,3 +445,7 @@ Prometheus:
     username: admin
     password: notset
     externalSecret: ""
+
+# To enable or disable Letsencrypt Certificate
+letsencrypt:
+  enabled: true

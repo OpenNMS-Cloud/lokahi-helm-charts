@@ -1,3 +1,4 @@
+{{- if .Values.letsencrypt.enabled }}
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
@@ -5,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   acme:
-    server: https://acme-v02.api.letsencrypt.org/directory
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: admin@lokahi.com
     privateKeySecretRef:
       name: letsencrypt
@@ -27,3 +28,4 @@ spec:
   dnsNames:
   - {{ .Values.global.hostname }}
   - minion.{{ .Values.global.hostname }}
+{{- end }}
