@@ -8,11 +8,11 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - port: 9092
+    - port: {{ .Values.port }}
       name: client
       protocol: TCP
       targetPort: 9092
-    - port: 9093
+    - port: {{ .Values.controllerPort }}
       name: controller
       protocol: TCP
       targetPort: 9093

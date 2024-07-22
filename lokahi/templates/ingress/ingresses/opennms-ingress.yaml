@@ -26,13 +26,13 @@ spec:
                 name: {{ .Values.OpenNMS.ui.serviceName }}
                 port:
                   number: {{ .Values.OpenNMS.port.http | default .Values.OpenNMS.ui.port }}
-          # - path: /auth
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: {{ .Values.Keycloak.serviceName }}
-          #       port:
-          #         number: {{  .Values.Keycloak.port }}
+          - path: /auth
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.Keycloak.serviceName }}
+                port:
+                  number: {{  .Values.Keycloak.port }}
           - path: {{ .Values.OpenNMS.api.path }}
             pathType: Prefix
             backend:

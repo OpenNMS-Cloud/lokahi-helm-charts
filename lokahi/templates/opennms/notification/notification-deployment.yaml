@@ -55,7 +55,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -p {{  .Values.Citus.port }} -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.notification.databaseHost }} -p {{  .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -113,9 +113,15 @@ spec:
             - name: HORIZON_KEYCLOAK_BASE_URL
               value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: HORIZON_KEYCLOAK_ADMIN_USERNAME
-              value: "{{ .Values.Keycloak.adminUsername }}"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.Keycloak.serviceName }}-initial-admin
+                  key: username
             - name: HORIZON_KEYCLOAK_ADMIN_PASSWORD
-              value: "{{ .Values.Keycloak.adminPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.Keycloak.serviceName }}-initial-admin
+                  key: password
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
             {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.notification) | nindent 12 }}
