@@ -26,6 +26,7 @@ Citus:
   adminUser: desenv # admin username for citus
   adminPassword: notset # admin password for citus
   grafanaPassword: notset # password for grafana user
+  port: 5432
 Cortex:
   enabled: true
   serviceName: cortex

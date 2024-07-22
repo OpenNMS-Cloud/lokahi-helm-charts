@@ -26,13 +26,13 @@ spec:
                 name: {{ .Values.OpenNMS.ui.serviceName }}
                 port:
                   number: {{ .Values.OpenNMS.port.http | default .Values.OpenNMS.ui.port }}
-          - path: {{ .Values.Keycloak.path }}
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Values.Keycloak.serviceName }}
-                port:
-                  number: {{ .Values.global.keycloak.port | default .Values.Keycloak.port }}
+          # - path: /auth
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: {{ .Values.Keycloak.serviceName }}
+          #       port:
+          #         number: {{  .Values.Keycloak.port }}
           - path: {{ .Values.OpenNMS.api.path }}
             pathType: Prefix
             backend:
@@ -46,7 +46,7 @@ spec:
               service:
                 name: {{ .Values.Grafana.serviceName }}
                 port:
-                  number: {{ .Values.global.grafana.port | default .Values.Grafana.port }}
+                  number: {{  .Values.Grafana.port }}
   {{- if .Values.tls.enabled }}
   tls:
     - hosts:

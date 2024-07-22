@@ -52,7 +52,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -p {{  .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -66,7 +66,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.dataChoices.databaseHost }}:{{ .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.OpenNMS.dataChoices.databaseName }}?currentSchema={{ .Values.OpenNMS.dataChoices.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.dataChoices.databaseHost }}:{{ .Values.Citus.port }}/{{ .Values.OpenNMS.dataChoices.databaseName }}?currentSchema={{ .Values.OpenNMS.dataChoices.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -80,7 +80,7 @@ spec:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:8080/auth/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: KEYCLOAK_REALM
               value: "{{ .Values.Keycloak.realmName }}"
             - name: GRPC_SERVER_PORT

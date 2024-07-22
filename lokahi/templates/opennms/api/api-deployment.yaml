@@ -59,6 +59,8 @@ spec:
               value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"
             - name: SPRING_CACHE_CAFFEINE_SPEC
               value: "maximumSize=10000,expireAfterWrite=60s"
+            - name: KEYCLOAK_URL
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: TSDB_URL
               value: "{{ .Values.cortexClient.protocol }}://{{ .Values.cortexClient.hostRead }}:{{ .Values.cortexClient.portRead }}{{ .Values.cortexClient.pathRead }}"
             - name: SPRING_WEBFLUX_BASE_PATH

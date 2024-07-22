@@ -1,3 +1,4 @@
+{{ if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,7 +50,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -p {{  .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -89,7 +90,7 @@ spec:
               value: "{{ .Values.hostnameAdminUrl }}"
             {{- end }}
             - name: KC_DB_URL
-              value: "jdbc:postgresql://{{ .Values.databaseHost }}:{{ .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.databaseHost }}:{{  .Values.Citus.port }}/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -221,3 +222,4 @@ spec:
         - name: realm-config
           configMap:
             name: {{ .Values.configmapName }}
+{{- end }}

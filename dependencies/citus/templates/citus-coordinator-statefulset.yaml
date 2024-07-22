@@ -83,11 +83,13 @@ spec:
           ;
 
         ports:
-        - containerPort: 5432
+        - containerPort: {{ .Values.port }}
           name: postgres
         env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_PORT
+          value: "{{ .Values.port }}"
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:

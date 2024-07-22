@@ -1,4 +1,3 @@
-{{ if .Values.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -9,9 +8,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: {{ .Values.global.cortex.port | default .Values.port }}
+    - port: {{ .Values.port }}
       protocol: TCP
+      targetPort: 9000
       name: cortex-http
   selector:
     app: {{ .Values.serviceName }}
-{{ end }}
+

@@ -8,11 +8,11 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - port: {{ .Values.global.kafka.port | default .Values.port }}
+    - port: 9092
       name: client
       protocol: TCP
       targetPort: 9092
-    - port: {{ .Values.global.kafka.controllerPort | default .Values.controllerPort }}
+    - port: 9093
       name: controller
       protocol: TCP
       targetPort: 9093

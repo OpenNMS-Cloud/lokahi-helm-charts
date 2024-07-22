@@ -55,7 +55,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -p {{  .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -71,7 +71,7 @@ spec:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.notification.databaseHost }}:{{ .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.OpenNMS.notification.databaseName }}?currentSchema={{ .Values.OpenNMS.notification.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.notification.databaseHost }}:{{ .Values.Citus.port }}/{{ .Values.OpenNMS.notification.databaseName }}?currentSchema={{ .Values.OpenNMS.notification.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -111,17 +111,11 @@ spec:
               value: "{{ .Values.OpenNMS.notification.smtpPort }}"
             {{- end }}
             - name: HORIZON_KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloak.port | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: HORIZON_KEYCLOAK_ADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.Keycloak.serviceName }}-initial-admin
-                  key: username
+              value: "{{ .Values.Keycloak.adminUsername }}"
             - name: HORIZON_KEYCLOAK_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.Keycloak.serviceName }}-initial-admin
-                  key: password
+              value: "{{ .Values.Keycloak.adminPassword }}"
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
             {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.notification) | nindent 12 }}

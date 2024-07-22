@@ -28,7 +28,7 @@ spec:
               service:
                 name: {{ .Values.Prometheus.serviceName }}
                 port:
-                  number: {{ .Values.global.prometheus.port | default .Values.Prometheus.port }}
+                  number: {{  .Values.Prometheus.port }}
           {{- end }}
   {{- if .Values.tls.enabled }}
   tls:

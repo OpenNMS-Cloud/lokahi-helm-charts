@@ -1,6 +1,0 @@
-apiVersion: v2
-name: mailserver
-version: 1.0.1
-description: Mail Server deployment for Lokahi
-type: application
-appVersion: "v1.0.1"
