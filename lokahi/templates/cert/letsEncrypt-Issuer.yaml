@@ -1,0 +1,31 @@
+{{- if .Values.letsencrypt.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-issuer
+  namespace: {{ .Release.Namespace }}
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: admin@lokahi.com
+    privateKeySecretRef:
+      name: letsencrypt
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: root-ca-certificate
+spec:
+  secretName: root-ca-certificate
+  issuerRef:
+    name: letsencrypt-issuer
+    kind: Issuer
+  commonName: {{ .Values.global.hostname }}
+  dnsNames:
+  - {{ .Values.global.hostname }}
+  - minion.{{ .Values.global.hostname }}
+{{- end }}

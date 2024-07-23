@@ -302,7 +302,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.ui.resources.requests.cpu | string | `"100m"` |  |
 | OpenNMS.ui.resources.requests.memory | string | `"256Mi"` |  |
 | OpenNMS.ui.serviceName | string | `"opennms-ui"` |  |
-| OpenNMS.ui.tlsSecretName | string | `"opennms-ui-certificate"` |  |
+| OpenNMS.ui.tlsSecretName | string | `"root-ca-certificate"` |  |
 | Prometheus.auth.externalSecret | string | `""` |  |
 | Prometheus.auth.password | string | `"notset"` |  |
 | Prometheus.auth.username | string | `"admin"` |  |
@@ -336,6 +336,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | ingress.httpsPort | int | `443` |  |
 | ingress.secretJobimage | string | `"registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660"` |  |
 | ingress.webhookPatchJobimage | string | `"registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660"` |  |
+| letsencrypt.enabled | bool | `false` |  |
 | nodeRestrictions.enabled | bool | `false` |  |
 | nodeRestrictions.key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
 | nodeRestrictions.value | string | `"spot"` |  |
