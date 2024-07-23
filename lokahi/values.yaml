@@ -113,7 +113,7 @@ OpenNMS:
 # resource limits, ingress annotations and Kafka secret.
   minionGateway:
     serviceName: opennms-minion-gateway
-    tlsSecretName: root-ca-certificate
+    tlsSecretName: opennms-minion-gateway-certificate
     imageShortName: lokahi-minion-gateway
     imagePullPolicy: IfNotPresent
     internalGrpcPort: 8991
@@ -446,6 +446,6 @@ Prometheus:
     password: notset
     externalSecret: ""
 
-# To enable or disable Letsencrypt Certificate
+# To enable or disable Letsencrypt Certificate. When letsencrypt is enable also change minionGateway tlsSecretName to "root-ca-certificate"
 letsencrypt:
-  enabled: true
+  enabled: false

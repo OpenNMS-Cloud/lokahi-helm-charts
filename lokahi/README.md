@@ -248,7 +248,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionGateway.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.minionGateway.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.minionGateway.serviceName | string | `"opennms-minion-gateway"` |  |
-| OpenNMS.minionGateway.tlsSecretName | string | `"root-ca-certificate"` |  |
+| OpenNMS.minionGateway.tlsSecretName | string | `"opennms-minion-gateway-certificate"` |  |
 | OpenNMS.minionGateway.useKubernetes | string | `"true"` |  |
 | OpenNMS.notification.acsConnectionSecretName | object | `{}` |  |
 | OpenNMS.notification.baseUrl.appendTenantId | bool | `false` |  |
@@ -336,6 +336,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | ingress.httpsPort | int | `443` |  |
 | ingress.secretJobimage | string | `"registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660"` |  |
 | ingress.webhookPatchJobimage | string | `"registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660"` |  |
+| letsencrypt.enabled | bool | `false` |  |
 | nodeRestrictions.enabled | bool | `false` |  |
 | nodeRestrictions.key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
 | nodeRestrictions.value | string | `"spot"` |  |
