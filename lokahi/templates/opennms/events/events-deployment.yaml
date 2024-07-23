@@ -55,7 +55,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.events.databaseHost }} -p {{  .Values.Citus.port }} -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.events.databaseHost }} -p {{  .Values.global.citusPort | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -69,7 +69,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" 
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.events.databaseHost }}:{{  .Values.Citus.port }}/{{ .Values.OpenNMS.events.databaseName }}?currentSchema={{ .Values.OpenNMS.events.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.events.databaseHost }}:{{  .Values.global.citusPort | default .Values.Citus.port }}/{{ .Values.OpenNMS.events.databaseName }}?currentSchema={{ .Values.OpenNMS.events.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -83,7 +83,7 @@ spec:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloakPort | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: GRPC_URL_INVENTORY
               value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565}}"
             - name: GRPC_SERVER_PORT

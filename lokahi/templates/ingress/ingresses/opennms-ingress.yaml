@@ -32,7 +32,7 @@ spec:
               service:
                 name: {{ .Values.Keycloak.serviceName }}
                 port:
-                  number: {{  .Values.Keycloak.port }}
+                  number: {{  .Values.global.keycloakPort | default .Values.Keycloak.port }}
           - path: {{ .Values.OpenNMS.api.path }}
             pathType: Prefix
             backend:

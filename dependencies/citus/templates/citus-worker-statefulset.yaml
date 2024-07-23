@@ -85,13 +85,13 @@ spec:
             -c hba_file=/etc/postgres/pg_hba.conf \
           ;
         ports:
-        - containerPort: {{ .Values.port }}
+        - containerPort: {{ .Values.global.citusPort | default .Values.port }}
           name: postgres
         env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
         - name: POSTGRES_PORT
-          value: "{{ .Values.port }}"
+          value: "{{ .Values.global.citusPort | default .Values.port }}"
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
