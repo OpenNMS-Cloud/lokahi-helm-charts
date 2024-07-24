@@ -7,9 +7,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - port: 9090
+    - port: {{ .Values.OpenNMS.port.grpc | default 9090 }}
       protocol: TCP
-      name: http
+      name: grpc
   selector:
     app: {{ .Values.OpenNMS.api.serviceName }}
   type: NodePort

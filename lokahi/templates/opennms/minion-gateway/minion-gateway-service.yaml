@@ -8,11 +8,13 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8080
+    - port: {{ .Values.OpenNMS.port.http | default 8080 }}
       protocol: TCP
+      targetPort: 8080
       name: http
-    - port: 8990
+    - port: {{ .Values.OpenNMS.port.grpc | default 8990 }}
       protocol: TCP
+      targetPort: 8990
       name: grpc
     - port: {{ .Values.OpenNMS.minionGateway.internalGrpcPort }}
       protocol: TCP

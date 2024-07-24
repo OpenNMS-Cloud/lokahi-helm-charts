@@ -1,3 +1,4 @@
+{{ if .Values.enabled }}
 {{- if .Values.dynamicRealmConfig }}
 apiVersion: v1
 kind: ConfigMap
@@ -7,4 +8,5 @@ metadata:
 data:
   onms-realm.json: |
 {{ tpl (.Files.Get "onms-realm.json") . | indent 4 }}
+{{- end }}
 {{- end }}

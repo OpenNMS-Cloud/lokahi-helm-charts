@@ -8,8 +8,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8080
+    - port: {{ .Values.OpenNMS.port.http | default 8080 }}
       protocol: TCP
+      targetPort: 8080
       name: http
   selector:
     app: {{ .Values.OpenNMS.minionCertificateVerifier.serviceName }}
