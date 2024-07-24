@@ -88,7 +88,7 @@ spec:
         env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
-        - name: POSTGRES_PORT
+        - name: PGPORT
           value: "{{ .Values.global.citusPort | default .Values.port }}"
         - name: PGPASSWORD
           valueFrom:
