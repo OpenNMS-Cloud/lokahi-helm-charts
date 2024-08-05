@@ -19,3 +19,11 @@ nodeRestrictions: # will be applied to every pod in the instance
   enabled: false
   key: kubernetes.azure.com/scalesetpriority
   value: spot
+minio:
+ enabled: true
+ serviceName: minio
+ username: minio
+ password: minio123
+metricsthresholdprocessor:
+  serviceName: opennms-metrics-threshold-processor
+  port: 8080
