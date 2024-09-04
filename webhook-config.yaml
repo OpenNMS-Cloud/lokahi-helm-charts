@@ -1,0 +1,14 @@
+template_files:
+      default_template: |
+        {{ define "__alertmanager" }}AlertManager{{ end }}
+        {{ define "__alertmanagerURL" }}{{ .ExternalURL }}/#/alerts?receiver={{ .Receiver | urlquery }}{{ end }}
+    alertmanager_config: |
+      global:
+      route:
+        group_wait: 30s
+        group_interval: 1m
+        receiver: webhook_receiver
+      receivers:
+        - name: webhook_receiver
+          webhook_configs:
+          - url: "http://opennms-metrics-threshold-processor:8080/webhook/metrics-threshold"

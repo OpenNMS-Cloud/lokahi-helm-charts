@@ -48,11 +48,15 @@ spec:
             name: spring-boot-app-config
       containers:
         - name: {{ .Values.OpenNMS.metricsthresholdprocessor.serviceName }}
-          image:  opennms/lokahi-metrics-threshold-processor:v0.0.62-dev
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsthresholdprocessor "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.OpenNMS.metricsthresholdprocessor.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar -agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y"  # FIXME: Permanent debug port, enable only for dev mode
+              {{- if .Values.OpenNMS.metricsthresholdprocessor.debug.enabled }}
+              value: "{{- if .Values.OpenNMS.metricsthresholdprocessor.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.metricsthresholdprocessor.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.metricsthresholdprocessor.debug.transport }},server={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.metricsthresholdprocessor.debug.port }},suspend={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.quiet }}y{{ else }}n{{ end }}"
+              {{- else }}
+              value: "{{- if .Values.OpenNMS.metricsthresholdprocessor.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.metricsthresholdprocessor.debug.java.javaAgentPath }}"
+              {{- end }} 
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: CORTEX_WRITE_URL
