@@ -31,6 +31,10 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Citus.adminUser | string | `"desenv"` |  |
 | Citus.enabled | bool | `true` |  |
 | Cortex.enabled | bool | `true` |  |
+| Cortex.minio.serviceName | string | `"minio"` |  |
+| Cortex.minio.enabled | bool | `true` |  |
+| Cortex.minio.password | string | `"minio123"` |  |
+| Cortex.minio.username | string | `"minio"` |  |
 | Grafana.enabled | bool | `true` |  |
 | Grafana.imageShortName | string | `"lokahi-grafana"` |  |
 | Grafana.path | string | `"/grafana"` |  |
@@ -179,6 +183,15 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsProcessor.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.metricsProcessor.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.metricsProcessor.serviceName | string | `"opennms-metrics-processor"` |  |
+| OpenNMS.metricsthresholdprocessor.imagePullPolicy | string | `"IfNotPresent"` |  |
+| OpenNMS.metricsthresholdprocessor.imageShortName | string | `"lokahi-metrics-threshold-processor"` |  |
+| OpenNMS.metricsthresholdprocessor.privateRepoEnabled | bool | `false` |  |
+| OpenNMS.metricsthresholdprocessor.replicas | int | `1` |  |
+| OpenNMS.metricsthresholdprocessor.resources.limits.cpu | string | `"2"` |  |
+| OpenNMS.metricsthresholdprocessor.resources.limits.memory | string | `"4Gi"` |  |
+| OpenNMS.metricsthresholdprocessor.resources.requests.cpu | string | `"1"` |  |
+| OpenNMS.metricsthresholdprocessor.resources.requests.memory | string | `"2Gi"` |  |
+| OpenNMS.metricsthresholdprocessor.serviceName | string | `"opennms-metrics-threshold-processor"` |  |
 | OpenNMS.minionCertificateManager.caSecretName | string | `"root-ca-certificate"` |  |
 | OpenNMS.minionCertificateManager.debug.enabled | bool | `false` |  |
 | OpenNMS.minionCertificateManager.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |

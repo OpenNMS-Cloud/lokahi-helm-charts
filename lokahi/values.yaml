@@ -4,7 +4,7 @@ global:
   protocol: https  # set depending on tls.enabled, do not change
   image:
     repository: opennms
-    tag: v0.0.60
+    tag: v0.0.61
   springBoot:  # Spring-boot-env-configmap
     env: {}  # Environment variables to be set for Spring Boot.
   kafkaClient:  # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services.
@@ -81,6 +81,31 @@ OpenNMS:
     flowIngestorUrl: SOME-EXTERNAL-FLOW-SERVER:80
     flowTlsEnabled: false
     kafkaSecretName: ~
+# Specifies configuration for the metrics-threshold-processor module, including service details, image settings,
+# resource requests and limits.
+  metricsthresholdprocessor:
+    serviceName: opennms-metrics-threshold-processor
+    imageShortName: lokahi-metrics-threshold-processor
+    imagePullPolicy: IfNotPresent
+    replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi # MaxRAMPercentage=50,avg-usage=400MB
+      requests:
+        cpu: "1"
+        memory: 2Gi
+    privateRepoEnabled: false
 # Specifies configuration for the UI module, including path, TLS secret name, image details,
 # resource limits, repository access and Ingress annotations for opennms.
   ui:
@@ -426,10 +451,14 @@ customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
-# To enable or disable Cortex dependency
+# To enable or disable Cortex dependency and enable minio storage for Ruler configuration
 Cortex:
   enabled: true
-
+  minio:
+    serviceName: minio
+    enabled: true
+    username: minio
+    password: minio123
 # To enable or disable Kafka dependency
 Kafka:
   enabled: true
