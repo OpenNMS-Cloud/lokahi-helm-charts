@@ -4,7 +4,7 @@ global:
   protocol: https  # set depending on tls.enabled, do not change
   image:
     repository: opennms
-    tag: v0.0.61
+    tag: v0.0.60
   springBoot:  # Spring-boot-env-configmap
     env: {}  # Environment variables to be set for Spring Boot.
   kafkaClient:  # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services.
