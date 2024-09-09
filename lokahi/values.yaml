@@ -4,7 +4,7 @@ global:
   protocol: https  # set depending on tls.enabled, do not change
   image:
     repository: opennms
-    tag: v0.0.60
+    tag: v0.0.62-dev
   springBoot:  # Spring-boot-env-configmap
     env: {}  # Environment variables to be set for Spring Boot.
   kafkaClient:  # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services.
@@ -34,8 +34,8 @@ OpenNMS:
         cpu: "1"
         memory: 2Gi  # MaxRAMPercentage=50,avg-usage=245MB
       requests:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 250m
+        memory: 500Mi
     privateRepoEnabled: false
     flowsUrl: SOME-EXTERNAL-FLOW-SERVER:80
     flowsTlsEnabled: false
@@ -61,8 +61,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=400MB
       requests:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 250m
+        memory: 500Mi
     privateRepoEnabled: false
     flowIngestorUrl: SOME-EXTERNAL-FLOW-SERVER:80
     flowTlsEnabled: false
@@ -113,14 +113,12 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=40 for heap (avg-usage=480MB) plus up to 2GB off-heap (4 Ignite Data Regions)
       requests:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 250m
+        memory: 500Mi
     ingressAnnotations:
       nginx.ingress.kubernetes.io/proxy-body-size: "0"  # To avoid HTTP 413 and "client intended to send too large chunked body: X bytes while sending request to upstream"
-      nginx.ingress.kubernetes.io/auth-tls-secret: default/client-root-ca-certificate
       nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
       nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
-      nginx.ingress.kubernetes.io/auth-url: "http://opennms-minion-certificate-verifier.default.svc.cluster.local:8080/certificate/debug"
       nginx.ingress.kubernetes.io/auth-response-headers: "tenant-id, location-id"
       nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: true
       nginx.ingress.kubernetes.io/server-snippet: |
@@ -144,8 +142,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=620MB
       requests:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 250m
+        memory: 500Mi
     encryptionKey: ~
     privateRepoEnabled: false
     kafkaSecretName: ~
@@ -164,8 +162,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=480MB
       requests:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 250m
+        memory: 500Mi
     privateRepoEnabled: false
     kafkaSecretName: ~
 # Specifies configuration for the notification module, including service details, database settings,
@@ -183,8 +181,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=450MB
       requests:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 250m
+        memory: 500Mi
     privateRepoEnabled: false
     kafkaSecretName: ~
     retry:
@@ -211,8 +209,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=550MB
       requests:
-        cpu: "1"
-        memory: 2Gi
+        cpu: 250m
+        memory: 500Mi
     privateRepoEnabled: false
 # Specifies configuration for the datachoices module, including service name, image details,
 # replica count, database configuration, resource limits and repository access.
@@ -229,8 +227,8 @@ OpenNMS:
         cpu: "1"
         memory: 1Gi
       requests:
-        cpu: "1"
-        memory: 1Gi
+        cpu: 250m
+        memory: 500Mi
     privateRepoEnabled: false
 # Specifies configuration for the minion certificate manager module, including service name,
 # secret names, image details, replica count, resource limits and repository access.
@@ -248,8 +246,8 @@ OpenNMS:
         cpu: "1"
         memory: 1Gi
       requests:
-        cpu: "1"
-        memory: 1Gi
+        cpu: 250m
+        memory: 500Mi
     privateRepoEnabled: false
 # Specifies configuration for the minion certificate verifier module, including service name,
 # image details, replica count, resource limits and repository access.
@@ -263,8 +261,8 @@ OpenNMS:
         cpu: "1"
         memory: 1Gi  # MaxRAMPercentage=50,avg-usage=245MB
       requests:
-        cpu: "1"
-        memory: 1Gi
+        cpu: 250m
+        memory: 500Mi
     privateRepoEnabled: false
     certificateManagerUrl: ""
 # Enables integration of Citus with notification module.

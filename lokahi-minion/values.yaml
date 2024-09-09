@@ -12,8 +12,8 @@ global:
 # Set an ID for Minion
 id: ""
 # Enable this option if you are placing a `ca.cert` under the `certs` folder
-customCertificateAuthority: false
-grpcClientKeystorePassword: ""  # client keystore password to sign PKCS12 file
+customCertificateAuthority: true
+grpcClientKeystorePassword: "23afe576-016f-43e5-89c9-e4e74a6f0875"  # client keystore password to sign PKCS12 file
 serviceName: opennms-minion
 imageShortName: lokahi-minion
 imagePullPolicy: IfNotPresent
@@ -27,10 +27,12 @@ netflow9ListenerPort: 4729  # netflow9 port
 netflowListenerPort: 9999
 logLevel: ""
 # If we are running inside the cluster, we need to set mapping of the ip address to hostname
-customHostAliases: []
-# Override, the default gatewayHost
-#  If we are running inside the cluster, we can set this value to the internal nginx controller service name
-gatewayHost: ""
+customHostAliases: 
+  - ip: "127.0.0.1" 
+    hostnames: 
+      - "minion.onmshs"
+    # If we are running inside the cluster, we need to set this value to the internal nginx controller service name
+gatewayHost: "ingress-nginx-controller"
 resources:
   limits:
     cpu: "2"
