@@ -4,7 +4,7 @@ global:
   protocol: https  # set depending on tls.enabled, do not change
   image:
     repository: opennms
-    tag: v0.0.62-dev
+    tag: v0.0.61
   springBoot:  # Spring-boot-env-configmap
     env: {}  # Environment variables to be set for Spring Boot.
   kafkaClient:  # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services.
@@ -29,13 +29,23 @@ OpenNMS:
     imageShortName: lokahi-rest-server
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     resources:
       limits:
         cpu: "1"
         memory: 2Gi  # MaxRAMPercentage=50,avg-usage=245MB
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 2Gi
     privateRepoEnabled: false
     flowsUrl: SOME-EXTERNAL-FLOW-SERVER:80
     flowsTlsEnabled: false
@@ -56,27 +66,62 @@ OpenNMS:
     imageShortName: lokahi-metrics-processor
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     resources:
       limits:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=400MB
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 2Gi
     privateRepoEnabled: false
     flowIngestorUrl: SOME-EXTERNAL-FLOW-SERVER:80
     flowTlsEnabled: false
     kafkaSecretName: ~
+# Specifies configuration for the metrics-threshold-processor module, including service details, image settings,
+# resource requests and limits.
+  metricsthresholdprocessor:
+    serviceName: opennms-metrics-threshold-processor
+    imageShortName: lokahi-metrics-threshold-processor
+    imagePullPolicy: IfNotPresent
+    replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
+    resources:
+      limits:
+        cpu: "2"
+        memory: 4Gi # MaxRAMPercentage=50,avg-usage=400MB
+      requests:
+        cpu: "1"
+        memory: 2Gi
+    privateRepoEnabled: false
 # Specifies configuration for the UI module, including path, TLS secret name, image details,
 # resource limits, repository access and Ingress annotations for opennms.
   ui:
     path: /
-    port: 8080
     serviceName: opennms-ui
     tlsSecretName: opennms-ui-certificate
     imageShortName: lokahi-ui
     imagePullPolicy: IfNotPresent
     replicas: 1
+    port: 8080
     resources:
       limits:
         cpu: "1"
@@ -104,6 +149,16 @@ OpenNMS:
     imagePullPolicy: IfNotPresent
     internalGrpcPort: 8991
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: true
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     useKubernetes: "true"
     databaseName: "desenv"
     databaseSchemaName: "minion_gateway"
@@ -113,8 +168,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=40 for heap (avg-usage=480MB) plus up to 2GB off-heap (4 Ignite Data Regions)
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 2Gi
     ingressAnnotations:
       nginx.ingress.kubernetes.io/proxy-body-size: "0"  # To avoid HTTP 413 and "client intended to send too large chunked body: X bytes while sending request to upstream"
       nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
@@ -134,6 +189,16 @@ OpenNMS:
     imageShortName: lokahi-inventory
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "inventory"
     databaseHost: "postgres"
@@ -142,8 +207,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=620MB
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 2Gi
     encryptionKey: ~
     privateRepoEnabled: false
     kafkaSecretName: ~
@@ -154,6 +219,16 @@ OpenNMS:
     imageShortName: lokahi-alert
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "alert"
     databaseHost: "postgres"
@@ -162,8 +237,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=480MB
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 2Gi
     privateRepoEnabled: false
     kafkaSecretName: ~
 # Specifies configuration for the notification module, including service details, database settings,
@@ -173,6 +248,16 @@ OpenNMS:
     imageShortName: lokahi-notification
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "notification"
     databaseHost: "postgres"
@@ -181,8 +266,15 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=450MB
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 2Gi
+    mailFrom: ""          # sender's email address
+    smtpHost: ""
+    smtpPort: ""
+    smtpStartTls: false   # enable encryption (TLS) for an email connection 
+    smtpAuth: false       # SMTP authentication 
+    smtpUsername: ""
+    smtpPassword: ""
     privateRepoEnabled: false
     kafkaSecretName: ~
     retry:
@@ -201,6 +293,16 @@ OpenNMS:
     imageShortName: lokahi-events
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "events"
     databaseHost: "postgres"
@@ -209,8 +311,8 @@ OpenNMS:
         cpu: "2"
         memory: 4Gi  # MaxRAMPercentage=50,avg-usage=550MB
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 2Gi
     privateRepoEnabled: false
 # Specifies configuration for the datachoices module, including service name, image details,
 # replica count, database configuration, resource limits and repository access.
@@ -219,6 +321,16 @@ OpenNMS:
     imageShortName: lokahi-datachoices
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     databaseName: "desenv"
     databaseSchemaName: "datachoices"
     databaseHost: "postgres"
@@ -227,8 +339,8 @@ OpenNMS:
         cpu: "1"
         memory: 1Gi
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 1Gi
     privateRepoEnabled: false
 # Specifies configuration for the minion certificate manager module, including service name,
 # secret names, image details, replica count, resource limits and repository access.
@@ -240,14 +352,24 @@ OpenNMS:
     imageShortName: lokahi-minion-certificate-manager
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     volumeSize: 1Gi
     resources:
       limits:
         cpu: "1"
         memory: 1Gi
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 1Gi
     privateRepoEnabled: false
 # Specifies configuration for the minion certificate verifier module, including service name,
 # image details, replica count, resource limits and repository access.
@@ -256,13 +378,23 @@ OpenNMS:
     imageShortName: lokahi-minion-certificate-verifier
     imagePullPolicy: IfNotPresent
     replicas: 1
+    debug:
+      enabled: false
+      java:
+        preferIPv4Stack: false
+        javaAgentPath: agent/opentelemetry-javaagent.jar
+      transport: dt_socket
+      port: 5005
+      server: true
+      suspend: true 
+      quiet: true
     resources:
       limits:
         cpu: "1"
         memory: 1Gi  # MaxRAMPercentage=50,avg-usage=245MB
       requests:
-        cpu: 250m
-        memory: 500Mi
+        cpu: "1"
+        memory: 1Gi
     privateRepoEnabled: false
     certificateManagerUrl: ""
 # Enables integration of Citus with notification module.
@@ -325,7 +457,14 @@ customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
-
+# To enable or disable Cortex dependency and enable minio storage for Ruler configuration
+Cortex:
+  enabled: true
+  minio:
+    serviceName: minio
+    enabled: true
+    username: minio
+    password: minio123
 # To enable or disable Kafka dependency
 Kafka:
   enabled: true
@@ -341,3 +480,7 @@ Prometheus:
     username: admin
     password: notset
     externalSecret: ""
+
+# To enable or disable Letsencrypt Certificate. When letsencrypt is enable also change minionGateway tlsSecretName to "root-ca-certificate"
+letsencrypt:
+  enabled: false

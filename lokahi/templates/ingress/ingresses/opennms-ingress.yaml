@@ -26,7 +26,7 @@ spec:
                 name: {{ .Values.OpenNMS.ui.serviceName }}
                 port:
                   number: {{ .Values.OpenNMS.port.http | default .Values.OpenNMS.ui.port }}
-          - path: /auth
+          - path: {{ .Values.Keycloak.path }}
             pathType: Prefix
             backend:
               service:
