@@ -12,8 +12,8 @@ global:
 # Set an ID for Minion
 id: ""
 # Enable this option if you are placing a `ca.cert` under the `certs` folder
-customCertificateAuthority: true
-grpcClientKeystorePassword: "41b54bde-4728-4d19-aa7f-1a76f73bccca"  # client keystore password to sign PKCS12 file
+customCertificateAuthority: false
+grpcClientKeystorePassword: ""  # client keystore password to sign PKCS12 file
 serviceName: opennms-minion
 imageShortName: lokahi-minion
 imagePullPolicy: IfNotPresent
