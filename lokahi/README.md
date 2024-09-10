@@ -237,7 +237,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.ui.resources.requests.cpu | string | `"100m"` |  |
 | OpenNMS.ui.resources.requests.memory | string | `"256Mi"` |  |
 | OpenNMS.ui.serviceName | string | `"opennms-ui"` |  |
-| OpenNMS.ui.tlsSecretName | string | `"root-ca-certificate"` |  |
+| OpenNMS.ui.tlsSecretName | string | `"opennms-ui-certificate"` |  |
 | Prometheus.auth.externalSecret | string | `""` |  |
 | Prometheus.auth.password | string | `"notset"` |  |
 | Prometheus.auth.username | string | `"admin"` |  |
