@@ -63,11 +63,15 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Values.OpenNMS.alert.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.alert) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.alert "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.OpenNMS.alert.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" 
+              {{- if .Values.OpenNMS.alert.debug.enabled }}
+              value: "{{- if .Values.OpenNMS.alert.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.alert.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.alert.debug.transport }},server={{ if .Values.OpenNMS.alert.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.alert.debug.port }},suspend={{ if .Values.OpenNMS.alert.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.alert.debug.quiet }}y{{ else }}n{{ end }}"
+              {{- else }}
+              value: "{{- if .Values.OpenNMS.alert.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.alert.debug.java.javaAgentPath }}"
+              {{- end }}
             - name: SPRING_DATASOURCE_URL
               value: "jdbc:postgresql://{{ .Values.OpenNMS.alert.databaseHost }}:{{ .Values.global.citusPort | default .Values.Citus.port }}/{{ .Values.OpenNMS.alert.databaseName }}?currentSchema={{ .Values.OpenNMS.alert.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
@@ -88,7 +92,7 @@ spec:
               value: "{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.alert) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.alert "tag" .Chart.AppVersion) | nindent 12 }}
           envFrom:
           - configMapRef:
               name: spring-boot-env

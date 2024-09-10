@@ -4,7 +4,7 @@ global:
   protocol: https  # set depending on tls.enabled, do not change
   image:
     repository: opennms
-    tag: v0.0.60
+    tag: v0.0.61
   springBoot:  # Spring-boot-env-configmap
     env: {}  # Environment variables to be set for Spring Boot.
   kafkaClient:  # SPRING_KAFKA_BOOTSTRAP_SERVERS URL used in Alert, Datachoices, events, inventory, metricsprocessor, minion-gateway,and notification deployment services.
@@ -117,7 +117,7 @@ OpenNMS:
   ui:
     path: /
     serviceName: opennms-ui
-    tlsSecretName: opennms-ui-certificate
+    tlsSecretName: root-ca-certificate
     imageShortName: lokahi-ui
     imagePullPolicy: IfNotPresent
     replicas: 1
@@ -269,6 +269,12 @@ OpenNMS:
         cpu: "1"
         memory: 2Gi
     mailFrom: ""          # sender's email address
+    smtpHost: ""
+    smtpPort: ""
+    smtpStartTls: false   # enable encryption (TLS) for an email connection 
+    smtpAuth: false       # SMTP authentication 
+    smtpUsername: ""
+    smtpPassword: ""
     privateRepoEnabled: false
     kafkaSecretName: ~
     retry:
@@ -454,7 +460,11 @@ customErrors:
 # To enable or disable Cortex dependency and enable minio storage for Ruler configuration
 Cortex:
   enabled: true
-
+  minio:
+    serviceName: minio
+    enabled: true
+    username: minio
+    password: minio123
 # To enable or disable Kafka dependency
 Kafka:
   enabled: true

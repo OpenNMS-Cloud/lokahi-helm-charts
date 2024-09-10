@@ -57,11 +57,15 @@ spec:
             claimName: minion-certificate-manager-pvc
       containers:
         - name: {{ .Values.OpenNMS.minionCertificateManager.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateManager) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateManager "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.OpenNMS.minionCertificateManager.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-XX:MaxRAMPercentage=50 -javaagent:agent/opentelemetry-javaagent.jar" #-agentlib:jdwp=transport=dt_socket,server=y,address=5005,suspend=n,quiet=y" 
+              {{- if .Values.OpenNMS.minionCertificateManager.debug.enabled }}
+              value: "{{- if .Values.OpenNMS.minionCertificateManager.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.minionCertificateManager.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.minionCertificateManager.debug.transport }},server={{ if .Values.OpenNMS.minionCertificateManager.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.minionCertificateManager.debug.port }},suspend={{ if .Values.OpenNMS.minionCertificateManager.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.minionCertificateManager.debug.quiet }}y{{ else }}n{{ end }}"
+              {{- else }}
+              value: "{{- if .Values.OpenNMS.minionCertificateManager.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.minionCertificateManager.debug.java.javaAgentPath }}"
+              {{- end }}  
             - name: KEYCLOAK_BASE_URL
               value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloakPort | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: KEYCLOAK_REALM
@@ -72,7 +76,7 @@ spec:
               value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565}}"
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateManager) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateManager "tag" .Chart.AppVersion) | nindent 12 }}
           envFrom:
           - configMapRef:
               name: spring-boot-env

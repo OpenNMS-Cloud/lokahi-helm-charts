@@ -41,7 +41,7 @@ OpenNMS:
     resources:
       limits:
         cpu: '0'
-        memory: 512Mi
+        memory: 1Gi
       requests:
         cpu: '0'
         memory: 512Mi
@@ -54,6 +54,8 @@ OpenNMS:
         cpu: '0'
         memory: '0'
     ingressAnnotations:
+      nginx.ingress.kubernetes.io/auth-tls-secret: default/client-root-ca-certificate
+      nginx.ingress.kubernetes.io/auth-url: "http://opennms-minion-certificate-verifier.default.svc.cluster.local:8080/certificate/debug"
       nginx.ingress.kubernetes.io/configuration-snippet: |
         add_header X-Content-Type-Options "nosniff";
         add_header X-Frame-Options "sameorigin";
