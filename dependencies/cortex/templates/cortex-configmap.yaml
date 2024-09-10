@@ -87,4 +87,3 @@ data:
         sample_ratio: 1
   {{- end }}
 {{ end }}
-

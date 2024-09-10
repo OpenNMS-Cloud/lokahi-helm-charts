@@ -7,9 +7,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - port: {{ .Values.OpenNMS.port.http | default .Values.OpenNMS.ui.port }}
+    - port: {{ .Values.OpenNMS.ui.port }}
       protocol: TCP
-      targetPort: {{ .Values.OpenNMS.ui.port }}
+      targetPort: 8080
       name: http
   selector:
     app: {{ .Values.OpenNMS.ui.serviceName }}

@@ -66,4 +66,3 @@ spec:
             - name: cortex-rules-volume
               mountPath: /tmp/cortex/rules
 {{ end }}
-
