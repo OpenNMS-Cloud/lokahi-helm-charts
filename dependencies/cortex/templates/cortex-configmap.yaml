@@ -1,3 +1,4 @@
+{{ if .Values.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -12,7 +13,7 @@ data:
     # and development.
         
     server:
-      http_listen_port: {{  .Values.port }}
+      http_listen_port: {{ .Values.port }}
 
       # Configure the server to allow messages up to 100MB.
       grpc_server_max_recv_msg_size: 104857600
@@ -85,4 +86,5 @@ data:
         oltp_endpoint: {{ $url.host }}
         sample_ratio: 1
   {{- end }}
+{{ end }}
 
