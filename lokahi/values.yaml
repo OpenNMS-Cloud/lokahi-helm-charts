@@ -269,12 +269,6 @@ OpenNMS:
         cpu: "1"
         memory: 2Gi
     mailFrom: ""          # sender's email address
-    smtpHost: ""
-    smtpPort: ""
-    smtpStartTls: false   # enable encryption (TLS) for an email connection 
-    smtpAuth: false       # SMTP authentication 
-    smtpUsername: ""
-    smtpPassword: ""
     privateRepoEnabled: false
     kafkaSecretName: ~
     retry:
@@ -460,11 +454,7 @@ customErrors:
 # To enable or disable Cortex dependency and enable minio storage for Ruler configuration
 Cortex:
   enabled: true
-  minio:
-    serviceName: minio
-    enabled: true
-    username: minio
-    password: minio123
+
 # To enable or disable Kafka dependency
 Kafka:
   enabled: true
