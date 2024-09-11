@@ -161,10 +161,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionGateway.imageShortName | string | `"lokahi-minion-gateway"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-response-headers" | string | `"tenant-id, location-id"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream" | bool | `true` |  |
-| OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-tls-secret" | string | `"default/client-root-ca-certificate"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-tls-verify-client" | string | `"on"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-tls-verify-depth" | string | `"1"` |  |
-| OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-url" | string | `"http://opennms-minion-certificate-verifier.default.svc.cluster.local:8080/certificate/debug"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"0"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/server-snippet" | string | `"grpc_read_timeout \"1200s\";\ngrpc_send_timeout \"1200s\";\nclient_body_timeout \"1200s\";\n"` |  |
 | OpenNMS.minionGateway.internalGrpcPort | int | `8991` |  |

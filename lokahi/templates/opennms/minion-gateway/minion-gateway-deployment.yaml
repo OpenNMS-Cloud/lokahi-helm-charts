@@ -90,7 +90,7 @@ spec:
           {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.minionGateway | indent 10 }}
           ports:
             - name: http
-              containerPort: 8080 
+              containerPort: 8080
             - name: grpc
               containerPort: 8990
             - name: internal-grpc

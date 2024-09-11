@@ -78,7 +78,7 @@ spec:
             - name: controller
               containerPort: 9093
             - name: local
-              containerPort: {{  .Values.localPort }}
+              containerPort: {{ .Values.localPort }}
           livenessProbe:
             failureThreshold: 15
             initialDelaySeconds: 10

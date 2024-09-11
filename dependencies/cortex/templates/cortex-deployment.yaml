@@ -1,3 +1,4 @@
+{{ if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -64,4 +65,5 @@ spec:
               subPath: "cortex.yml"
             - name: cortex-rules-volume
               mountPath: /tmp/cortex/rules
+{{ end }}
 

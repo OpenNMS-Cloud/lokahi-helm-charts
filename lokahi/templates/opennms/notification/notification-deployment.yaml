@@ -133,7 +133,7 @@ spec:
             - name: grpc
               containerPort: {{ .Values.OpenNMS.port.grpc | default 6565 }} 
             - name: http
-              containerPort: 8080 
+              containerPort: 8080
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"
