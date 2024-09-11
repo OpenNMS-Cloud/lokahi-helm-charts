@@ -1,11 +1,11 @@
 apiVersion: v2
 name: lokahi
-version: 1.0.0
+version: 1.0.1
 home: https://github.com/OpenNMS-Cloud/lokahi
 icon: https://www.opennms.com/wp-content/uploads/2021/04/OpenNMS_Favicon_36px.png
 type: application
 description: A Helm chart for running OpenNMS Lokahi in Kubernetes
-appVersion: "v0.0.60"
+appVersion: "v0.0.61"
 
 dependencies:
   - name: "Citus"

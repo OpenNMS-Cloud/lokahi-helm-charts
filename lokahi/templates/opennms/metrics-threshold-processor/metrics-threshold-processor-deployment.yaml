@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.OpenNMS.metricsProcessor.serviceName }}
+  name: {{ .Values.OpenNMS.metricsthresholdprocessor.serviceName }}
   labels:
-    app: {{ .Values.OpenNMS.metricsProcessor.serviceName }}
+    app: {{ .Values.OpenNMS.metricsthresholdprocessor.serviceName }}
   namespace: {{ .Release.Namespace }}
 spec:
-  replicas: {{ .Values.OpenNMS.metricsProcessor.replicas }}
+  replicas: {{ .Values.OpenNMS.metricsthresholdprocessor.replicas }}
   selector:
     matchLabels:
-      run: {{ .Values.OpenNMS.metricsProcessor.serviceName }}
+      app: {{ .Values.OpenNMS.metricsthresholdprocessor.serviceName }}
   template:
     metadata:
       labels:
         appdomain: opennms
-        run: {{ .Values.OpenNMS.metricsProcessor.serviceName }}
+        app: {{ .Values.OpenNMS.metricsthresholdprocessor.serviceName }}
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
         prometheus.io/path: "/actuator/prometheus"
         # roll the deployment when the Spring boot environment variable configmap changes
         checksum/spring-boot-env-configmap: {{ include (print $.Template.BasePath "/opennms/spring-boot-env-configmap.yaml") . | sha256sum }}
-        kubectl.kubernetes.io/default-container: "{{ .Values.OpenNMS.metricsProcessor.serviceName }}"
+        kubectl.kubernetes.io/default-container: "{{ .Values.OpenNMS.metricsthresholdprocessor.serviceName }}"
     spec:
       {{- if .Values.nodeRestrictions.enabled }}
       nodeSelector:                                                                                    
@@ -47,34 +47,30 @@ spec:
           configMap:
             name: spring-boot-app-config
       containers:
-        - name: {{ .Values.OpenNMS.metricsProcessor.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsProcessor "tag" .Chart.AppVersion) }}
-          imagePullPolicy: {{ .Values.OpenNMS.metricsProcessor.imagePullPolicy }}
+        - name: {{ .Values.OpenNMS.metricsthresholdprocessor.serviceName }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsthresholdprocessor "tag" .Chart.AppVersion) }}
+          imagePullPolicy: {{ .Values.OpenNMS.metricsthresholdprocessor.imagePullPolicy }}
           env:
             - name: JAVA_TOOL_OPTIONS
-              {{- if .Values.OpenNMS.metricsProcessor.debug.enabled }}
-              value: "{{- if .Values.OpenNMS.metricsProcessor.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.metricsProcessor.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.metricsProcessor.debug.transport }},server={{ if .Values.OpenNMS.metricsProcessor.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.metricsProcessor.debug.port }},suspend={{ if .Values.OpenNMS.metricsProcessor.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.metricsProcessor.debug.quiet }}y{{ else }}n{{ end }}"
+              {{- if .Values.OpenNMS.metricsthresholdprocessor.debug.enabled }}
+              value: "{{- if .Values.OpenNMS.metricsthresholdprocessor.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.metricsthresholdprocessor.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.metricsthresholdprocessor.debug.transport }},server={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.metricsthresholdprocessor.debug.port }},suspend={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.quiet }}y{{ else }}n{{ end }}"
               {{- else }}
-              value: "{{- if .Values.OpenNMS.metricsProcessor.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.metricsProcessor.debug.java.javaAgentPath }}"
-              {{- end }}  
+              value: "{{- if .Values.OpenNMS.metricsthresholdprocessor.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.metricsthresholdprocessor.debug.java.javaAgentPath }}"
+              {{- end }} 
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
-            - name: GRPC_INVENTORY_URL
-              value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565}}"
-            - name: GRPC_FLOW_INGESTOR_URL
-              value: "{{ .Values.OpenNMS.metricsProcessor.flowIngestorUrl }}"
-            - name: GRPC_FLOW_TLS_ENABLED
-              value: "{{ .Values.OpenNMS.metricsProcessor.flowTlsEnabled }}"
             - name: CORTEX_WRITE_URL
-              value: {{ .Values.cortexClient.protocol }}://{{ .Values.cortexClient.hostWrite }}:{{ .Values.cortexClient.portWrite }}{{ .Values.cortexClient.pathWrite }}
+              value: {{ .Values.cortexClient.protocol }}://{{ .Values.cortexClient.hostWrite }}:{{ .Values.cortexClient.portWrite }}
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
-            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsProcessor "tag" .Chart.AppVersion) | nindent 12 }}
+            {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.metricsthresholdprocessor) | nindent 12 }}
           envFrom:
           - configMapRef:
               name: spring-boot-env
-          {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.metricsProcessor | indent 10 }}
+          {{- include "lokahi.kafkaSecretFrom" .Values.OpenNMS.metricsthresholdprocessor | indent 10 }}
           ports:
+            - name: grpc
+              containerPort: 6565
             - name: http
               containerPort: 8080
           volumeMounts:
@@ -102,12 +98,12 @@ spec:
             failureThreshold: 250
           resources:
             limits:
-              cpu: "{{ .Values.OpenNMS.metricsProcessor.resources.limits.cpu }}"
-              memory: "{{ .Values.OpenNMS.metricsProcessor.resources.limits.memory }}"
+              cpu: "{{ .Values.OpenNMS.metricsthresholdprocessor.resources.limits.cpu }}"
+              memory: "{{ .Values.OpenNMS.metricsthresholdprocessor.resources.limits.memory }}"
             requests:
-              cpu: "{{ .Values.OpenNMS.metricsProcessor.resources.requests.cpu }}"
-              memory: "{{ .Values.OpenNMS.metricsProcessor.resources.requests.memory }}"
-      {{- if .Values.OpenNMS.metricsProcessor.privateRepoEnabled }}
+              cpu: "{{ .Values.OpenNMS.metricsthresholdprocessor.resources.requests.cpu }}"
+              memory: "{{ .Values.OpenNMS.metricsthresholdprocessor.resources.requests.memory }}"
+      {{- if .Values.OpenNMS.metricsthresholdprocessor.privateRepoEnabled }}
       imagePullSecrets:
         - name: image-credentials
       {{- end }}

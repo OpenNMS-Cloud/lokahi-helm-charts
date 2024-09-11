@@ -59,7 +59,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Values.serviceName }}
-          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values) | quote }}
+          image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 3000

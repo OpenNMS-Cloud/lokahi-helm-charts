@@ -1,6 +1,6 @@
 # lokahi
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
 
 A Helm chart for running OpenNMS Lokahi in Kubernetes
 
@@ -31,6 +31,10 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Citus.adminUser | string | `"desenv"` |  |
 | Citus.enabled | bool | `true` |  |
 | Cortex.enabled | bool | `true` |  |
+| Cortex.minio.serviceName | string | `"minio"` |  |
+| Cortex.minio.enabled | bool | `true` |  |
+| Cortex.minio.password | string | `"minio123"` |  |
+| Cortex.minio.username | string | `"minio"` |  |
 | Grafana.enabled | bool | `true` |  |
 | Grafana.imageShortName | string | `"lokahi-grafana"` |  |
 | Grafana.path | string | `"/grafana"` |  |
@@ -49,6 +53,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.alert.databaseHost | string | `"postgres"` |  |
 | OpenNMS.alert.databaseName | string | `"desenv"` |  |
 | OpenNMS.alert.databaseSchemaName | string | `"alert"` |  |
+| OpenNMS.alert.debug.enabled | bool | `false` |  |
+| OpenNMS.alert.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.alert.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.alert.debug.port | int | `5005` |  |
+| OpenNMS.alert.debug.quiet | bool | `true` |  |
+| OpenNMS.alert.debug.server | bool | `true` |  |
+| OpenNMS.alert.debug.suspend | bool | `true` |  |
+| OpenNMS.alert.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.alert.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.alert.imageShortName | string | `"lokahi-alert"` |  |
 | OpenNMS.alert.kafkaSecretName | string | `nil` |  |
@@ -60,6 +72,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.alert.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.alert.serviceName | string | `"opennms-alert"` |  |
 | OpenNMS.api.certificateManagerUrl | string | `""` |  |
+| OpenNMS.api.debug.enabled | bool | `false` |  |
+| OpenNMS.api.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.api.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.api.debug.port | int | `5005` |  |
+| OpenNMS.api.debug.quiet | bool | `true` |  |
+| OpenNMS.api.debug.server | bool | `true` |  |
+| OpenNMS.api.debug.suspend | bool | `true` |  |
+| OpenNMS.api.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.api.flowsTlsEnabled | bool | `false` |  |
 | OpenNMS.api.flowsUrl | string | `"SOME-EXTERNAL-FLOW-SERVER:80"` |  |
 | OpenNMS.api.imagePullPolicy | string | `"IfNotPresent"` |  |
@@ -84,6 +104,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.dataChoices.databaseHost | string | `"postgres"` |  |
 | OpenNMS.dataChoices.databaseName | string | `"desenv"` |  |
 | OpenNMS.dataChoices.databaseSchemaName | string | `"datachoices"` |  |
+| OpenNMS.dataChoices.debug.enabled | bool | `false` |  |
+| OpenNMS.dataChoices.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.dataChoices.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.dataChoices.debug.port | int | `5005` |  |
+| OpenNMS.dataChoices.debug.quiet | bool | `true` |  |
+| OpenNMS.dataChoices.debug.server | bool | `true` |  |
+| OpenNMS.dataChoices.debug.suspend | bool | `true` |  |
+| OpenNMS.dataChoices.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.dataChoices.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.dataChoices.imageShortName | string | `"lokahi-datachoices"` |  |
 | OpenNMS.dataChoices.privateRepoEnabled | bool | `false` |  |
@@ -96,6 +124,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.events.databaseHost | string | `"postgres"` |  |
 | OpenNMS.events.databaseName | string | `"desenv"` |  |
 | OpenNMS.events.databaseSchemaName | string | `"events"` |  |
+| OpenNMS.events.debug.enabled | bool | `false` |  |
+| OpenNMS.events.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.events.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.events.debug.port | int | `5005` |  |
+| OpenNMS.events.debug.quiet | bool | `true` |  |
+| OpenNMS.events.debug.server | bool | `true` |  |
+| OpenNMS.events.debug.suspend | bool | `true` |  |
+| OpenNMS.events.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.events.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.events.imageShortName | string | `"lokahi-events"` |  |
 | OpenNMS.events.privateRepoEnabled | bool | `false` |  |
@@ -108,6 +144,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.inventory.databaseHost | string | `"postgres"` |  |
 | OpenNMS.inventory.databaseName | string | `"desenv"` |  |
 | OpenNMS.inventory.databaseSchemaName | string | `"inventory"` |  |
+| OpenNMS.inventory.debug.enabled | bool | `false` |  |
+| OpenNMS.inventory.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.inventory.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.inventory.debug.port | int | `5005` |  |
+| OpenNMS.inventory.debug.quiet | bool | `true` |  |
+| OpenNMS.inventory.debug.server | bool | `true` |  |
+| OpenNMS.inventory.debug.suspend | bool | `true` |  |
+| OpenNMS.inventory.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.inventory.encryptionKey | string | `nil` |  |
 | OpenNMS.inventory.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.inventory.imageShortName | string | `"lokahi-inventory"` |  |
@@ -119,6 +163,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.inventory.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.inventory.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.inventory.serviceName | string | `"opennms-inventory"` |  |
+| OpenNMS.metricsProcessor.debug.enabled | bool | `false` |  |
+| OpenNMS.metricsProcessor.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.metricsProcessor.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.metricsProcessor.debug.port | int | `5005` |  |
+| OpenNMS.metricsProcessor.debug.quiet | bool | `true` |  |
+| OpenNMS.metricsProcessor.debug.server | bool | `true` |  |
+| OpenNMS.metricsProcessor.debug.suspend | bool | `true` |  |
+| OpenNMS.metricsProcessor.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.metricsProcessor.flowIngestorUrl | string | `"SOME-EXTERNAL-FLOW-SERVER:80"` |  |
 | OpenNMS.metricsProcessor.flowTlsEnabled | bool | `false` |  |
 | OpenNMS.metricsProcessor.imagePullPolicy | string | `"IfNotPresent"` |  |
@@ -131,7 +183,24 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsProcessor.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.metricsProcessor.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.metricsProcessor.serviceName | string | `"opennms-metrics-processor"` |  |
+| OpenNMS.metricsthresholdprocessor.imagePullPolicy | string | `"IfNotPresent"` |  |
+| OpenNMS.metricsthresholdprocessor.imageShortName | string | `"lokahi-metrics-threshold-processor"` |  |
+| OpenNMS.metricsthresholdprocessor.privateRepoEnabled | bool | `false` |  |
+| OpenNMS.metricsthresholdprocessor.replicas | int | `1` |  |
+| OpenNMS.metricsthresholdprocessor.resources.limits.cpu | string | `"2"` |  |
+| OpenNMS.metricsthresholdprocessor.resources.limits.memory | string | `"4Gi"` |  |
+| OpenNMS.metricsthresholdprocessor.resources.requests.cpu | string | `"1"` |  |
+| OpenNMS.metricsthresholdprocessor.resources.requests.memory | string | `"2Gi"` |  |
+| OpenNMS.metricsthresholdprocessor.serviceName | string | `"opennms-metrics-threshold-processor"` |  |
 | OpenNMS.minionCertificateManager.caSecretName | string | `"root-ca-certificate"` |  |
+| OpenNMS.minionCertificateManager.debug.enabled | bool | `false` |  |
+| OpenNMS.minionCertificateManager.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.minionCertificateManager.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.minionCertificateManager.debug.port | int | `5005` |  |
+| OpenNMS.minionCertificateManager.debug.quiet | bool | `true` |  |
+| OpenNMS.minionCertificateManager.debug.server | bool | `true` |  |
+| OpenNMS.minionCertificateManager.debug.suspend | bool | `true` |  |
+| OpenNMS.minionCertificateManager.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.minionCertificateManager.enabled | bool | `true` |  |
 | OpenNMS.minionCertificateManager.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.minionCertificateManager.imageShortName | string | `"lokahi-minion-certificate-manager"` |  |
@@ -145,6 +214,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionCertificateManager.serviceName | string | `"opennms-minion-certificate-manager"` |  |
 | OpenNMS.minionCertificateManager.volumeSize | string | `"1Gi"` |  |
 | OpenNMS.minionCertificateVerifier.certificateManagerUrl | string | `""` |  |
+| OpenNMS.minionCertificateVerifier.debug.enabled | bool | `false` |  |
+| OpenNMS.minionCertificateVerifier.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.minionCertificateVerifier.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.minionCertificateVerifier.debug.port | int | `5005` |  |
+| OpenNMS.minionCertificateVerifier.debug.quiet | bool | `true` |  |
+| OpenNMS.minionCertificateVerifier.debug.server | bool | `true` |  |
+| OpenNMS.minionCertificateVerifier.debug.suspend | bool | `true` |  |
+| OpenNMS.minionCertificateVerifier.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.minionCertificateVerifier.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.minionCertificateVerifier.imageShortName | string | `"lokahi-minion-certificate-verifier"` |  |
 | OpenNMS.minionCertificateVerifier.privateRepoEnabled | bool | `false` |  |
@@ -157,6 +234,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionGateway.databaseHost | string | `"postgres"` |  |
 | OpenNMS.minionGateway.databaseName | string | `"desenv"` |  |
 | OpenNMS.minionGateway.databaseSchemaName | string | `"minion_gateway"` |  |
+| OpenNMS.minionGateway.debug.enabled | bool | `false` |  |
+| OpenNMS.minionGateway.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.minionGateway.debug.java.preferIPv4Stack | bool | `true` |  |
+| OpenNMS.minionGateway.debug.port | int | `5005` |  |
+| OpenNMS.minionGateway.debug.quiet | bool | `true` |  |
+| OpenNMS.minionGateway.debug.server | bool | `true` |  |
+| OpenNMS.minionGateway.debug.suspend | bool | `true` |  |
+| OpenNMS.minionGateway.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.minionGateway.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.minionGateway.imageShortName | string | `"lokahi-minion-gateway"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-response-headers" | string | `"tenant-id, location-id"` |  |
@@ -182,9 +267,18 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.databaseHost | string | `"postgres"` |  |
 | OpenNMS.notification.databaseName | string | `"desenv"` |  |
 | OpenNMS.notification.databaseSchemaName | string | `"notification"` |  |
+| OpenNMS.notification.debug.enabled | bool | `false` |  |
+| OpenNMS.notification.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.notification.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.notification.debug.port | int | `5005` |  |
+| OpenNMS.notification.debug.quiet | bool | `true` |  |
+| OpenNMS.notification.debug.server | bool | `true` |  |
+| OpenNMS.notification.debug.suspend | bool | `true` |  |
+| OpenNMS.notification.debug.transport | string | `"dt_socket"` |  |
 | OpenNMS.notification.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.notification.imageShortName | string | `"lokahi-notification"` |  |
 | OpenNMS.notification.kafkaSecretName | string | `nil` |  |
+| OpenNMS.notification.mailFrom | string | `""` |  |
 | OpenNMS.notification.privateRepoEnabled | bool | `false` |  |
 | OpenNMS.notification.replicas | int | `1` |  |
 | OpenNMS.notification.resources.limits.cpu | string | `"2"` |  |
@@ -196,6 +290,12 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.retry.maxDelay | int | `60000` |  |
 | OpenNMS.notification.retry.multiplier | int | `2` |  |
 | OpenNMS.notification.serviceName | string | `"opennms-notifications"` |  |
+| OpenNMS.notification.smtpAuth | bool | `false` |  |
+| OpenNMS.notification.smtpHost | string | `""` |  |
+| OpenNMS.notification.smtpPassword | string | `""` |  |
+| OpenNMS.notification.smtpPort | string | `""` |  |
+| OpenNMS.notification.smtpStartTls | bool | `false` |  |
+| OpenNMS.notification.smtpUsername | string | `""` |  |
 | OpenNMS.ui.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.ui.imageShortName | string | `"lokahi-ui"` |  |
 | OpenNMS.ui.ingressAnnotations."nginx.ingress.kubernetes.io/client-body-buffer-size" | string | `"4k"` |  |
@@ -213,7 +313,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.ui.resources.requests.cpu | string | `"100m"` |  |
 | OpenNMS.ui.resources.requests.memory | string | `"256Mi"` |  |
 | OpenNMS.ui.serviceName | string | `"opennms-ui"` |  |
-| OpenNMS.ui.tlsSecretName | string | `"opennms-ui-certificate"` |  |
+| OpenNMS.ui.tlsSecretName | string | `"root-ca-certificate"` |  |
 | Prometheus.auth.externalSecret | string | `""` |  |
 | Prometheus.auth.password | string | `"notset"` |  |
 | Prometheus.auth.username | string | `"admin"` |  |
@@ -247,6 +347,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | ingress.httpsPort | int | `443` |  |
 | ingress.secretJobimage | string | `"registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660"` |  |
 | ingress.webhookPatchJobimage | string | `"registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1@sha256:64d8c73dca984af206adf9d6d7e46aa550362b1d7a01f3a0a91b20cc67868660"` |  |
+| letsencrypt.enabled | bool | `false` |  |
 | nodeRestrictions.enabled | bool | `false` |  |
 | nodeRestrictions.key | string | `"kubernetes.azure.com/scalesetpriority"` |  |
 | nodeRestrictions.value | string | `"spot"` |  |

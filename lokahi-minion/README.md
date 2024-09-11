@@ -1,6 +1,6 @@
 # lokahi-minion
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
 
 A Helm chart for running OpenNMS Lokahi minion in Kubernetes
 
@@ -18,6 +18,14 @@ A Helm chart for running OpenNMS Lokahi minion in Kubernetes
 |-----|------|---------|-------------|
 | customCertificateAuthority | bool | `false` |  |
 | customHostAliases | list | `[]` |  |
+| debug.enabled | bool | `false` |  |
+| debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| debug.java.preferIPv4Stack | bool | `true` |  |
+| debug.port | int | `5005` |  |
+| debug.quiet | bool | `true` |  |
+| debug.server | bool | `true` |  |
+| debug.suspend | bool | `true` |  |
+| debug.transport | string | `"dt_socket"` |  |
 | extraInitContainers | list | `[]` |  |
 | extraMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |

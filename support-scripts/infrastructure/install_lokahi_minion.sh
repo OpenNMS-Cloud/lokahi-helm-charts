@@ -28,8 +28,10 @@ msg "LOKAHI MINION VALUE FILE: ${LOKAHIMINIONVALUEFILE}"
 msg "LOGFILE: ${LOGFILE}"
 
 if [ "$NAMESPACE" != "default" ]; then
- msg "Creating ${NAMESPACE} namespace"
- kubectl create namespace "${NAMESPACE}"
+ if [ "$(kubectl get namespace  --no-headers -o custom-columns=":metadata.name" | grep "^$NAMESPACE")" != "$NAMESPACE" ]; then
+  msg "Creating ${NAMESPACE} namespace"
+  kubectl create namespace "${NAMESPACE}"
+ fi
 fi
 
 msg "Installing Lokahi Minion" 
@@ -40,7 +42,7 @@ kubectl wait --for=condition=ready "$(kubectl get pods -o name --no-headers=true
 
 rm "${LOKAHIMINIONVALUEFILE}"
 rm "../../lokahi-minion/certs/ca.crt"
-rm "../../lokahi-minion/certs/minion1.p12"
+rm "../../lokahi-minion/certs/minion.p12"
 
 DURATION=$SECONDS
 msg "It took $((DURATION / 60)) minutes and $((DURATION % 60)) seconds to install Lokahi minion Helm Chart" 
