@@ -68,7 +68,7 @@ spec:
               name: spring-boot-env
           ports:
             - name: http
-              containerPort: 8080 
+              containerPort: 8080
           volumeMounts:
             - name: spring-boot-app-config-volume
               mountPath: "/app/config"
