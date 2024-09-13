@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "{{ .Values.tls.enabled }}"
-    nginx.ingress.kubernetes.io/auth-tls-secret: {{ .Release.Namespace }}/client-root-ca-certificate
+    nginx.ingress.kubernetes.io/auth-tls-secret: "{{ .Release.Namespace }}/client-root-ca-certificate"
     nginx.ingress.kubernetes.io/auth-url: "http://opennms-minion-certificate-verifier.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.OpenNMS.port.http | default 8080 }}/certificate/debug"
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
     {{- range $Annotation, $Value := .Values.OpenNMS.minionGateway.ingressAnnotations }}
