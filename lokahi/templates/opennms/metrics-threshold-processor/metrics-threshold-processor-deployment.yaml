@@ -52,7 +52,7 @@ spec:
           imagePullPolicy: {{ .Values.OpenNMS.metricsthresholdprocessor.imagePullPolicy }}
           env:
             - name: ALERT-MANAGER_PORT
-              value: {{ .Values.OpenNMS.port.http | default 8080 }}
+              value: "{{ .Values.OpenNMS.port.http | default 8080 }}"
             - name: JAVA_TOOL_OPTIONS
               {{- if .Values.OpenNMS.metricsthresholdprocessor.debug.enabled }}
               value: "{{- if .Values.OpenNMS.metricsthresholdprocessor.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.metricsthresholdprocessor.debug.java.javaAgentPath }} -agentlib:jdwp=transport={{ .Values.OpenNMS.metricsthresholdprocessor.debug.transport }},server={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.server }}y{{ else }}n{{ end }},address={{ .Values.OpenNMS.metricsthresholdprocessor.debug.port }},suspend={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.suspend }}y{{ else }}n{{ end }},quiet={{ if .Values.OpenNMS.metricsthresholdprocessor.debug.quiet }}y{{ else }}n{{ end }}"
