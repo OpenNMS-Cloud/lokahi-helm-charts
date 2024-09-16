@@ -183,6 +183,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsProcessor.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.metricsProcessor.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.metricsProcessor.serviceName | string | `"opennms-metrics-processor"` |  |
+| OpenNMS.metricsthresholdprocessor.enabled | bool | `false` |  |
 | OpenNMS.metricsthresholdprocessor.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.metricsthresholdprocessor.imageShortName | string | `"lokahi-metrics-threshold-processor"` |  |
 | OpenNMS.metricsthresholdprocessor.privateRepoEnabled | bool | `false` |  |

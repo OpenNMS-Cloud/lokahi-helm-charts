@@ -84,6 +84,7 @@ OpenNMS:
 # Specifies configuration for the metrics-threshold-processor module, including service details, image settings,
 # resource requests and limits.
   metricsthresholdprocessor:
+    enabled: false
     serviceName: opennms-metrics-threshold-processor
     imageShortName: lokahi-metrics-threshold-processor
     imagePullPolicy: IfNotPresent
@@ -456,7 +457,7 @@ Cortex:
   enabled: true
   minio:
     serviceName: minio
-    enabled: true
+    enabled: false
     username: minio
     password: minio123
 # To enable or disable Kafka dependency
