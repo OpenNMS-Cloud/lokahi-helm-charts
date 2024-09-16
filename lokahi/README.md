@@ -32,7 +32,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Citus.enabled | bool | `true` |  |
 | Cortex.enabled | bool | `true` |  |
 | Cortex.minio.serviceName | string | `"minio"` |  |
-| Cortex.minio.enabled | bool | `true` |  |
+| Cortex.minio.enabled | bool | `false` |  |
 | Cortex.minio.password | string | `"minio123"` |  |
 | Cortex.minio.username | string | `"minio"` |  |
 | Grafana.enabled | bool | `true` |  |
@@ -184,6 +184,13 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsProcessor.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.metricsProcessor.serviceName | string | `"opennms-metrics-processor"` |  |
 | OpenNMS.metricsthresholdprocessor.enabled | bool | `false` |  |
+| OpenNMS.metricsthresholdprocessor.debug.enabled | bool | `false` |  |
+| OpenNMS.metricsthresholdprocessor.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.metricsthresholdprocessor.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.metricsthresholdprocessor.debug.port | int | `5005` |  |
+| OpenNMS.metricsthresholdprocessor.debug.quiet | bool | `true` |  |
+| OpenNMS.metricsthresholdprocessor.debug.server | bool | `true` |  |
+| OpenNMS.metricsthresholdprocessor.debug.suspend | bool | `true` |  |
 | OpenNMS.metricsthresholdprocessor.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.metricsthresholdprocessor.imageShortName | string | `"lokahi-metrics-threshold-processor"` |  |
 | OpenNMS.metricsthresholdprocessor.privateRepoEnabled | bool | `false` |  |
