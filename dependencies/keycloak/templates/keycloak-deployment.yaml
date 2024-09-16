@@ -50,7 +50,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.databaseHost }} -p {{ .Values.Citus.port }} -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.databaseHost }} -p {{  .Values.global.citusPort | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -90,7 +90,7 @@ spec:
               value: "{{ .Values.hostnameAdminUrl }}"
             {{- end }}
             - name: KC_DB_URL
-              value: "jdbc:postgresql://{{ .Values.databaseHost }}:{{ .Values.Citus.port }}/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.databaseHost }}:{{  .Values.global.citusPort | default .Values.Citus.port }}/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:

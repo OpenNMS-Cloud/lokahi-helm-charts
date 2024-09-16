@@ -55,7 +55,7 @@ spec:
           - -c
           - |
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.alert.databaseHost }} -p {{ .Values.Citus.port }} -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.alert.databaseHost }} -p {{  .Values.global.citusPort | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -73,7 +73,7 @@ spec:
               value: "{{- if .Values.OpenNMS.alert.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.alert.debug.java.javaAgentPath }}"
               {{- end }}
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.alert.databaseHost }}:{{ .Values.Citus.port }}/{{ .Values.OpenNMS.alert.databaseName }}?currentSchema={{ .Values.OpenNMS.alert.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.alert.databaseHost }}:{{ .Values.global.citusPort | default .Values.Citus.port }}/{{ .Values.OpenNMS.alert.databaseName }}?currentSchema={{ .Values.OpenNMS.alert.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -87,7 +87,7 @@ spec:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloakPort | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: GRPC_SERVER_PORT
               value: "{{ .Values.OpenNMS.port.grpc | default 6565 }}"
             # Do not put any env variables below this. The lokahi.development.env include should be last

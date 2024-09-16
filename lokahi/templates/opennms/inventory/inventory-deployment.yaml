@@ -55,7 +55,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.inventory.databaseHost }} -p {{ .Values.Citus.port }} -c 'select 1'; do
+            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.inventory.databaseHost }} -p {{  .Values.global.citusPort | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -73,7 +73,7 @@ spec:
               value: "{{- if .Values.OpenNMS.inventory.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.inventory.debug.java.javaAgentPath }}"
               {{- end }} 
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.inventory.databaseHost }}:{{ .Values.Citus.port }}/{{ .Values.OpenNMS.inventory.databaseName }}?currentSchema={{ .Values.OpenNMS.inventory.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.inventory.databaseHost }}:{{  .Values.global.citusPort | default .Values.Citus.port }}/{{ .Values.OpenNMS.inventory.databaseName }}?currentSchema={{ .Values.OpenNMS.inventory.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -87,7 +87,7 @@ spec:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloakPort | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: KEYCLOAK_REALM
               value: "{{ .Values.Keycloak.realmName }}"
             - name: GRPC_CLIENT_ALERT_URL

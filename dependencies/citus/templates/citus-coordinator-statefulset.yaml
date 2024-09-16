@@ -83,13 +83,13 @@ spec:
           ;
 
         ports:
-        - containerPort: {{ .Values.port }}
+        - containerPort: {{ .Values.global.citusPort | default .Values.port }}
           name: postgres
         env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
         - name: PGPORT
-          value: "{{ .Values.port }}"
+          value: "{{ .Values.global.citusPort | default .Values.port }}"
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
