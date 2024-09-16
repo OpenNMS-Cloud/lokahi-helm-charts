@@ -11,7 +11,7 @@ spec:
     app: citus
   clusterIP: None
   ports:
-  - port: {{ .Values.global.citusPort | default .Values.port }}
-    targetPort: {{ .Values.global.citusPort | default .Values.port }}
+  - port: {{ .Values.port }}
+    targetPort: {{ .Values.port }}
     name: postgres
 {{- end }}

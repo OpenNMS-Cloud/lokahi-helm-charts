@@ -67,7 +67,7 @@ spec:
               value: "{{- if .Values.OpenNMS.minionCertificateManager.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.minionCertificateManager.debug.java.javaAgentPath }}"
               {{- end }}  
             - name: KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloakPort | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: KEYCLOAK_REALM
               value: "{{ .Values.Keycloak.realmName }}"
             - name: GRPC_SERVER_PORT

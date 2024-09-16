@@ -64,7 +64,7 @@ spec:
             - name: SPRING_CACHE_CAFFEINE_SPEC
               value: "maximumSize=10000,expireAfterWrite=60s"
             - name: KEYCLOAK_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloakPort | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: TSDB_URL
               value: "{{ .Values.cortexClient.protocol }}://{{ .Values.cortexClient.hostRead }}:{{ .Values.cortexClient.portRead }}{{ .Values.cortexClient.pathRead }}"
             - name: SPRING_WEBFLUX_BASE_PATH
