@@ -82,7 +82,7 @@ OpenNMS:
     flowTlsEnabled: false
     kafkaSecretName: ~
 # Specifies configuration for the metrics-threshold-processor module, including service details, image settings,
-# resource requests and limits.
+# resource requests and limits. Ensure both metrics-threshold-processor and Cortex minio are enabled for full functionality.
   metricsthresholdprocessor:
     enabled: false
     serviceName: opennms-metrics-threshold-processor
@@ -452,7 +452,7 @@ customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
-# To enable or disable Cortex dependency and enable minio storage for Ruler configuration
+# To enable or disable Cortex dependency and minio storage for Ruler configuration. Currently MinIO is disabled; set to true to enable MinIO storage.
 Cortex:
   enabled: true
   minio:
