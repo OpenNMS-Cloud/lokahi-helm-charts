@@ -4,7 +4,7 @@ if [ "$#" -ne 2 ]; then
 echo "Illegal number of parameters"
 fi
 
-LOCATION_NAME="e2e-test"
+LOCATION_NAME="default"
 
 
 if grep -q "openNMSPassword" ../../examples/lokahi-values.yaml
@@ -35,6 +35,7 @@ kubectl get secret root-ca-certificate ${KUBERNETES_NAMESPACE} -o go-template='{
 
 # Login
 RESPONSE=$(curl \
+            -k \
 			-S \
 			-s \
 			-f \
@@ -69,6 +70,7 @@ lookup_location(){
 LOOKUP_LOCATION_GQL=$(printf "${TEMPLATE_LOOKUP_LOCATION_GQL}" "${LOCATION_NAME}")
 gql_formatted_query_envelope="$(echo "$LOOKUP_LOCATION_GQL" | jq -R 'select(length > 0) | { query: . }')"
 RESPONSE=$(curl \
+            -k \
 			-S \
 			-s \
 			-f \
@@ -85,6 +87,7 @@ create_location(){
 CREATE_LOCATION_GQL=$(printf "${TEMPLATE_CREATE_LOCATION_GQL}" "${LOCATION_NAME}")
 gql_formatted_query_envelope="$(echo "$CREATE_LOCATION_GQL" | jq -R 'select(length > 0) | { query: . }')"
 RESPONSE=$(curl \
+            -k \
 			-S \
 			-s \
 			-f \
@@ -100,6 +103,7 @@ retrieve_certificate(){
     GET_CERTIFICATE_GQL=$(printf "${TEMPLATE_GET_CERTIFICATE_GQL}" "${LOCATION_ID}")
 gql_formatted_query_envelope="$(echo "$GET_CERTIFICATE_GQL" | jq -R 'select(length > 0) | { query: . }')"
 RESPONSE=$(curl \
+            -k \
 			-S \
 			-s \
 			-f \
@@ -117,7 +121,6 @@ store_certificate ()
 {
 	echo "Storing Certificate"
     echo "${CERTIFICATE_DATA}" | base64 --decode >"/tmp/cert.zip"
-	#unzip -l /tmp/cert.zip
     unzip -o -p /tmp/cert.zip storage/minion1-${LOCATION_NAME}.p12 >"${CLIENT_KEYSTORE}"
 }
 

@@ -21,7 +21,7 @@ LOKAHIVALUEFILE="../../examples/lokahi-values.yaml"
 INGRESSVALUEFILE="../../examples/ingress-nginx-values.yaml"
 
 
-sed "s/  hostname: onmshs/  hostname: $DOMAIN/g" ${LOKAHIVALUEFILE} > ../tmp/lokahi.yaml
+sed "s/onmshs/$DOMAIN/g" ${LOKAHIVALUEFILE} > ../tmp/lokahi.yaml
 if [ "$NAMESPACE" != "default" ]; then
 msg "Making namespace modifications"
 sed "s/      nginx.ingress.kubernetes.io\/auth-tls-secret: default\/client-root-ca-certificate/      nginx.ingress.kubernetes.io\/auth-tls-secret: ${NAMESPACE}\/client-root-ca-certificate/g" ../tmp/lokahi.yaml > ../tmp/lokahi2.yaml
