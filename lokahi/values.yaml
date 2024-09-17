@@ -31,7 +31,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     resources:
       limits:
@@ -68,7 +68,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     resources:
       limits:
@@ -97,12 +97,12 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=400MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=400MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -152,7 +152,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     useKubernetes: "true"
     databaseName: "desenv"
@@ -194,7 +194,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "inventory"
@@ -224,7 +224,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "alert"
@@ -253,7 +253,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "notification"
@@ -268,8 +268,8 @@ OpenNMS:
     mailFrom: ""          # sender's email address
     smtpHost: ""
     smtpPort: ""
-    smtpStartTls: false   # enable encryption (TLS) for an email connection 
-    smtpAuth: false       # SMTP authentication 
+    smtpStartTls: false  # enable encryption (TLS) for an email connection 
+    smtpAuth: false      # SMTP authentication 
     smtpUsername: ""
     smtpPassword: ""
     privateRepoEnabled: false
@@ -298,7 +298,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "events"
@@ -326,7 +326,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "datachoices"
@@ -357,7 +357,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     volumeSize: 1Gi
     resources:
@@ -383,7 +383,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     resources:
       limits:
