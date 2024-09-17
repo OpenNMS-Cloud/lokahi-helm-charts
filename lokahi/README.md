@@ -1,6 +1,6 @@
 # lokahi
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.61](https://img.shields.io/badge/AppVersion-v0.0.61-informational?style=flat-square)
 
 A Helm chart for running OpenNMS Lokahi in Kubernetes
 
@@ -343,7 +343,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | global.enableJsonLogging | bool | `false` |  |
 | global.hostname | string | `"onmshs"` |  |
 | global.image.repository | string | `"opennms"` |  |
-| global.image.tag | string | `"v0.0.60"` |  |
+| global.image.tag | string | `"v0.0.61"` |  |
 | global.kafkaClient.bootstrapServers | string | `"onms-kafka:9092"` |  |
 | global.openTelemetry.env.OTEL_PROPAGATORS | string | `"tracecontext,baggage,jaeger"` |  |
 | global.openTelemetry.otlpTracesEndpoint | string | `nil` |  |
