@@ -187,9 +187,9 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsthresholdprocessor.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
 | OpenNMS.metricsthresholdprocessor.debug.java.preferIPv4Stack | bool | `false` |  |
 | OpenNMS.metricsthresholdprocessor.debug.port | int | `5005` |  |
-| OpenNMS.metricsthresholdprocessor.debug.quiet | bool | `true` |  |
 | OpenNMS.metricsthresholdprocessor.debug.server | bool | `true` |  |
 | OpenNMS.metricsthresholdprocessor.debug.suspend | bool | `true` |  |
+| OpenNMS.metricsthresholdprocessor.debug.quiet | bool | `true` |  |
 | OpenNMS.metricsthresholdprocessor.enabled | bool | `false` |  |
 | OpenNMS.metricsthresholdprocessor.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.metricsthresholdprocessor.imageShortName | string | `"lokahi-metrics-threshold-processor"` |  |
