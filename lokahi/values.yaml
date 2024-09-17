@@ -107,7 +107,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi #MaxRAMPercentage=50,avg-usage=400MB
+        memory: 4Gi # MaxRAMPercentage=50,avg-usage=400MB
       requests:
         cpu: "1"
         memory: 2Gi
