@@ -32,7 +32,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Citus.enabled | bool | `true` |  |
 | Citus.port | int | `5432` |  |
 | Cortex.enabled | bool | `true` |  |
-| Cortex.minio.enabled | bool | `true` |  |
+| Cortex.minio.enabled | bool | `false` |  |
 | Cortex.minio.password | string | `"minio123"` |  |
 | Cortex.minio.serviceName | string | `"minio"` |  |
 | Cortex.minio.username | string | `"minio"` |  |
