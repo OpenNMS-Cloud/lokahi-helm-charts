@@ -107,7 +107,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=400MB
+        memory: 4Gi   # MaxRAMPercentage=50,avg-usage=400MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -271,8 +271,8 @@ OpenNMS:
     mailFrom: ""          # sender's email address
     smtpHost: ""
     smtpPort: ""
-    smtpStartTls: false  # enable encryption (TLS) for an email connection 
-    smtpAuth: false      # SMTP authentication 
+    smtpStartTls: false
+    smtpAuth: false
     smtpUsername: ""
     smtpPassword: ""
     privateRepoEnabled: false
