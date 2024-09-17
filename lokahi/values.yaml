@@ -271,8 +271,8 @@ OpenNMS:
     mailFrom: ""          # sender's email address
     smtpHost: ""
     smtpPort: ""
-    smtpStartTls: false
-    smtpAuth: false
+    smtpStartTls: false  # enable encryption (TLS) for an email connection
+    smtpAuth: false      # SMTP authentication
     smtpUsername: ""
     smtpPassword: ""
     privateRepoEnabled: false
