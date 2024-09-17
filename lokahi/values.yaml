@@ -14,13 +14,13 @@ global:
     otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
     env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
       OTEL_PROPAGATORS: tracecontext,baggage,jaeger
-  citusPort: ~       # Override citus default port 
-  keycloakPort : ~   # Override keycloak default port 
+  citusPort: ~       # Override citus default port in lokahi globally
+  keycloakPort : ~   # Override keycloak default port in lokahi globally
 
 OpenNMS:
   port:
-    grpc: ~      # Override grpc default port 6565
-    http: ~      # Override http default port 8080
+    grpc: ~      # Override grpc default port 6565 in lokahi globally
+    http: ~      # Override http default port 8080 in lokahi globally
 # Specifies configuration for API module, including service details, image settings, resource
 # limits, external flow server URL, certificate manager URL and GraphQL playground settings.
   api:
