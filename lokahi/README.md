@@ -1,6 +1,6 @@
 # lokahi
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.60](https://img.shields.io/badge/AppVersion-v0.0.60-informational?style=flat-square)
+![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.0.61](https://img.shields.io/badge/AppVersion-v0.0.61-informational?style=flat-square)
 
 A Helm chart for running OpenNMS Lokahi in Kubernetes
 
@@ -31,9 +31,9 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Citus.adminUser | string | `"desenv"` |  |
 | Citus.enabled | bool | `true` |  |
 | Cortex.enabled | bool | `true` |  |
-| Cortex.minio.serviceName | string | `"minio"` |  |
-| Cortex.minio.enabled | bool | `true` |  |
+| Cortex.minio.enabled | bool | `false` |  |
 | Cortex.minio.password | string | `"minio123"` |  |
+| Cortex.minio.serviceName | string | `"minio"` |  |
 | Cortex.minio.username | string | `"minio"` |  |
 | Grafana.enabled | bool | `true` |  |
 | Grafana.imageShortName | string | `"lokahi-grafana"` |  |
@@ -183,6 +183,15 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsProcessor.resources.requests.cpu | string | `"1"` |  |
 | OpenNMS.metricsProcessor.resources.requests.memory | string | `"2Gi"` |  |
 | OpenNMS.metricsProcessor.serviceName | string | `"opennms-metrics-processor"` |  |
+| OpenNMS.metricsthresholdprocessor.debug.enabled | bool | `false` |  |
+| OpenNMS.metricsthresholdprocessor.debug.java.javaAgentPath | string | `"agent/opentelemetry-javaagent.jar"` |  |
+| OpenNMS.metricsthresholdprocessor.debug.java.preferIPv4Stack | bool | `false` |  |
+| OpenNMS.metricsthresholdprocessor.debug.port | int | `5005` |  |
+| OpenNMS.metricsthresholdprocessor.debug.quiet | bool | `true` |  |
+| OpenNMS.metricsthresholdprocessor.debug.server | bool | `true` |  |
+| OpenNMS.metricsthresholdprocessor.debug.suspend | bool | `true` |  |
+| OpenNMS.metricsthresholdprocessor.debug.transport | string | `"dt_socket"` |  |
+| OpenNMS.metricsthresholdprocessor.enabled | bool | `false` |  |
 | OpenNMS.metricsthresholdprocessor.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.metricsthresholdprocessor.imageShortName | string | `"lokahi-metrics-threshold-processor"` |  |
 | OpenNMS.metricsthresholdprocessor.privateRepoEnabled | bool | `false` |  |
@@ -335,7 +344,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | global.enableJsonLogging | bool | `false` |  |
 | global.hostname | string | `"onmshs"` |  |
 | global.image.repository | string | `"opennms"` |  |
-| global.image.tag | string | `"v0.0.60"` |  |
+| global.image.tag | string | `"v0.0.61"` |  |
 | global.kafkaClient.bootstrapServers | string | `"onms-kafka:9092"` |  |
 | global.openTelemetry.env.OTEL_PROPAGATORS | string | `"tracecontext,baggage,jaeger"` |  |
 | global.openTelemetry.otlpTracesEndpoint | string | `nil` |  |

@@ -31,7 +31,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     resources:
       limits:
@@ -68,7 +68,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     resources:
       limits:
@@ -82,8 +82,9 @@ OpenNMS:
     flowTlsEnabled: false
     kafkaSecretName: ~
 # Specifies configuration for the metrics-threshold-processor module, including service details, image settings,
-# resource requests and limits.
+# resource requests and limits. Ensure both metrics-threshold-processor and Cortex minio are enabled for full functionality.
   metricsthresholdprocessor:
+    enabled: false
     serviceName: opennms-metrics-threshold-processor
     imageShortName: lokahi-metrics-threshold-processor
     imagePullPolicy: IfNotPresent
@@ -96,12 +97,12 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi # MaxRAMPercentage=50,avg-usage=400MB
+        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=400MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -151,7 +152,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     useKubernetes: "true"
     databaseName: "desenv"
@@ -193,7 +194,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "inventory"
@@ -223,7 +224,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "alert"
@@ -252,7 +253,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "notification"
@@ -267,8 +268,8 @@ OpenNMS:
     mailFrom: ""          # sender's email address
     smtpHost: ""
     smtpPort: ""
-    smtpStartTls: false   # enable encryption (TLS) for an email connection 
-    smtpAuth: false       # SMTP authentication 
+    smtpStartTls: false  # enable encryption (TLS) for an email connection
+    smtpAuth: false      # SMTP authentication
     smtpUsername: ""
     smtpPassword: ""
     privateRepoEnabled: false
@@ -297,7 +298,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "events"
@@ -325,7 +326,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     databaseName: "desenv"
     databaseSchemaName: "datachoices"
@@ -356,7 +357,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     volumeSize: 1Gi
     resources:
@@ -382,7 +383,7 @@ OpenNMS:
       transport: dt_socket
       port: 5005
       server: true
-      suspend: true 
+      suspend: true
       quiet: true
     resources:
       limits:
@@ -451,12 +452,12 @@ customErrors:
   image: quay.io/kubernetes-ingress-controller/custom-error-pages:0.4
   debug: true
 
-# To enable or disable Cortex dependency and enable minio storage for Ruler configuration
+# To enable or disable Cortex dependency and minio storage for Ruler configuration. Currently MinIO is disabled; set to true to enable MinIO storage.
 Cortex:
   enabled: true
   minio:
     serviceName: minio
-    enabled: true
+    enabled: false
     username: minio
     password: minio123
 # To enable or disable Kafka dependency
