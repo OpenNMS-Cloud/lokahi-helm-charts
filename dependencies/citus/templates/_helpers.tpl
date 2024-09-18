@@ -89,3 +89,44 @@ Are we running in an Red Hat OpenShift cluster?
 {{- printf "false" -}}
 {{- end }}
 {{- end }}
+
+{{- define "lokahi.passwords.grafana" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.opennms" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.admin" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.keycloak" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.inventory" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.alert" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.notification" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.events" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.datachoices" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
+{{- define "lokahi.passwords.minionGateway" -}}
+{{- randAlphaNum 32 | b64enc -}}
+{{- end -}}
+
