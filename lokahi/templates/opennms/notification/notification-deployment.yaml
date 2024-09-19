@@ -55,7 +55,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.notification.databaseHost }} -p {{  .Values.global.citusPort | default .Values.Citus.port }} -c 'select 1'; do
+            while ! psql -U {{ .Values.global.citus.adminUser | default .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.notification.databaseHost }} -p {{  .Values.global.citus.port | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -75,7 +75,7 @@ spec:
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.notification.databaseHost }}:{{ .Values.global.citusPort | default .Values.Citus.port }}/{{ .Values.OpenNMS.notification.databaseName }}?currentSchema={{ .Values.OpenNMS.notification.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.notification.databaseHost }}:{{ .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.OpenNMS.notification.databaseName }}?currentSchema={{ .Values.OpenNMS.notification.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
