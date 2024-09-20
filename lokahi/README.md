@@ -343,7 +343,9 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | cortexClient.protocol | string | `"http"` |  |
 | customErrors.debug | bool | `true` |  |
 | customErrors.image | string | `"quay.io/kubernetes-ingress-controller/custom-error-pages:0.4"` |  |
-| global.citusPort | string | `nil` |  |
+| global.citus.adminPassword | string | `nil` |  |
+| global.citus.adminUser | string | `nil` |  |
+| global.citus.port | int | `nil` |  |
 | global.enableJsonLogging | bool | `false` |  |
 | global.hostname | string | `"onmshs"` |  |
 | global.image.repository | string | `"opennms"` |  |
