@@ -193,6 +193,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.metricsthresholdprocessor.debug.server | bool | `true` |  |
 | OpenNMS.metricsthresholdprocessor.debug.suspend | bool | `true` |  |
 | OpenNMS.metricsthresholdprocessor.debug.transport | string | `"dt_socket"` |  |
+| OpenNMS.metricsthresholdprocessor.enabled | bool | `false` |  |
 | OpenNMS.metricsthresholdprocessor.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.metricsthresholdprocessor.imageShortName | string | `"lokahi-metrics-threshold-processor"` |  |
 | OpenNMS.metricsthresholdprocessor.privateRepoEnabled | bool | `false` |  |
