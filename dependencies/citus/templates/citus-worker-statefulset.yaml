@@ -90,6 +90,8 @@ spec:
         env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_DB
+          value: {{ .Values.global.citus.databaseName | default .Values.databaseName }}
         - name: PGPORT
           value: "{{ .Values.global.citus.port | default .Values.port }}"
         - name: PGPASSWORD
@@ -128,7 +130,7 @@ spec:
             command:
             - 'pg_isready'
             - '-U'
-            - 'desenv'
+            - '{{ .Values.global.citus.databaseName | default .Values.databaseName }}'
             - '--timeout=5'
             - '--quiet'
 
@@ -137,7 +139,7 @@ spec:
             command:
             - 'pg_isready'
             - '-U'
-            - 'desenv'
+            - '{{ .Values.global.citus.databaseName | default .Values.databaseName }}'
             - '--timeout=5'
             - '--quiet'
           periodSeconds: 30

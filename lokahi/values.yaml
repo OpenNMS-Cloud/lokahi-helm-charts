@@ -14,10 +14,11 @@ global:
     otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
     env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
       OTEL_PROPAGATORS: tracecontext,baggage,jaeger
-  citus:            # Override citus default port, adminUser and adminPassword in lokahi globally
+  citus:            # Override citus default port, database name, adminUser and adminPassword in lokahi globally
     port: ~
     adminUser: ~
     adminPassword: ~
+    databaseName: ~
   keycloakPort: ~   # Override keycloak default port in lokahi globally
 
 OpenNMS:

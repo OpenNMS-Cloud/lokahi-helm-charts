@@ -73,7 +73,7 @@ spec:
               value: "{{- if .Values.OpenNMS.events.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.events.debug.java.javaAgentPath }}"
               {{- end }}  
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.events.databaseHost }}:{{  .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.OpenNMS.events.databaseName }}?currentSchema={{ .Values.OpenNMS.events.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.events.databaseHost }}:{{  .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.global.citus.databaseName | default .Values.OpenNMS.events.databaseName }}?currentSchema={{ .Values.OpenNMS.events.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
