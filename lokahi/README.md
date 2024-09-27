@@ -37,6 +37,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Cortex.minio.serviceName | string | `"minio"` |  |
 | Cortex.minio.username | string | `"minio"` |  |
 | Grafana.databaseHost | string | `"postgres"` |  |
+| Grafana.databaseName | string | `"desenv"` |  |
 | Grafana.enabled | bool | `true` |  |
 | Grafana.imageShortName | string | `"lokahi-grafana"` |  |
 | Grafana.path | string | `"/grafana"` |  |
@@ -45,6 +46,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Kafka.enabled | bool | `true` |  |
 | Keycloak.adminPassword | string | `"notset"` |  |
 | Keycloak.adminUsername | string | `"admin"` |  |
+| Keycloak.databaseName | string | `"desenv"` |  |
 | Keycloak.enabled | bool | `true` |  |
 | Keycloak.httpsPort | int | `8443` |  |
 | Keycloak.imageShortName | string | `"lokahi-keycloak"` |  |
