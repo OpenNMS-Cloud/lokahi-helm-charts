@@ -50,7 +50,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.global.citus.adminUser | default .Values.Citus.adminUser }} -h {{ .Values.databaseHost }} -p {{  .Values.global.citus.port | default .Values.Citus.port }} -c 'select 1'; do
+            while ! psql -U {{ .Values.global.citus.adminUser | default .Values.Citus.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.databaseName }} -h {{ .Values.databaseHost }} -p {{  .Values.global.citus.port | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done

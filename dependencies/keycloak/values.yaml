@@ -38,7 +38,7 @@ privateRepoEnabled: false
 configmapName: keycloak-realm-configmap # Keycloak realm configmap name
 environment: {} # Environment variables
 Citus:
-  enabled: false
+  enabled: true
   adminUser: desenv # admin username for citus
   adminPassword: notset # admin password for citus
   port: 5432

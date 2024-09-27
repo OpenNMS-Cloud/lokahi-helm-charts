@@ -415,6 +415,7 @@ Keycloak:
   port: 8080
   httpsPort: 8443
   serviceName: onms-keycloak
+  databaseName: "desenv"
   imageShortName: lokahi-keycloak
   realmName: opennms
   adminUsername: admin
@@ -425,6 +426,7 @@ Grafana:
   path: /grafana
   port: 3000
   serviceName: grafana
+  databaseName: "desenv"
   imageShortName: lokahi-grafana
   databaseHost: postgres
 # Configures hosts, paths, protocol and ports for reading and writing data to Cortex
