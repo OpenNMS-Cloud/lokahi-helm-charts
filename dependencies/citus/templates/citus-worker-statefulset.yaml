@@ -130,6 +130,8 @@ spec:
             command:
             - 'pg_isready'
             - '-U'
+            - '{{ .Values.global.citus.adminUser | default .Values.adminUser }}'
+            - '-d'
             - '{{ .Values.global.citus.databaseName | default .Values.databaseName }}'
             - '--timeout=5'
             - '--quiet'
@@ -139,6 +141,8 @@ spec:
             command:
             - 'pg_isready'
             - '-U'
+            - '{{ .Values.global.citus.adminUser | default .Values.adminUser }}'
+            - '-d'
             - '{{ .Values.global.citus.databaseName | default .Values.databaseName }}'
             - '--timeout=5'
             - '--quiet'
