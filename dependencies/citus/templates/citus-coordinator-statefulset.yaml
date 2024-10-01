@@ -131,7 +131,7 @@ spec:
             command:
             - 'pg_isready'
             - '-U'
-            - '{{ .Values.global.citus.databaseName | default .Values.databaseName }}'
+            - '{{ .Values.global.citus.adminUser | default .Values.adminUser }}'
             - '--timeout=5'
             - '--quiet'
           initialDelaySeconds: 60
