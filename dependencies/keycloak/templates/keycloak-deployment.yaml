@@ -1,3 +1,4 @@
+{{ if .Values.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,7 +50,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -c 'select 1'; do
+            while ! psql -U {{ .Values.global.citus.adminUser | default .Values.Citus.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.databaseName }} -h {{ .Values.databaseHost }} -p {{  .Values.global.citus.port | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -89,7 +90,7 @@ spec:
               value: "{{ .Values.hostnameAdminUrl }}"
             {{- end }}
             - name: KC_DB_URL
-              value: "jdbc:postgresql://{{ .Values.databaseHost }}:5432/{{ .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.databaseHost }}:{{  .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.global.citus.databaseName | default .Values.databaseName }}?currentSchema={{ .Values.databaseSchemaName }}"
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -154,9 +155,9 @@ spec:
             {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values "tag" .Chart.AppVersion) | nindent 12 }}
           ports:
             - name: http
-              containerPort: {{ .Values.port }}
+              containerPort: 8080
             - name: https
-              containerPort: {{ .Values.httpsPort }}
+              containerPort: 8443
           volumeMounts:
             {{- if and .Values.tls.enabled .Values.tlsSecretName }}
             - mountPath: /mnt/certificates
@@ -221,3 +222,4 @@ spec:
         - name: realm-config
           configMap:
             name: {{ .Values.configmapName }}
+{{- end }}

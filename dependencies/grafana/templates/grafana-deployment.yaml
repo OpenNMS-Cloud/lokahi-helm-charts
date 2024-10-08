@@ -51,7 +51,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.Citus.adminUser }} -h postgres -c 'select 1'; do
+            while ! psql -U {{ .Values.global.citus.adminUser | default .Values.Citus.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.databaseName }} -h {{ .Values.databaseHost }} -p {{  .Values.global.citus.port | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -62,7 +62,7 @@ spec:
           image: {{ include "lokahi.image" (dict "Values" .Values "thisService" .Values "tag" .Chart.AppVersion) }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
-            - containerPort: {{ .Values.grafanaPort }}
+            - containerPort: 3000
           volumeMounts:
             - name: grafana-config
               mountPath: "/etc/grafana/provisioning/datasources/default.yml"
@@ -85,7 +85,7 @@ spec:
             failureThreshold: 3
             httpGet:
               path: /robots.txt
-              port: {{ .Values.grafanaPort }}
+              port: 3000
               scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 30
@@ -93,7 +93,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 10
             tcpSocket:
-              port: {{ .Values.grafanaPort }}
+              port: 3000
           resources:
             limits:
               cpu: "{{ .Values.resources.limits.cpu }}"

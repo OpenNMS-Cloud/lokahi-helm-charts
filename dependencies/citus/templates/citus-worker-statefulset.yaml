@@ -56,8 +56,8 @@ spec:
           node_name=${HOSTNAME}.citus-worker.${POD_NAMESPACE}.svc.cluster.local;
 
           echo [$(date -Iseconds)] Wait pg_isready;
-          timeout 5m sh -c 'until pg_isready -U desenv --timeout=5 --quiet; do sleep 2; done;';
-          pg_isready -U desenv --quiet || { echo pg not ready; kill -9 1; exit 1; };
+          timeout 5m sh -c 'until pg_isready -U {{ .Values.global.citus.adminUser | default .Values.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.databaseName }}  --timeout=5 --quiet; do sleep 2; done;';
+          pg_isready -U {{ .Values.global.citus.adminUser | default .Values.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.databaseName }} --quiet || { echo pg not ready; kill -9 1; exit 1; };
           echo [$(date -Iseconds)] pg is ready;
           # wait for extension
           sleep 5;
@@ -67,12 +67,12 @@ spec:
 
 {{- if .Values.workersEnabled }}
           echo [$(date -Iseconds)] Wait manager;
-          timeout 5m sh -c "until psql 'host={{ .Values.serviceName }} user=desenv' -c 'SELECT citus_is_coordinator()'; do sleep 2; done;";
-          psql 'host={{ .Values.serviceName }} user=desenv' -c 'SELECT citus_is_coordinator()' || { echo Manager not ready; kill -9 1; exit 1; }
+          timeout 5m sh -c "until psql 'host={{ .Values.serviceName }} port={{ .Values.global.citus.port | default .Values.port }} dbname={{ .Values.global.citus.databaseName | default .Values.databaseName }} user={{ .Values.global.citus.adminUser | default .Values.adminUser }}' -c 'SELECT citus_is_coordinator()'; do sleep 2; done;";
+          psql 'host={{ .Values.serviceName }} dbname={{ .Values.global.citus.databaseName | default .Values.databaseName }} user={{ .Values.global.citus.adminUser | default .Values.adminUser }} port={{ .Values.global.citus.port | default .Values.port }}' -c 'SELECT citus_is_coordinator()' || { echo Manager not ready; kill -9 1; exit 1; }
 
           # Wait and retry as the DNS name may take longer to be available on the coordinator
           echo [$(date -Iseconds)] citus_add_node ${node_name};
-          timeout 5m sh -c "until psql 'host={{ .Values.serviceName }} user=desenv' -c \"SELECT * from citus_add_node('${node_name}', 5432);\"; do sleep 5; done" || {
+          timeout 5m sh -c "until psql 'host={{ .Values.serviceName }}  dbname={{ .Values.global.citus.databaseName | default .Values.databaseName }} port={{ .Values.global.citus.port | default .Values.port }} user={{ .Values.global.citus.adminUser | default .Values.adminUser }}' -c \"SELECT * from citus_add_node('${node_name}', {{ .Values.global.citus.port | default .Values.port }});\"; do sleep 5; done" || {
             echo citus_add_node failed;
             kill -9 1;
           }
@@ -85,18 +85,22 @@ spec:
             -c hba_file=/etc/postgres/pg_hba.conf \
           ;
         ports:
-        - containerPort: 5432
+        - containerPort: {{ .Values.global.citus.port | default .Values.port }}
           name: postgres
         env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_DB
+          value: "{{ .Values.global.citus.databaseName | default .Values.databaseName }}"
+        - name: PGPORT
+          value: "{{ .Values.global.citus.port | default .Values.port }}"
         - name: PGPASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres
               key: password
         - name: POSTGRES_USER
-          value: desenv
+          value: "{{ .Values.global.citus.adminUser | default .Values.adminUser }}"
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -126,7 +130,9 @@ spec:
             command:
             - 'pg_isready'
             - '-U'
-            - 'desenv'
+            - '{{ .Values.global.citus.adminUser | default .Values.adminUser }}'
+            - '-d'
+            - '{{ .Values.global.citus.databaseName | default .Values.databaseName }}'
             - '--timeout=5'
             - '--quiet'
 
@@ -135,7 +141,9 @@ spec:
             command:
             - 'pg_isready'
             - '-U'
-            - 'desenv'
+            - '{{ .Values.global.citus.adminUser | default .Values.adminUser }}'
+            - '-d'
+            - '{{ .Values.global.citus.databaseName | default .Values.databaseName }}'
             - '--timeout=5'
             - '--quiet'
           periodSeconds: 30

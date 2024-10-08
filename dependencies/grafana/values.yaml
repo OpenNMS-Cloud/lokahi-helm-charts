@@ -4,7 +4,7 @@ global:
  protocol: https #set depending on tls.enabled, do not change
 enabled: true
 path: /grafana
-grafanaPort: 3000
+port: 3000
 replicas: 1
 databaseHost: "postgres" # Database host name in grafana secret
 serviceName: grafana
@@ -26,6 +26,7 @@ Citus:
   adminUser: desenv # admin username for citus
   adminPassword: notset # admin password for citus
   grafanaPassword: notset # password for grafana user
+  port: 5432
 Cortex:
   enabled: true
   serviceName: cortex

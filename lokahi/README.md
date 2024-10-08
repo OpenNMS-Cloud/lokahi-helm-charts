@@ -30,11 +30,14 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Citus.adminPassword | string | `"notset"` |  |
 | Citus.adminUser | string | `"desenv"` |  |
 | Citus.enabled | bool | `true` |  |
+| Citus.port | int | `5432` |  |
 | Cortex.enabled | bool | `true` |  |
 | Cortex.minio.enabled | bool | `false` |  |
 | Cortex.minio.password | string | `"minio123"` |  |
 | Cortex.minio.serviceName | string | `"minio"` |  |
 | Cortex.minio.username | string | `"minio"` |  |
+| Grafana.databaseHost | string | `"postgres"` |  |
+| Grafana.databaseName | string | `"desenv"` |  |
 | Grafana.enabled | bool | `true` |  |
 | Grafana.imageShortName | string | `"lokahi-grafana"` |  |
 | Grafana.path | string | `"/grafana"` |  |
@@ -43,6 +46,7 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | Kafka.enabled | bool | `true` |  |
 | Keycloak.adminPassword | string | `"notset"` |  |
 | Keycloak.adminUsername | string | `"admin"` |  |
+| Keycloak.databaseName | string | `"desenv"` |  |
 | Keycloak.enabled | bool | `true` |  |
 | Keycloak.httpsPort | int | `8443` |  |
 | Keycloak.imageShortName | string | `"lokahi-keycloak"` |  |
@@ -255,10 +259,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.minionGateway.imageShortName | string | `"lokahi-minion-gateway"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-response-headers" | string | `"tenant-id, location-id"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream" | bool | `true` |  |
-| OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-tls-secret" | string | `"default/client-root-ca-certificate"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-tls-verify-client" | string | `"on"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-tls-verify-depth" | string | `"1"` |  |
-| OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/auth-url" | string | `"http://opennms-minion-certificate-verifier.default.svc.cluster.local:8080/certificate/debug"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"0"` |  |
 | OpenNMS.minionGateway.ingressAnnotations."nginx.ingress.kubernetes.io/server-snippet" | string | `"grpc_read_timeout \"1200s\";\ngrpc_send_timeout \"1200s\";\nclient_body_timeout \"1200s\";\n"` |  |
 | OpenNMS.minionGateway.internalGrpcPort | int | `8991` |  |
@@ -307,6 +309,8 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | OpenNMS.notification.smtpPort | string | `""` |  |
 | OpenNMS.notification.smtpStartTls | bool | `false` |  |
 | OpenNMS.notification.smtpUsername | string | `""` |  |
+| OpenNMS.port.grpc | string | `nil` |  |
+| OpenNMS.port.http | string | `nil` |  |
 | OpenNMS.ui.imagePullPolicy | string | `"IfNotPresent"` |  |
 | OpenNMS.ui.imageShortName | string | `"lokahi-ui"` |  |
 | OpenNMS.ui.ingressAnnotations."nginx.ingress.kubernetes.io/client-body-buffer-size" | string | `"4k"` |  |
@@ -341,11 +345,16 @@ A Helm chart for running OpenNMS Lokahi in Kubernetes
 | cortexClient.protocol | string | `"http"` |  |
 | customErrors.debug | bool | `true` |  |
 | customErrors.image | string | `"quay.io/kubernetes-ingress-controller/custom-error-pages:0.4"` |  |
+| global.citus.adminPassword | string | `nil` |  |
+| global.citus.adminUser | string | `nil` |  |
+| global.citus.databaseName | string | `nil` |  |
+| global.citus.port | string | `nil` |  |
 | global.enableJsonLogging | bool | `false` |  |
 | global.hostname | string | `"onmshs"` |  |
 | global.image.repository | string | `"opennms"` |  |
 | global.image.tag | string | `"v0.0.61"` |  |
 | global.kafkaClient.bootstrapServers | string | `"onms-kafka:9092"` |  |
+| global.keycloakPort | string | `nil` |  |
 | global.openTelemetry.env.OTEL_PROPAGATORS | string | `"tracecontext,baggage,jaeger"` |  |
 | global.openTelemetry.otlpTracesEndpoint | string | `nil` |  |
 | global.port | int | `443` |  |

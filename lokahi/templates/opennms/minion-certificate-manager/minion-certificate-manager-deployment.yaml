@@ -67,11 +67,13 @@ spec:
               value: "{{- if .Values.OpenNMS.minionCertificateManager.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.minionCertificateManager.debug.java.javaAgentPath }}"
               {{- end }}  
             - name: KEYCLOAK_BASE_URL
-              value: "http://{{ .Values.Keycloak.serviceName }}:8080/auth/"
+              value: "http://{{ .Values.Keycloak.serviceName }}:{{ .Values.global.keycloakPort | default .Values.Keycloak.port }}{{ .Values.Keycloak.path }}/"
             - name: KEYCLOAK_REALM
               value: "{{ .Values.Keycloak.realmName }}"
             - name: GRPC_SERVER_PORT
-              value: "8990"
+              value: "{{ .Values.OpenNMS.port.grpc | default 8990 }}"
+            - name: GRPC_INVENTORY_URL
+              value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565}}"
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
             {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateManager "tag" .Chart.AppVersion) | nindent 12 }}
@@ -80,7 +82,7 @@ spec:
               name: spring-boot-env
           ports:
             - name: grpc
-              containerPort: 8990
+              containerPort: {{ .Values.OpenNMS.port.grpc | default 8990 }}
           volumeMounts:
             - name: certificate-secrets
               mountPath: "/run/secrets/certificates"

@@ -1,3 +1,4 @@
+{{ if .Values.enabled }}
 {{- if not .Values.dynamicRealmConfig }}
 apiVersion: v1
 kind: ConfigMap
@@ -129,4 +130,5 @@ data:
       ]
     }
 
+{{- end }}
 {{- end }}

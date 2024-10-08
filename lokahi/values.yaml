@@ -14,7 +14,17 @@ global:
     otlpTracesEndpoint: null  # Specifies the OTLP traces endpoint URL
     env:  # Environment variable for OpenTelemetry used in Spring-boot-env-configmap
       OTEL_PROPAGATORS: tracecontext,baggage,jaeger
+  citus:            # Override citus default port, database name, adminUser and adminPassword in lokahi globally
+    port: ~
+    adminUser: ~
+    adminPassword: ~
+    databaseName: ~
+  keycloakPort: ~   # Override keycloak default port in lokahi globally
+
 OpenNMS:
+  port:
+    grpc: ~      # Override grpc default port 6565 in lokahi globally
+    http: ~      # Override http default port 8080 in lokahi globally
 # Specifies configuration for API module, including service details, image settings, resource
 # limits, external flow server URL, certificate manager URL and GraphQL playground settings.
   api:
@@ -102,7 +112,7 @@ OpenNMS:
     resources:
       limits:
         cpu: "2"
-        memory: 4Gi  # MaxRAMPercentage=50,avg-usage=400MB
+        memory: 4Gi   # MaxRAMPercentage=50,avg-usage=400MB
       requests:
         cpu: "1"
         memory: 2Gi
@@ -111,12 +121,12 @@ OpenNMS:
 # resource limits, repository access and Ingress annotations for opennms.
   ui:
     path: /
+    port: 8080
     serviceName: opennms-ui
     tlsSecretName: root-ca-certificate
     imageShortName: lokahi-ui
     imagePullPolicy: IfNotPresent
     replicas: 1
-    port: 8080
     resources:
       limits:
         cpu: "1"
@@ -167,10 +177,8 @@ OpenNMS:
         memory: 2Gi
     ingressAnnotations:
       nginx.ingress.kubernetes.io/proxy-body-size: "0"  # To avoid HTTP 413 and "client intended to send too large chunked body: X bytes while sending request to upstream"
-      nginx.ingress.kubernetes.io/auth-tls-secret: default/client-root-ca-certificate
       nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
       nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
-      nginx.ingress.kubernetes.io/auth-url: "http://opennms-minion-certificate-verifier.default.svc.cluster.local:8080/certificate/debug"
       nginx.ingress.kubernetes.io/auth-response-headers: "tenant-id, location-id"
       nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: true
       nginx.ingress.kubernetes.io/server-snippet: |
@@ -399,6 +407,7 @@ Citus:
   enabled: true
   adminUser: desenv
   adminPassword: notset
+  port: 5432
 # Specifies the path, ports, service name and realm name for Keycloak module.
 Keycloak:
   enabled: true
@@ -406,6 +415,7 @@ Keycloak:
   port: 8080
   httpsPort: 8443
   serviceName: onms-keycloak
+  databaseName: "desenv"
   imageShortName: lokahi-keycloak
   realmName: opennms
   adminUsername: admin
@@ -416,7 +426,9 @@ Grafana:
   path: /grafana
   port: 3000
   serviceName: grafana
+  databaseName: "desenv"
   imageShortName: lokahi-grafana
+  databaseHost: postgres
 # Configures hosts, paths, protocol and ports for reading and writing data to Cortex
 # in the notification module.
 cortexClient:
@@ -460,6 +472,7 @@ Cortex:
     enabled: false
     username: minio
     password: minio123
+
 # To enable or disable Kafka dependency
 Kafka:
   enabled: true

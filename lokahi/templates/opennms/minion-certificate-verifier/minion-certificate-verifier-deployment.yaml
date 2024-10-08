@@ -59,9 +59,11 @@ spec:
               {{- end }} 
             - name: GRPC_URL_MINION_CERTIFICATE_MANAGER
               value: {{ if or (eq .Values.OpenNMS.minionCertificateVerifier.certificateManagerUrl "") (eq .Values.OpenNMS.minionCertificateVerifier.certificateManagerUrl "dev")
-                }}"{{ .Values.OpenNMS.minionCertificateManager.serviceName }}:8990"{{
+                }}"{{ .Values.OpenNMS.minionCertificateManager.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 8990 }}"{{
               else
                 }}"{{ .Values.OpenNMS.minionCertificateVerifier.certificateManagerUrl }}"{{ end }}
+            - name: GRPC_URL_INVENTORY
+              value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565}}"
             # Do not put any env variables below this. The lokahi.development.env include should be last
             # in the 'env' section so variables can be overridden with Helm chart values when needed.
             {{- include "lokahi.deployment.env" (dict "Values" .Values "thisService" .Values.OpenNMS.minionCertificateVerifier "tag" .Chart.AppVersion) | nindent 12 }}

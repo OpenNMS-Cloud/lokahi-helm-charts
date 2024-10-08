@@ -59,6 +59,8 @@ spec:
               {{- end }}  
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               value: "{{ .Values.global.kafkaClient.bootstrapServers }}"
+            - name: GRPC_INVENTORY_URL
+              value: "{{ .Values.OpenNMS.inventory.serviceName }}:{{ .Values.OpenNMS.port.grpc | default 6565}}"
             - name: GRPC_FLOW_INGESTOR_URL
               value: "{{ .Values.OpenNMS.metricsProcessor.flowIngestorUrl }}"
             - name: GRPC_FLOW_TLS_ENABLED

@@ -58,13 +58,13 @@ spec:
             - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
               value: "CONTROLLER"
             - name: KAFKA_CFG_LISTENERS
-              value: "CLIENT://:{{ .Values.port }},CONTROLLER://:{{ .Values.controllerPort }},LOCALCLIENT://:{{ .Values.localPort }}"
+              value: "CLIENT://:9092,CONTROLLER://:9093,LOCALCLIENT://:{{ .Values.localPort }}"
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: "CLIENT://{{ .Values.serviceName }}:{{ .Values.port }},LOCALCLIENT://localhost:{{ .Values.localPort }}"
+              value: "CLIENT://{{ .Values.serviceName }}:9092,LOCALCLIENT://localhost:{{ .Values.localPort }}"
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: "CLIENT"
             - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
-              value: "1@localhost:{{ .Values.controllerPort }}"
+              value: "1@localhost:9093"
           resources:
             limits:
               cpu: "{{ .Values.resources.limits.cpu }}"
@@ -74,9 +74,9 @@ spec:
               memory: "{{ .Values.resources.requests.memory }}"
           ports:
             - name: client
-              containerPort: {{ .Values.port }}
+              containerPort: 9092
             - name: controller
-              containerPort: {{ .Values.controllerPort }}
+              containerPort: 9093
             - name: local
               containerPort: {{ .Values.localPort }}
           livenessProbe:

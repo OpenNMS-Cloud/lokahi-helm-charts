@@ -9,6 +9,7 @@ spec:
   ports:
     - port: {{ .Values.OpenNMS.ui.port }}
       protocol: TCP
+      targetPort: 8080
       name: http
   selector:
     app: {{ .Values.OpenNMS.ui.serviceName }}

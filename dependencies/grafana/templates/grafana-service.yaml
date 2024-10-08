@@ -8,9 +8,9 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - port: {{ .Values.grafanaPort }}
+    - port: {{ .Values.port }}
       protocol: TCP
-      targetPort: {{ .Values.grafanaPort }}
+      targetPort: 3000
   selector:
     app: {{ .Values.serviceName }}
   type: ClusterIP
