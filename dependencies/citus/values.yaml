@@ -7,6 +7,7 @@ enabled: true
 port: 5432
 workersEnabled: true
 serviceName: postgres
+databaseName: desenv
 pgBouncerPort: 30099
 coordinatorvolumeSize: 4Gi # request size of coordinator for local storage
 workerVolumeSize: 2Gi # request size of worker for local storage 

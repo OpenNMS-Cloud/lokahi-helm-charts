@@ -55,7 +55,7 @@ spec:
           - -c
           - | 
             set -x;
-            while ! psql -U {{ .Values.global.citus.adminUser | default .Values.Citus.adminUser }} -h {{ .Values.OpenNMS.events.databaseHost }} -p {{  .Values.global.citus.port | default .Values.Citus.port }} -c 'select 1'; do
+            while ! psql -U {{ .Values.global.citus.adminUser | default .Values.Citus.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.OpenNMS.events.databaseName }} -h {{ .Values.OpenNMS.events.databaseHost }} -p {{  .Values.global.citus.port | default .Values.Citus.port }} -c 'select 1'; do
               echo "Waiting for DB to be available"
               sleep 10
             done
@@ -73,7 +73,7 @@ spec:
               value: "{{- if .Values.OpenNMS.events.debug.java.preferIPv4Stack }} -Djava.net.preferIPv4Stack=true {{ end }} -javaagent:{{ .Values.OpenNMS.events.debug.java.javaAgentPath }}"
               {{- end }}  
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://{{ .Values.OpenNMS.events.databaseHost }}:{{  .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.OpenNMS.events.databaseName }}?currentSchema={{ .Values.OpenNMS.events.databaseSchemaName }}"
+              value: "jdbc:postgresql://{{ .Values.OpenNMS.events.databaseHost }}:{{  .Values.global.citus.port | default .Values.Citus.port }}/{{ .Values.global.citus.databaseName | default .Values.OpenNMS.events.databaseName }}?currentSchema={{ .Values.OpenNMS.events.databaseSchemaName }}"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:

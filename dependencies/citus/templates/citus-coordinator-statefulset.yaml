@@ -59,8 +59,8 @@ spec:
           node_name={{ .Values.serviceName }}.${POD_NAMESPACE}.svc.cluster.local;
 
           echo [$(date -Iseconds)] Wait pg_isready;
-          timeout 5m sh -c 'until pg_isready -U {{ .Values.global.citus.adminUser | default .Values.adminUser }} --timeout=5 --quiet; do sleep 2; done;';
-          pg_isready -U {{ .Values.global.citus.adminUser | default .Values.adminUser }} --quiet || { echo pg not ready; kill -9 1; exit 1; };
+          timeout 5m sh -c 'until pg_isready -U {{ .Values.global.citus.adminUser | default .Values.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.databaseName }} --timeout=5 --quiet; do sleep 2; done;';
+          pg_isready -U {{ .Values.global.citus.adminUser | default .Values.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.databaseName }} --quiet || { echo pg not ready; kill -9 1; exit 1; };
           echo [$(date -Iseconds)] pg is ready;
           # wait for extension
           sleep 5;
@@ -69,7 +69,7 @@ spec:
           timeout 10m sh -c "until nslookup ${node_name} > /dev/null; do sleep 2; done;";
 
           echo [$(date -Iseconds)] citus_set_coordinator_host ${node_name};
-          su-exec postgres psql -U {{ .Values.global.citus.adminUser | default .Values.adminUser }} -p {{ .Values.global.citus.port | default .Values.port }} -c "SELECT * from citus_set_coordinator_host('${node_name}', {{ .Values.global.citus.port | default .Values.port }});"  || {
+          su-exec postgres psql -U {{ .Values.global.citus.adminUser | default .Values.adminUser }} -d {{ .Values.global.citus.databaseName | default .Values.databaseName }}  -p {{ .Values.global.citus.port | default .Values.port }} -c "SELECT * from citus_set_coordinator_host('${node_name}', {{ .Values.global.citus.port | default .Values.port }});"  || {
             echo citus_set_coordinator_host failed;
             kill -9 1;
           }
@@ -88,6 +88,8 @@ spec:
         env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_DB
+          value: "{{ .Values.global.citus.databaseName | default .Values.databaseName }}"
         - name: PGPORT
           value: "{{ .Values.global.citus.port | default .Values.port }}"
         - name: PGPASSWORD
@@ -129,7 +131,9 @@ spec:
             command:
             - 'pg_isready'
             - '-U'
-            - 'desenv'
+            - '{{ .Values.global.citus.adminUser | default .Values.adminUser }}'
+            - '-d'
+            - '{{ .Values.global.citus.databaseName | default .Values.databaseName }}'
             - '--timeout=5'
             - '--quiet'
           initialDelaySeconds: 60
